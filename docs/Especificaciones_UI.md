@@ -100,6 +100,14 @@ Se recomienda revisar cada especificación contra las capacidades nativas del fr
   - Para el lector de pantalla, considerar etiqueta ARIA que diga "{Nombre de la etiqueta}" para indicar que es una etiqueta informativa.
   - TASK: Falta definir color de texto y alineación por defecto.
 
+- **Botones:**
+  - Color de fondo cambia al hacer hover o clic.
+  - Texto centrado por defecto, puede alinearse según se requiera.
+  - Solo se usan botones con texto descriptivo, o con íconos si son acciones simples.
+  - Al hacer hover, se muestra una etiqueta emergente con descripción alternativa de la acción del botón.
+  - Para el lector de pantalla, considerar etiqueta ARIA que diga "Botón {Nombre del botón}" para indicar que es un botón interactivo.
+  - TASK: Falta definir borde, tamaño y color de texto, colores de fondo para estados normal/hover/clic, y estilo de etiqueta emergente descriptiva.
+
 - **Campos de texto:**
   - Texto alineado según se requiera, izquierda por defecto.
   - Permiten ajuste de palabras (wordwrap) y texto multi-línea si es necesario.
@@ -125,13 +133,6 @@ Se recomienda revisar cada especificación contra las capacidades nativas del fr
   - Debe ser accesible por teclado y tecnologías asistivas, incluyendo etiquetas ARIA apropiadas (nombre del campo, estado del mensaje y descripción).
   - TASK: Definir ícono por estado (error/advertencia/información), color de fondo, color de texto, estilo del borde del mensaje emergente, e ícono del botón de cierre.
 
-- **Botones:**
-  - Color de fondo cambia al hacer hover o clic.
-  - Texto centrado por defecto, puede alinearse según se requiera.
-  - Solo se usan botones con texto descriptivo, o con íconos si son acciones simples.
-  - Al hacer hover, se muestra una etiqueta emergente con descripción alternativa de la acción del botón.
-  - Para el lector de pantalla, considerar etiqueta ARIA que diga "Botón {Nombre del botón}" para indicar que es un botón interactivo.
-  - TASK: Falta definir borde, tamaño y color de texto, colores de fondo para estados normal/hover/clic, y estilo de etiqueta emergente descriptiva.
 
 - **Barra de desplazamiento:**
   - Visible solo si el contenido excede el área visible.
@@ -243,6 +244,20 @@ La interfaz de usuario requerida se describe por medio de diagramas ASCII que re
   - Borde completo: `┌─`, `└─`, `─┐`, `─┘`.
   - Título centrado: `{Título}`.
 
+- **Etiqueta:**
+
+  Una etiqueta es un texto que se muestra sin bordes dentro de un panel, y se representa entre llaves '{}'. Sirve para mostrar información estática que no requiere interacción del usuario y pueden estar alineadas a la izquierda, derecha o centradas, según se requiera.
+
+  El ejemplo siguiente muestra una etiqueta con el texto "Etiqueta 1", dentro de un panel alineada a la izquierda en sentido horizontal, y al centro en sentido vertical.
+
+  > ```asciiart
+  > ┌────────────────────────────┐
+  > │                            │
+  > │ {Etiqueta 1}               │
+  > │                            │
+  > └────────────────────────────┘
+  > ```
+
 - **Botones:**
 
   El texto dentro de los botones se representa sin signos en esta especificación de interfaz, y el borde del botón es completo.
@@ -322,19 +337,11 @@ Si en cambio, el elemento gráfico del cual emerge está en el límite inferior 
   > └────────────────────────────────────────────────┘
   > ```
 
-- **Etiqueta:**
+- **Barra de desplazamiento:**
 
-  Una etiqueta es un texto que se muestra sin bordes dentro de un panel, y se representa entre llaves '{}'. Sirve para mostrar información estática que no requiere interacción del usuario y pueden estar alineadas a la izquierda, derecha o centradas, según se requiera.
+  La barra de desplazamiento permite al usuario desplazarse verticalmente (y opcionalmente horizontalmente) por el contenido de un formulario o panel cuando este excede el área visible de la ventana o contenedor.
 
-  El ejemplo siguiente muestra una etiqueta con el texto "Etiqueta 1", dentro de un panel alineada a la izquierda en sentido horizontal, y al centro en sentido vertical.
-
-  > ```asciiart
-  > ┌────────────────────────────┐
-  > │                            │
-  > │ {Etiqueta 1}               │
-  > │                            │
-  > └────────────────────────────┘
-  > ```
+  Se representa como una banda vertical o horizontal ubicada en el borde derecho o inferior del área desplazable, respectivamente.
 
 - **Indicador de plegado**
 
@@ -406,12 +413,6 @@ Si en cambio, el elemento gráfico del cual emerge está en el límite inferior 
     > │  {Etiqueta 1}                     {Etiqueta 2}  │
     > └─────────────────────────────────────────────────┘
     > ```
-
-- **Barra de desplazamiento:**
-
-  La barra de desplazamiento permite al usuario desplazarse verticalmente (y opcionalmente horizontalmente) por el contenido de un formulario o panel cuando este excede el área visible de la ventana o contenedor.
-
-  Se representa como una banda vertical o horizontal ubicada en el borde derecho o inferior del área desplazable, respectivamente.
 
 - **Tabla:**
 
