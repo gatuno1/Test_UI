@@ -442,7 +442,7 @@ A continuación, cada diagrama especifica las características de la interfaz el
 
 - Formulario dentro de ventana de la aplicación
 
-  La ventana de la aplicación primeramente tiene un panel que contiene la etiqueta con el título del programa -centrada respecto al ancho de la ventana-, que para cada programa debe variar según el nombre del framework utilizado, Ejemplo, "Cotizador De productos - customtkinter", "Cotizador De productos - Flet", etcétera. Este panel está anclado al borde superior de la ventana, y tiene la capacidad de achicar su alto cuando el usuario vaya desplazándose hacia abajo en el formulario, manteniéndose en una capa flotante superior respecto al formulario.
+  La ventana de la aplicación primeramente tiene un panel que contiene la etiqueta con el Título del programa -centrada respecto al ancho de la ventana-, que para cada programa debe variar según el nombre del framework utilizado, Ejemplo, "Cotizador De productos - customtkinter", "Cotizador De productos - Flet", etcétera. Este panel está anclado al borde superior de la ventana, y tiene la capacidad de achicar su alto cuando el usuario vaya desplazándose hacia abajo en el formulario, manteniéndose en una capa flotante superior respecto al formulario.
 
   Luego sigue un panel "Datos cliente", otro panel "Detalle productos", y un panel "Previsualización" -escondido por defecto-. Estos paneles constituyen el cuerpo del formulario que se desplaza debajo de los paneles superior e inferior, mostrando una barra de desplazamiento en el lado derecho, que muestra al usuario la posición de este.  El panel de "Detalle de Productos" contiene una tabla "Productos Cotizados".
 
@@ -552,7 +552,7 @@ A continuación, cada diagrama especifica las características de la interfaz el
 Esta sección detalla el comportamiento responsivo de la interfaz, complementando las definiciones generales de "Características comunes", "Tablas", "Paneles" y "Especificaciones adicionales".
 
 - El formulario debe mostrar scroll vertical si el contenido excede el alto visible (ver "Características comunes" y "Barra de desplazamiento").
-- Todos los paneles principales deben estirarse horizontalmente (fill="x") según el ancho de la ventana (ver "Características comunes").
+- Todos los paneles principales deben estirarse horizontalmente según el ancho de la ventana (ver "Características comunes").
 - El panel de título y el panel de botones deben permanecer fijos (flotantes) anclados al borde superior e inferior de la ventana, respectivamente (ver atributo de anclaje en "Características comunes").
 - El panel de título puede reducir su altura y/o fuente si la ventana es muy pequeña, pero sólo hasta modificar el título hasta el tamaño de fuente del texto normal con negritas, manteniendo márgenes verticales mínimos de 5px.
 - Las columnas de la tabla Detalle de Productos deben:
@@ -571,6 +571,9 @@ Esta sección detalla el comportamiento responsivo de la interfaz, complementand
   - La etiqueta "Cantidad Items" se ajusta automáticamente a su contenido sin truncarse.
   - El campo "Suma total" mantiene como ancho, el mínimo entre el de la columna "Total" de la tabla y el ancho del texto del mismo campo.
   - Activar scroll horizontal si los elementos no caben en el ancho disponible.
+- Para panel Visualizar Cotización:
+  - Si el panel está en Estado plegado, el botón de cierre debe habilitarse o deshabilitarse según el resultado de la validación 'Items Válidos en Detalle Productos'.
+  - En cambio Si el panel está desplegado, 
 
 ---
 
@@ -632,6 +635,9 @@ Como se muestra en el siguiente ejemplo de código, se debe utilizar la constant
   *Nota de implementación:* Considerar que parámetro de entrada es de tipo int o float.
   Ejemplo de valores válidos: `10000`, `123.00`. Ejemplos no válidos: `0`, `-123`, `math.inf`, `math.nan`.
 
+- **Validación Items Válidos en Detalle Productos**
+  Se debe validar que la tabla de Detalle Productos tenga registros válidos, es decir que existan filas con totales calculados, ignorando filas vacías que se muestren en pantalla o registros incompletos que no permitan calcular aún el total de la fila. La validación deben resultar falsa si los registros validos son cero, verdadera si hay al menos uno.
+
 - ***Parse* de Cantidad**
   Al recibirse el texto, lo primero es recortar todos los caracteres de espacio al principio y al final. Luego, tratar de convertir al número entero o de punto flotante, pero respetando las convenciones de caracteres de punto decimal y de separador de miles que se use en este computador corriendo Windows. Si el texto entregado se puede transformar a un número en punto flotante, se debe usar la función de truncar con cero decimales. Si no se puede convertir a número, entregar error de valor.
   *Nota de implementación:* Se deben utilizar las funcionalidades de la librería `locale` como se describió antes en la sección [Especificación de implementación de formatos](#especificación-de-implementación-de-formatos).
@@ -648,11 +654,11 @@ Como se muestra en el siguiente ejemplo de código, se debe utilizar la constant
 | Clic Botón Cerrar             | Cierra la aplicación. Si hay cambios no guardados debe mostrar un diálogo de confirmación.  |
 | Clic Botón Limpiar Datos      | Elimina todas las filas de la tabla y reinicia el campo “Suma Total” a cero.                |
 | Clic `▶ / ▼` Detalle de Productos  | Alterna la visibilidad del panel de tabla de productos.                                |
-| Clic `▶ / ▼` Visualizar Cotización | Muestra/oculta el panel de previsualización, pero si ya hay datos disponibles.         |
-| Edición de celda de tabla     | Al modificar celda de cantidad o precio, recalcular celda “Total” de la fila y actualizar “Suma Total”. Si se modifica celda producto validar nombre. |
+| Clic `▶ / ▼` Visualizar Cotización | Muestra/oculta el panel de previsualización, pero solo si ya hay datos disponibles.    |
+| Edición de celda de tabla     | Al modificar celda de cantidad o precio, recalcular celda “Total” de la fila, actualizar “Suma Total” y  “Cantidad Items”. Si se modifica celda producto, validar nombre. Si se actualiza “Cantidad Items”, se debe validar estado activación de Botón Visualizar Cotización. |
 | Clic en fila de tabla         | Selecciona la fila, permitiendo eliminarla con el botón de eliminación.                     |
 | Clic en ícono inserción tabla | Inserta una nueva fila vacía debajo de la fila actual. Posiciona el cursor en la primera celda editable. |
-| Clic en ícono eliminación tabla | Elimina la fila seleccionada, mostrando confirmación si la fila contiene datos. |
+| Clic en ícono eliminación tabla | Elimina la fila seleccionada, mostrando confirmación si la fila contiene datos.           |
 
 ## 6. Referencias
 
