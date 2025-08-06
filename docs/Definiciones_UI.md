@@ -123,7 +123,7 @@ Estas definiciones son compartidas por múltiples elementos y deben definirse un
 
 ## B. Elementos Ya Definidos en Temas CustomTkinter
 
-Esta sección presenta los elementos que **YA están definidos** en los temas Oceanix y Blue analizados, basándose en sus archivos JSON de configuración y el análisis detallado en el archivo "Analisis_temas_CustomTkinter.md".
+Esta sección presenta los elementos que **YA están definidos** en los temas Oceanix y Blue analizados, basándose en sus archivos JSON de configuración y el análisis detallado en el archivo ["Analisis_temas_CustomTkinter.md"](Analisis_temas_CustomTkinter.md)
 
 Estos elementos pueden utilizarse como base para la implementación, aunque algunos requieren ajustes según las observaciones del análisis.
 
