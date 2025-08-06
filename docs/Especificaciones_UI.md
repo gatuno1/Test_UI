@@ -191,12 +191,12 @@ Se recomienda revisar cada especificación contra las capacidades nativas del fr
   - Se muestra como un ícono (por ejemplo, de basurero `🗑` o `-`) al hacer hover con el mouse sobre el borde de la fila, o teniendo la fila seleccionada.
   - Solo al tener la fila seleccionada, es accesible mediante navegación por teclado.
   - Al hacer clic o usar la tecla Suprimir (según punto anterior), elimina la fila correspondiente, mostrando confirmación previa solo si la fila contiene datos.
-  - Confirmación de eliminación muestra cuadro de diálogo del sistema con botones "Cancelar" y "Eliminar" con foco en botón de Cancelar. Debe ser accesible por teclado.
+  - Confirmación de eliminación muestra cuadro de diálogo del sistema (estilo advertencia), con botones "Cancelar" y "Eliminar" con foco en botón de Cancelar. Debe ser accesible por teclado.
   - El ícono debe ser claramente visible y cambiar de color al hacer hover.
   - Debe tener tamaño suficiente para ser fácilmente interactuable en pantallas táctiles y con mouse.
   - El botón debe mostrar un estado visual de activación al hacer clic.
   - No debe permitir eliminar la última fila vacía destinada a agregar nuevos datos.
-  - TASK: Definir color, tamaño y estilo del ícono de eliminación, colores para estados normal/hover/activación, y estilo del cuadro de diálogo de confirmación.
+  - TASK: Definir color, tamaño y estilo del ícono de eliminación, colores para estados normal/hover/activación.
 
 ---
 
@@ -239,10 +239,9 @@ La interfaz de usuario requerida se describe por medio de diagramas ASCII que re
 
 - **Ventana:**
 
-  La ventana es el contenedor principal de la interfaz, y se representa con un borde completo. El título de la ventana se muestra en la parte superior, centrado respecto al ancho de la ventana.
+  La ventana es el contenedor principal de la interfaz, y se representa con un borde completo.
 
   - Borde completo: `┌─`, `└─`, `─┐`, `─┘`.
-  - Título centrado: `{Título}`.
 
 - **Etiqueta:**
 
