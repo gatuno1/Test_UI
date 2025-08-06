@@ -1,0 +1,53 @@
+:root {
+  --color-primario: #143268;     /* Azul marino institucional */
+  --color-secundario: #e62212;   /* Rojo alerta */
+  --color-acento: #f7a600;       /* Naranja llamativo */
+  --color-exito: #76b82a;        /* Verde validación */
+  --color-claro: #f3f5f9;        /* Fondo claro */
+  --color-texto: #1c1c1c;        /* Texto principal */
+}
+
+body {
+  background-color: var(--color-claro);
+  color: var(--color-texto);
+  font-family: "Segoe UI", "Helvetica", sans-serif;
+}
+
+h1, h2, h3 {
+  color: var(--color-primario);
+}
+
+button, .btn {
+  background-color: var(--color-primario);
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: var(--color-secundario);
+}
+
+.alerta {
+  background-color: var(--color-secundario);
+  color: white;
+  padding: 10px;
+  border-radius: 4px;
+}
+
+.info-box {
+  background-color: var(--color-acento);
+  color: black;
+  padding: 12px;
+  border-radius: 6px;
+}
+
+.success-box {
+  background-color: var(--color-exito);
+  color: white;
+  padding: 10px;
+  border-radius: 4px;
+}

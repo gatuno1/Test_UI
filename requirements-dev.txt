@@ -1,0 +1,14 @@
+# Requerimientos para ambiente de desarrollo
+# Para instalar: uv pip install -r requirements-dev.txt
+
+# Instalar requerimientos de ejecución antes
+-r requirements.txt
+
+coverage
+debugpy
+pylint
+pytest
+pytest-cov
+pytest-mock
+pytest-qt
+scalene

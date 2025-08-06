@@ -1,0 +1,14 @@
+# Para instalar todos los frameworks: uv pip install -r requirements.txt
+# Requerimientos comunes para todos los Demos - usar solo para instalación completa
+# Para demos individuales, usar requirements.txt específico de cada framework
+
+# Dependencias comunes
+jinja2
+pydyf==0.10.0
+WeasyPrint==61.2
+
+# Frameworks específicos
+customtkinter
+flet[desktop]==0.28.3
+PySide6==6.6.0
+wxPython
