@@ -9,6 +9,10 @@ debugpy
 pylint
 pytest
 pytest-cov
+pytest-html
+pytest-kivy
 pytest-mock
+pytest-qml
 pytest-qt
+pytest-xdist
 scalene
