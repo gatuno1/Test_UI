@@ -63,7 +63,7 @@ Se recomienda revisar cada especificación contra las capacidades nativas del fr
   - Deben tener tamaño mínimo y alto suficiente para mostrar su contenido, incluso si está vacío, considerando DPI y accesibilidad para pantallas táctiles, mouse y teclado.
   - Deben presentar contraste suficiente entre texto y fondo para garantizar la legibilidad.
   - Deben mantener espaciado adecuado entre sí para evitar solapamientos y mejorar la usabilidad, usando márgenes y rellenos (padding) adecuados. *Nota de implementación:* Utilizar un *Layout manager* nativo del framework para la distribución, alineación y espaciado.
-  - Deben mostrar un estado visual claro para indicar si están activos, inactivos, seleccionados o deshabilitados.
+  - Deben mostrar un estado visual claro para indicar si están activos, seleccionados o deshabilitados.
   - Deben ser responsivos, adaptándose al tamaño de la ventana, contenido visible y a la interacción del usuario (hover, clic, selección, etc.). Por defecto, todos los elementos gráficos cambian color de fondo y/o borde al hacer hover, clic o estar seleccionados, salvo que se especifique lo contrario.
   - No deben responder a arrastre, salvo que se especifique lo contrario.
   - El redimensionamiento manual debe estar habilitado solo si se especifica, mostrando borde de selección o indicador visual para arrastrar, cambiando color al hacer hover o arrastrar. Por defecto, no se permite redimensionamiento manual.
@@ -76,11 +76,17 @@ Se recomienda revisar cada especificación contra las capacidades nativas del fr
   - TASK: Completar detalles según el framework elegido.
 
 - **Tema visual:**
-  - Definir paleta de colores principal y secundaria para fondo, texto, bordes y estados (hover, activo, deshabilitado).
-  - Definir estilos de iconos (línea, relleno, tamaño mínimo y máximo).
-  - Definir tipografía principal y secundaria, tamaños de fuente, negritas y cursivas.
-  - Definir espaciado mínimo entre elementos, márgenes y rellenos.
-  - TASK: Completar detalles según el framework elegido.
+  - Bordes del elemento gráfico:
+    - Color: Activo, deshabilitado, resaltado.
+    - Grosor
+    - Permite bordes redondeados: Verdadero/Falso.
+    - Radio Bordes redondeados: En caso de soportarse.
+  - Los iconos existen en 3 tamaños: pequeño, mediano y grande.
+  - TASK: Completar detalles según el framework elegido:
+    - Definir paleta de colores principal y secundaria para fondo, texto, bordes y estados (activo, deshabilitado, resaltado).
+    - Definir estilos de iconos (línea, relleno, tamaños en píxeles para cada categoría de tamaño).
+    - Definir tipografía principal y secundaria, tamaños de fuente, negritas y cursivas.
+    - Definir espaciado mínimo entre elementos, márgenes y rellenos.
 
 - **Ventana:**
   - Tamaño mínimo de ventana: 800x600 píxeles.
@@ -123,16 +129,26 @@ Se recomienda revisar cada especificación contra las capacidades nativas del fr
   - TASK: Definir color de fondo y color de texto para estados editable/no editable, color de borde para estados normal/hover/clic/foco/edición, y estilo de control emergente de validación.
 
 - **Control emergente para mensajes:**
-  - Se muestra cerca del elemento afectado por validación o error.
-  - El control emerge del borde del elemento gráfico que genera el mensaje.
-    - Por defecto se muestra hacia abajo alineado con el margen izquierdo del elemento.
-    - Si el elemento está cerca del borde derecho del contenedor, el control se alinea con el borde derecho del elemento.
-    - Si el elemento está en el límite inferior visible, el control se muestra hacia arriba del elemento.
-  - Contiene botón de cierre para ocultar el mensaje, que usa un ícono ''.
-  - Contiene estado (error, advertencia, información) y descripción del problema.
-  - Debe ser accesible por teclado y tecnologías asistivas, incluyendo etiquetas ARIA apropiadas (nombre del campo, estado del mensaje y descripción).
-  - TASK: Definir ícono por estado (error/advertencia/información), color de fondo, color de texto, estilo del borde del mensaje emergente, e ícono del botón de cierre.
-
+  - Se muestra cerca del elemento vinculado, afectado por validación o error.
+  - El control emerge del borde del elemento gráfico que genera el mensaje, anclándose a los bordes de este:
+    - Por defecto anclado en el borde inferior del elemento vinculado, con ambos alineados en su margen izquierdo.
+    - En cambio, si el elemento está cerca del borde derecho del contenedor del elemento vinculado, el control se alinea con el borde derecho del elemento.
+    - Si el elemento está en el límite inferior visible, el control se ancla en el borde superior del elemento vinculado.
+    - Debe mantener un margen específico respecto al otro control.
+  - El Control tiene borde y color de fondo específicos.
+    - Al hacer hover, clic o recibir foco por teclado: el borde cambia de color desde normal a resaltado, para indicar interactividad.
+    - El color de fondo es fijo según el tipo de Estado a representar (Error, Advertencia, Información) y se mantiene mientras el control esté visible.
+  - El área interna del control contiene una grilla de alineamiento horizontal, sin margen respecto al borde.
+    - El área izquierda está destinada al icono de Estado, mientras el área derecha se divide en la sección superior que contiene el botón de cierre y la inferior donde está la etiqueta con Mensaje.
+    - Ícono de Estado está anclado al borde superior izquierdo de la grilla, con un margen adecuado.
+    - Botón de cierre está anclado al borde superior derecho de la grilla con un margen de 0px respecto a ambos bordes.
+    - La etiqueta con mensaje va anclada al borde inferior derecho de la grilla, con un margen adecuado.
+  - El ícono de estado es de tamaño mediano según categoría: Error (  ), Advertencia (  ), Información (  ).
+  - La etiqueta con Mensaje permite texto multilínea y con Word wrap habilitado.
+  - Botón de cierre con ícono pequeño (  ) para ocultar el mensaje mediante clic o teclado.
+  - Cuando el control recibe el foco por clic o teclado, se selecciona el botón de cierre. *Nota de implementación:* Los eventos de teclado en cualquier parte del control se redirigen automáticamente al botón de cierre para su procesamiento.
+  - Debe ser accesible por tecnologías asistivas, incluyendo etiquetas ARIA apropiadas (nombre del campo asociado, estado del mensaje, texto del mensaje).
+  - TASK: Definir colores específicos para fondo fijo por tipo de mensaje (error/advertencia/información), colores de borde para estados normal vs. resaltado, estilo de texto, margen respecto al control vinculado, márgenes internos de la grilla y elementos, tiempo de auto-ocultación (opcional), animaciones de aparición/desaparición del control emergente.
 
 - **Barra de desplazamiento:**
   - Visible solo si el contenido excede el área visible.
@@ -292,34 +308,19 @@ La interfaz de usuario requerida se describe por medio de diagramas ASCII que re
 
 - **Control emergente para mensajes:**
 
-  El control emergente para mensajes se representa como un cuadro con borde completo que emerge del borde del elemento gráfico que genera el mensaje. Contiene un botón de cierre con ícono(representado por carácter ''), un estado (error, advertencia e información representados por caracteres '  ' respectivamente) y una descripción del problema.
+  El control emergente para mensajes se representa como un cuadro con borde que emerge del borde del elemento gráfico que genera el mensaje.
 
   El ejemplo siguiente muestra un panel que contiene un cuadro de texto, con el control emergente con un mensaje de error, considerando que tiene espacio suficiente para mostrarse hacia abajo y la derecha, que es el comportamiento por defecto.
 
   > ```asciiart
-  > ┌────────────────────────────────────────────────┐
-  > │        ┌─────────┐                             │
-  > │  Costo:│  -$1.234│                             │
-  > │        └─────────┘──────────────────────┐      │
-  > │        │   Error: El costo debe ser un │      │
-  > │        │    un valor superior a cero.  │      │
-  > │        └────────────────────────────────┘      │
-  > │                                                │
-  > └────────────────────────────────────────────────┘
-  > ```
-
-Sin embargo, si dada la posición o alineación del elemento gráfico del que emerge este se encuentra por ejemplo al borde derecho de la ventana o del panel, el control emergente debe alinearse con el borde derecho del elemento gráfico.
-
-  > ```asciiart
-  > ┌────────────────────────────────────────────────┐
-  > │                                                │
-  > │                ┌──────────────────────────────┐│
-  > │                │  Error: El costo debe ser un││
-  > │                │   un valor superior a cero. ││
-  > │                └────────────────────┌─────────┐│
-  > │                               Costo:│  -$1.234││
-  > │                                     └─────────┘│
-  > └────────────────────────────────────────────────┘
+  > ┌───────────────────────────────────────────┐
+  > │        ┌─────────┐                        │
+  > │  Costo:│  -$1.234│                        │
+  > │        └─────────┘────────────────┐      │
+  > │        │   {Etiqueta con mensaje} │      │
+  > │        └───────────────────────────┘      │
+  > │                                           │
+  > └───────────────────────────────────────────┘
   > ```
 
 Si en cambio, el elemento gráfico del cual emerge está en el límite inferior visible de la ventana o panel, el control emergente debería mostrarse hacia arriba del elemento gráfico.
@@ -327,12 +328,26 @@ Si en cambio, el elemento gráfico del cual emerge está en el límite inferior 
   > ```asciiart
   > ┌────────────────────────────────────────────────┐
   > │                                                │
-  > │        ┌────────────────────────────────┐      │
+  > │        ┌───────────────────────────────┐      │
   > │        │   Error: El costo debe ser un │      │
-  > │        │    un valor superior a cero.  │      │
+  > │        │    un valor superior a cero.   │      │
   > │        ┌─────────┐──────────────────────┘      │
   > │  Costo:│  -$1.234│                             │
   > │        └─────────┘                             │
+  > └────────────────────────────────────────────────┘
+  > ```
+
+Sin embargo, si dada la posición o alineación del elemento gráfico del que emerge este se encuentra por ejemplo al borde derecho de la ventana o del panel, el control emergente debe alinearse con el borde derecho del elemento gráfico. En el siguiente diagrama de ejemplo ambos efectos ocurren simultáneamente.
+
+  > ```asciiart
+  > ┌────────────────────────────────────────────────┐
+  > │                                                │
+  > │                ┌─────────────────────────────┐│
+  > │                │  Error: El costo debe ser un││
+  > │                │   un valor superior a cero.  ││
+  > │                └────────────────────┌─────────┐│
+  > │                               Costo:│  -$1.234││
+  > │                                     └─────────┘│
   > └────────────────────────────────────────────────┘
   > ```
 
@@ -571,9 +586,9 @@ Esta sección detalla el comportamiento responsivo de la interfaz, complementand
   - La etiqueta "Cantidad Items" se ajusta automáticamente a su contenido sin truncarse.
   - El campo "Suma total" mantiene como ancho, el mínimo entre el de la columna "Total" de la tabla y el ancho del texto del mismo campo.
   - Activar scroll horizontal si los elementos no caben en el ancho disponible.
-- Para panel Visualizar Cotización:
+- Para panel "Visualizar Cotización":
   - Si el panel está en Estado plegado, el botón de cierre debe habilitarse o deshabilitarse según el resultado de la validación 'Items Válidos en Detalle Productos'.
-  - En cambio Si el panel está desplegado, 
+  - En cambio si el panel está desplegado, el botón de cierre debe estar habilitado y el contenido debe ser visible pero con estado deshabilitado.
 
 ---
 
@@ -602,9 +617,28 @@ Para especificar detalles que no pueden ser descritos en los diagramas, la tabla
 | Suma Total       | Suma de todos los campos "Total" de la tabla | Cuando se modifica una fila          |
 | Cantidad Ítems   | Concatenar valor de cantidad de ítems de la tabla con el texto " Ítems" o " Ítem" si hay 0 o 1 ítem en total. Restricción: Conteo de filas con producto válido y cantidad > 0 | Al agregar o quitar una fila válida      |
 
-### Especificación de implementación de formatos
+### Notas de implementación
 
-*Nota de implementación:* Para la representación en string de los formatos, tanto del de Cantidad, como del Monetario, se debe utilizar las funcionalidades de la librería `locale`, estableciéndose la utilización de esos formatos como constantes en todo el programa.
+#### Construcción de controles personalizados
+
+- Se debe construir un control personalizado desde cero solo en el caso de que un control estándar no exista en el framework utilizado.
+- Sin embargo, se debe evitar la duplicación de esfuerzos y reutilizar componentes existentes siempre que sea posible. Por ejemplo, si el control de texto ya existe, pero le falta la funcionalidad de mostrar que tiene el foco, se debe extender ese control en lugar de crear uno nuevo.
+- Además, se debe documentar adecuadamente el control personalizado para facilitar su mantenimiento y posible reutilización en el futuro.
+
+#### Propiedades de interés para Control emergente para mensajes
+
+- Control vinculado: Vinculo al control desde donde se muestra el mensaje emergente.
+- Texto de categoría de mensaje: Valores válidos "error", "advertencia", "información". Si el framework contiene constante para estas categorías, utilizarlas para la implementación.
+- Mensaje: Texto a mostrar en la etiqueta Mensaje.
+- Colores para borde del control: Etiquetas de color para estados normal y resaltado. Utilizar sistemas de color y tipos de datos que utilice el framework.
+- Colores para categoría de mensaje: Etiquetas de color según cada categoría, para mostrar como color de fondo del control. Utilizar sistemas de color y tipos de datos que utilice el framework.
+- Estilo de texto del mensaje: Color, familia de fuente, tamaño de fuente, estilo (normal, negrita, cursiva).
+- Alto y ancho mínimos del control: Valores de solo lectura en píxeles.
+- Los demás atributos específicos que requiera o hereda por ser elemento gráfico en cada framework.
+
+#### Implementación de formatos
+
+Para la representación en string de los formatos, tanto del de Cantidad, como del Monetario, se debe utilizar las funcionalidades de la librería `locale`, estableciéndose la utilización de esos formatos como constantes en todo el programa.
 Como se muestra en el siguiente ejemplo de código, se debe utilizar la constante `FORMATO_CANTIDAD` en todo el programa:
 
 ```python
@@ -640,16 +674,17 @@ Como se muestra en el siguiente ejemplo de código, se debe utilizar la constant
 
 - ***Parse* de Cantidad**
   Al recibirse el texto, lo primero es recortar todos los caracteres de espacio al principio y al final. Luego, tratar de convertir al número entero o de punto flotante, pero respetando las convenciones de caracteres de punto decimal y de separador de miles que se use en este computador corriendo Windows. Si el texto entregado se puede transformar a un número en punto flotante, se debe usar la función de truncar con cero decimales. Si no se puede convertir a número, entregar error de valor.
-  *Nota de implementación:* Se deben utilizar las funcionalidades de la librería `locale` como se describió antes en la sección [Especificación de implementación de formatos](#especificación-de-implementación-de-formatos).
+  *Nota de implementación:* Se deben utilizar las funcionalidades de la librería `locale` como se describió antes en la sección [Implementación de formatos](#implementación-de-formatos).
 
 - ***Parse* de Formato Monetario**
   Al recibirse el texto, lo primero es recortar todos los caracteres de espacio al principio y al final. Luego, tratar de convertir al número entero o de punto flotante, pero respetando las convenciones de caracteres de moneda, punto decimal y de separador de miles que se use en este computador corriendo Windows. Luego considerando la cantidad de decimales especificada como parámetro opcional (valor por defecto cero, rechazando valores negativos como error de valor), se debe redondear el valor con esa especificación de decimales. Si no se puede convertir a número, entregar error de valor.
-*Nota de implementación:* Se deben utilizar las funcionalidades de la librería `locale` como se describió antes en la sección [Especificación de implementación de formatos](#especificación-de-implementación-de-formatos).
+*Nota de implementación:* Se deben utilizar las funcionalidades de la librería `locale` como se describió antes en la sección [Implementación de formatos](#implementación-de-formatos).
 
 ### Acciones del usuario
 
 | Botón / Acción                | Comportamiento esperado                                                                     |
 |-------------------------------|---------------------------------------------------------------------------------------------|
+| Clic Botón de cierre en control emergente para mensajes | Cierra el control emergente, sin actualizar el estado del control vinculado. |
 | Clic Botón Grabar Cotización  | Validar todos los campos visibles. Si son válidos, generar archivo PDF.                     |
 | Clic Botón Cerrar             | Cierra la aplicación. Si hay cambios no guardados debe mostrar un diálogo de confirmación.  |
 | Clic Botón Limpiar Datos      | Elimina todas las filas de la tabla y reinicia el campo “Suma Total” a cero.                |
