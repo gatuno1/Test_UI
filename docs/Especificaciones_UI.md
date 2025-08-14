@@ -69,7 +69,9 @@ Se recomienda revisar cada especificación contra las capacidades nativas del fr
   - No deben responder a arrastre, salvo que se especifique lo contrario.
   - El redimensionamiento manual debe estar habilitado solo si se especifica, mostrando borde de selección o indicador visual para arrastrar, cambiando color al hacer hover o arrastrar. Por defecto, no se permite redimensionamiento manual.
   - Elementos interactivos como botones o campos de texto deben tener tamaño mínimo para facilitar la interacción.
-  - Elementos con validación o *parse* de datos deben mostrar mensajes de error claros y visibles cerca del elemento afectado, no en diálogos separados.
+  - Elementos con validación o *parse* de datos deben mostrar el "Control emergente para mensajes", y no en cuadros de diálogos.
+    - En este control emergente, se debe mostrar un mensaje de error específico.
+    - El usuario debe poder corregir el valor sin perder el foco del campo con validaciones.
   - Todos los elementos gráficos deben tener atributo de visibilidad (`True` por defecto, `False` para ocultar), y si están ocultos no ocupan espacio ni son interactivos.
   - Todos los elementos gráficos deben tener atributo de habilitación (`True` por defecto, `False` para deshabilitar), mostrando estado visual claro si no están disponibles.
   - Todos los elementos gráficos deben tener atributo de anclaje (`None` por defecto), que puede modificarse para anclar a un borde o a otro elemento, manteniendo posición relativa al redimensionar.
@@ -87,7 +89,7 @@ Se recomienda revisar cada especificación contra las capacidades nativas del fr
   - Los iconos existen en 3 tamaños: pequeño, mediano y grande.
   - TASK: Completar detalles según el framework elegido:
     - Definir paleta de colores principal y secundaria para fondo, texto, bordes y estados (activo, deshabilitado, resaltado).
-    - Definir estilos de iconos (línea, relleno, tamaños en píxeles para cada categoría de tamaño).
+    - Definir estilos de iconos: línea, relleno, tamaños en píxeles para cada tamaño.
     - Definir tipografía principal y secundaria, tamaños de fuente, negritas y cursivas.
     - Definir espaciado mínimo entre elementos, márgenes y rellenos.
 
@@ -97,7 +99,7 @@ Se recomienda revisar cada especificación contra las capacidades nativas del fr
   - Permite redimensionamiento por parte del usuario.
   - Muestra barra de desplazamiento vertical u horizontal si el contenido excede el área visible.
   - No cambia color de fondo o bordes al hacer hover, clic o arrastrar en el espacio vacío de la ventana.
-  - Se debe implementar soporte para zoom de ventana sin pérdida de funcionalidad hasta 200%.
+  - Se debe implementar soporte para zoom de ventana, sin pérdida de funcionalidad hasta 200%.
   - TASK: Falta definir color de fondo, color de borde y espaciado interno.
 
 - **Etiquetas:**
@@ -132,7 +134,8 @@ Se recomienda revisar cada especificación contra las capacidades nativas del fr
   - TASK: Definir color de fondo y color de texto para estados editable/no editable, color de borde para estados normal/hover/clic/foco/edición, y estilo de control emergente de validación.
 
 - **Control emergente para mensajes:**
-  - Se muestra cerca del elemento vinculado, afectado por validación o error.
+  - Se muestra cerca del elemento vinculado, afectado por validación no exitosa.
+  - El elemento gráfico que invoca a este control emergente debe especificar el estado del mensaje y el texto a mostrar.
   - El control emerge del borde del elemento gráfico que genera el mensaje, anclándose a los bordes de este:
     - Por defecto anclado en el borde inferior del elemento vinculado, con ambos alineados en su margen izquierdo.
     - En cambio, si el elemento está cerca del borde derecho del contenedor del elemento vinculado, el control se alinea con el borde derecho del elemento.
@@ -141,12 +144,12 @@ Se recomienda revisar cada especificación contra las capacidades nativas del fr
   - El Control tiene borde y color de fondo específicos.
     - Al hacer hover, clic o recibir foco por teclado: el borde cambia de color desde normal a resaltado, para indicar interactividad.
     - El color de fondo es fijo según el tipo de Estado a representar (Error, Advertencia, Información) y se mantiene mientras el control esté visible.
-  - El área interna del control contiene una grilla de alineamiento horizontal, sin margen respecto al borde.
-    - El área izquierda está destinada al icono de Estado, mientras el área derecha se divide en la sección superior que contiene el botón de cierre y la inferior donde está la etiqueta con Mensaje.
+  - El área interna del control contiene una grilla 1x2 de alineamiento horizontal, sin margen respecto al borde.
+    - El área izquierda está destinada al icono de Estado, mientras el área derecha se subdivide en otra grilla 2x1, entre el área superior que contiene el botón de cierre y la inferior donde está la etiqueta con Mensaje.
     - Ícono de Estado está anclado al borde superior izquierdo de la grilla, con un margen adecuado.
-    - Botón de cierre está anclado al borde superior derecho de la grilla con un margen de 0px respecto a ambos bordes.
-    - La etiqueta con mensaje va anclada al borde inferior derecho de la grilla, con un margen adecuado.
-  - El ícono de estado es de tamaño mediano según categoría: Error (  ), Advertencia (  ), Información (  ).
+    - Botón de cierre está anclado al borde superior derecho de la celda con un margen de 0px respecto a ambos bordes.
+    - La etiqueta con mensaje está centrada horizontal y verticalmente respecto a su celda, con un margen adecuado. La etiqueta y celda se expanden según el contenido de la primera.
+  - El ícono de estado es de tamaño mediano, y su imagen según categoría: Error (  ), Advertencia (  ), Información (  ).
   - La etiqueta con Mensaje permite texto multilínea y con Word wrap habilitado.
   - Botón de cierre con ícono pequeño (  ) para ocultar el mensaje mediante clic o teclado.
   - Cuando el control recibe el foco por clic o teclado, se selecciona el botón de cierre. *Nota de implementación:* Los eventos de teclado en cualquier parte del control se redirigen automáticamente al botón de cierre para su procesamiento.
@@ -334,7 +337,7 @@ La interfaz de usuario requerida se describe por medio de diagramas ASCII que re
 
   El control emergente para mensajes se representa como un cuadro con borde que emerge del borde del elemento gráfico que genera el mensaje.
 
-  El ejemplo siguiente muestra un panel que contiene un cuadro de texto, con el control emergente con un mensaje de error, considerando que tiene espacio suficiente para mostrarse hacia abajo y la derecha, que es el comportamiento por defecto.
+  El ejemplo siguiente muestra un panel que contiene un cuadro de texto, con el control emergente con un mensaje de error, considerando que tiene espacio suficiente para mostrarse hacia abajo y a la derecha, que es el comportamiento por defecto. Esto se traduce en que el control emergente está anclado al borde inferior y alineado al costado izquierdo del elemento gráfico al cual está vinculado.
 
   > ```asciiart
   > ┌───────────────────────────────────────────┐
