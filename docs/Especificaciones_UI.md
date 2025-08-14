@@ -69,7 +69,7 @@ Se recomienda revisar cada especificación contra las capacidades nativas del fr
   - No deben responder a arrastre, salvo que se especifique lo contrario.
   - El redimensionamiento manual debe estar habilitado solo si se especifica, mostrando borde de selección o indicador visual para arrastrar, cambiando color al hacer hover o arrastrar. Por defecto, no se permite redimensionamiento manual.
   - Elementos interactivos como botones o campos de texto deben tener tamaño mínimo para facilitar la interacción.
-  - Elementos con validación de datos deben mostrar mensajes de error claros y visibles cerca del elemento afectado, no en diálogos separados.
+  - Elementos con validación o *parse* de datos deben mostrar mensajes de error claros y visibles cerca del elemento afectado, no en diálogos separados.
   - Todos los elementos gráficos deben tener atributo de visibilidad (`True` por defecto, `False` para ocultar), y si están ocultos no ocupan espacio ni son interactivos.
   - Todos los elementos gráficos deben tener atributo de habilitación (`True` por defecto, `False` para deshabilitar), mostrando estado visual claro si no están disponibles.
   - Todos los elementos gráficos deben tener atributo de anclaje (`None` por defecto), que puede modificarse para anclar a un borde o a otro elemento, manteniendo posición relativa al redimensionar.
@@ -602,14 +602,14 @@ Para especificar detalles que no pueden ser descritos en los diagramas, la tabla
 
 |Campo    | Tipo objeto gráfico, Tipo de datos | Detalles                         |
 |---------|:----------------------------------:|----------------------------------|
-|Cliente  | Campo de texto, Texto | Nombre del cliente, debe usar Validación Nombre Cliente, y recortar caracteres de espacio al principio y al final. |
+|Cliente  | Campo de texto, Texto | Nombre del cliente, ingresado por el usuario con "*Parse* de Texto", debe usar "Validación Nombre Cliente". |
 |Item     | Celda de tabla, Número entero | Generado automáticamente por el sistema (comienza en 1 numerando consecutivamente cada fila de la tabla), usa formato de cantidad sin decimales. |
-|Producto | Celda de tabla, Texto | Ingresado Por el usuario, debe usar Validación Nombre Producto y recortar caracteres de espacio al principio y al final. |
-|Cantidad | Celda de tabla, Número Entero | Ingresado por el usuario con *Parse de Cantidad*, *Validación de Cantidad* con valor positivo, para mostrarse usa formato de cantidad sin decimales. |
-|Precio Unitario | Celda de tabla, Cantidad monetaria | Ingresado por el usuario con *Parse de Formato Monetario* (si se ingresa con decimales se acepta redondeo de hasta dos dígitos), Validación de moneda con monto positivo, para mostrarse usa Formato Monetario hasta dos decimales. |
+|Producto | Celda de tabla, Texto | Texto ingresado por el usuario con "*Parse* de Texto", debe usar "Validación Nombre Producto". |
+|Cantidad | Celda de tabla, Número Entero | Ingresado por el usuario con "*Parse* de Cantidad", usa "Validación de Cantidad con valor positivo", para mostrarse con formato de cantidad sin decimales. |
+|Precio Unitario | Celda de tabla, Cantidad monetaria | Ingresado por el usuario con "*Parse* de Formato Monetario" (si se ingresa con decimales se acepta redondeo de hasta dos dígitos), usa "Validación de moneda con monto positivo", para mostrarse con Formato Monetario hasta dos decimales. |
 |Total    | Celda de tabla, Cantidad monetaria | Calculado por el sistema cuando se ingresan producto, cantidad y precio unitario en la misma fila, es decir el resultado de `Cantidad * Precio Unitario` redondeado a cero decimales. Para mostrarse usa Formato Monetario sin decimales. |
-|Suma total | Campo de texto, cantidad monetaria | Calculado por el sistema luego de ingresado o modificado algún registro de la tabla, para mostrarse usa Formato Monetario sin decimales. |
-|Cantidad Items | Etiqueta, Texto | Calculado por el sistema luego de ingresar, modificar o eliminar algún registro de la tabla, para mostrarse usa formato de cantidad sin decimales. Solo considera celdas con datos; si tabla está vacía, mostrar "Sin ítems". Habiendo al menos un ítem, mostrar "X Ítems" o "1 Ítem" según corresponda. |
+|Suma total | Campo de texto solo lectura, cantidad monetaria | Calculado por el sistema luego de ingresado o modificado algún registro de la tabla, para mostrarse con Formato Monetario sin decimales. |
+|Cantidad Items | Etiqueta, Texto | Calculado por el sistema luego de ingresar, modificar o eliminar algún registro de la tabla, para mostrarse usa formato de cantidad sin decimales. Solo considera celdas con datos. |
 
 ### Reglas de cálculo automático
 
@@ -655,10 +655,11 @@ Como se muestra en el siguiente ejemplo de código, se debe utilizar la constant
 ### Detalle de Validaciones y Funciones de *Parse*
 
 - **Validación Nombre Cliente**
-  Esta validación implica que un texto debe ser de al menos una palabra que debe partir una letra (no importando si es mayúscula, minúscula o con acento), teniendo al menos tres caracteres. Ejemplo de valores válidos: "Juan Pérez", "ABC", "Sociedad comercial S.A.". Ejemplos no válidos: "123", "A", "#ana".
+  Esta validación implica que un texto debe ser al menos 3 caracteres partiendo por una letra (no importando si es mayúscula, minúscula o con acento), permitiendo solo espacios ' ' simples.
+  Ejemplo de valores válidos: "Juan Pérez", "ABC", "Sociedad comercial S.A.". Ejemplos no válidos: "123", "A", "#ana".
 
 - **Validación Nombre Producto**
-  Un texto debe tener al menos 3 caracteres partiendo por una letra (no importando si es mayúscula, minúscula o con acento).
+  Un texto debe tener al menos 3 caracteres partiendo por una letra (no importando si es mayúscula, minúscula o con acento), permitiendo solo espacios ' ' simples.
   Ejemplo de valores válidos: "Jabón pollito", "BIC", "Lápiz #3". Ejemplos no válidos: "321", "Z", "?AB".
 
 - **Validación de Cantidad con valor positivo**
@@ -673,6 +674,9 @@ Como se muestra en el siguiente ejemplo de código, se debe utilizar la constant
 
 - **Validación Items Válidos en Detalle productos**
   Se debe validar que la tabla de "Detalle productos" tenga registros válidos, es decir que existan filas tanto con producto válido como con totales calculados, ignorando filas vacías que se muestren en pantalla o registros incompletos que no permitan calcular aún el total de la fila. La validación deben resultar falsa si la cantidad de registros validos es cero, verdadera si hay al menos uno.  También debe entregarse la cantidad de registros válidos.
+
+- ***Parse* de Texto**
+- Al recibirse el texto, lo primero es recortar todos los caracteres de espacio al principio y al final. Luego, debe reemplazar todos los caracteres de la clase espacio por el carácter de espacio simple ' ', y eliminar espacios múltiples entre palabras para dejar sólo uno.
 
 - ***Parse* de Cantidad**
   Al recibirse el texto, lo primero es recortar todos los caracteres de espacio al principio y al final. Luego, tratar de convertir al número entero o de punto flotante, pero respetando las convenciones de caracteres de punto decimal y de separador de miles que se use en este computador corriendo Windows. Si el texto entregado se puede transformar a un número en punto flotante, se debe usar la función de truncar con cero decimales. Si no se puede convertir a número, entregar error de valor.
