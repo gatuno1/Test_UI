@@ -67,7 +67,7 @@ Se recomienda revisar cada especificación contra las capacidades nativas del fr
   - Deben mostrar un estado visual claro para indicar si están activos, seleccionados o deshabilitados.
   - Deben ser responsivos, adaptándose al tamaño de la ventana, contenido visible y a la interacción del usuario (hover, clic, selección, etc.). Por defecto, todos los elementos gráficos cambian color de fondo y/o borde al hacer hover, clic o estar seleccionados, salvo que se especifique lo contrario.
   - No deben responder a arrastre, salvo que se especifique lo contrario.
-  - El redimensionamiento manual debe estar habilitado solo si se especifica, mostrando borde de selección o indicador visual para arrastrar, cambiando color al hacer hover o arrastrar. Por defecto, no se permite redimensionamiento manual.
+  - El redimensionamiento manual está deshabilitado por defecto, y solo si se especifica se habilita, mostrando borde de selección o indicador visual para arrastrar, cambiando color al hacer hover o arrastrar.
   - Elementos interactivos como botones o campos de texto deben tener tamaño mínimo para facilitar la interacción.
   - Elementos con validación o *parse* de datos deben mostrar el "Control emergente para mensajes", y no en cuadros de diálogos.
     - En este control emergente, se debe mostrar un mensaje de error específico.
@@ -582,29 +582,37 @@ TASK: Definir el contenido a mostrar en el panel "Previsualización".
 Esta sección detalla el comportamiento responsivo de la interfaz, complementando las definiciones generales de "Características comunes", "Tablas", "Paneles" y "Especificaciones adicionales".
 
 - El formulario debe mostrar scroll vertical si el contenido excede el alto visible (ver "Características comunes" y "Barra de desplazamiento").
+
 - Todos los paneles principales deben estirarse horizontalmente según el ancho de la ventana (ver "Características comunes").
+
 - El panel "Título" y el panel "Botones" deben permanecer fijos (flotantes) anclados al borde superior e inferior de la ventana, respectivamente (ver atributo de anclaje en "Características comunes").
+
 - El panel "Título" puede reducir su altura y/o fuente si la ventana es muy pequeña, pero sólo hasta modificar el título hasta el tamaño de fuente del texto normal con negritas, manteniendo márgenes verticales mínimos de 5px.
+
 - Las columnas de la tabla "Productos Cotizados" deben:
   - Mantener proporciones al modificar el ancho de la ventana (ver "Tablas").
-  - Las columnas "Cantidad", "Precio Unitario" y "Total" pueden expandirse proporcionalmente, pero solo reducirse hasta el ancho mínimo necesario para mostrar su contenido más largo.
+  - Las columnas "Ítem", "Cantidad", "Precio Unitario" y "Total" pueden expandir su ancho proporcionalmente, pero solo reducirse hasta el ancho mínimo necesario para mostrar su contenido más largo.
   - La columna "Producto" puede expandirse solo hasta que las otras columnas alcancen su ancho mínimo, pero sus celdas pueden aumentar en altura usando texto multi-línea con ajuste de palabras (wordwrap).
   - Permitir redimensionamiento manual arrastrando los bordes entre columnas, respetando las limitaciones anteriores (ver "Tablas").
   - Activar scroll horizontal si no caben.
+
 - Las filas de la tabla "Productos Cotizados" deben:
   - Activar scroll vertical si no caben (ver "Tablas").
   - No permitir redimensionamiento manual de altura por parte del usuario.
+
 - Para el panel "Detalle productos":
   - Los elementos mantienen su distribución según los diagramas y "Especificaciones adicionales", respetando márgenes sin solaparse.
   - Estado desplegado: muestra tabla, etiqueta "Productos Cotizados", botón "Limpiar datos", etiqueta "Total general" y campo "Suma Total".
   - Estado plegado: sólo muestra etiquetas "Cantidad Ítems" y "Total general", más el campo "Suma Total".
   - La etiqueta "Cantidad Items" se ajusta automáticamente a su contenido sin truncarse.
-  - El campo "Suma total" mantiene como ancho, el mínimo entre el de la columna "Total" de la tabla y el ancho del texto del mismo campo.
+  - El campo "Suma total" mantiene como ancho, el máximo entre el ancho requerido para representar de manera completa su texto, y el de la columna "Total" de la tabla. Si este último no se puede obtener, por ejemplo si está oculta la tabla, asignarle valor cero dentro del cálculo.
   - Activar scroll horizontal si los elementos no caben en el ancho disponible.
+
 - Para panel "Previsualización":
   - Si el panel está plegado, el indicador de plegado debe habilitarse solo si la validación 'Items Válidos en Detalle Productos' es verdadera.
   - Si el panel está desplegado, el contenido debe estar visible pero en estado deshabilitado.
   - Al estar desplegado puede modificarse su alto arrastrando el borde inferior, aunque tiene un alto mínimo determinado.
+
 - Panel "Botones" tiene altura fija.
 
 ---
@@ -614,6 +622,8 @@ Esta sección detalla el comportamiento responsivo de la interfaz, complementand
 ### Detalles adicionales de campos
 
 Para especificar detalles que no pueden ser descritos en los diagramas, la tabla siguiente contiene detalles adicionales de campos:
+
+TODO: Convertir esta tabla en un listado estructurado
 
 |Campo    | Tipo objeto gráfico, Tipo de datos | Detalles                         |
 |---------|:----------------------------------:|----------------------------------|
