@@ -25,7 +25,7 @@ Se recomienda revisar cada especificación contra las capacidades nativas del fr
 
 - **Conformidad con WCAG 2.1 nivel AA:**
   - **Perceptible:** Contraste de colores mínimo 4.5:1 para texto normal, 3:1 para texto grande (>18pt). Contenido no dependiente únicamente del color. Texto redimensionable hasta 200% sin pérdida de funcionalidad.
-  - **Operable:** Navegación completa por teclado con orden lógico (Tab, Shift+Tab). Indicadores de foco visibles con borde de 2px. Sin contenido que cause convulsiones. Área mínima de toque 44x44px para elementos interactivos.
+  - **Operable:** Navegación completa por teclado con orden lógico (`Tab`, `Shift+Tab`). Indicadores de foco visibles con borde de 2px. Sin contenido que cause convulsiones. Área mínima de toque 44x44px para elementos interactivos.
   - **Comprensible:** Texto legible y claro. Funcionalidad predecible. Mensajes de error claros y asociados semánticamente con elementos. Ayuda contextual en entrada de datos complejos.
   - **Robusto:** Compatible con tecnologías asistivas (lectores de pantalla, magnificadores). Código semánticamente correcto con roles y etiquetas ARIA apropiadas.
 
@@ -36,11 +36,12 @@ Se recomienda revisar cada especificación contra las capacidades nativas del fr
   - Dispositivos de entrada alternativos (switch, eye-tracking).
 
 - **Navegación por teclado universal:**
-  - Tab/Shift+Tab para navegación entre elementos interactivos.
-  - Enter/Espacio para activar botones y controles.
-  - Flechas para navegación dentro de componentes complejos (tablas, listas).
-  - Escape para cancelar acciones o cerrar diálogos.
-  - Home/End para ir al inicio/final de contenido.
+  - `Tab`/`Shift+Tab` para navegación directa/reversa entre elementos interactivos.
+  - `Enter`/`Space` para activar botones y controles.
+  - `Enter`/`F2` para editar contenido de controles.
+  - Flechas (↑↓←→) para navegación dentro de componentes complejos (tablas, listas).
+  - `Home`/`End` para ir al inicio/final de contenido.
+  - `Escape` para cancelar acciones o cerrar diálogos.
 
 - **Espaciado y dimensiones accesibles:**
   - Espaciado mínimo de 8px entre elementos interactivos adyacentes.
@@ -72,7 +73,7 @@ Se recomienda revisar cada especificación contra las capacidades nativas del fr
   - Todos los elementos gráficos deben tener atributo de visibilidad (`True` por defecto, `False` para ocultar), y si están ocultos no ocupan espacio ni son interactivos.
   - Todos los elementos gráficos deben tener atributo de habilitación (`True` por defecto, `False` para deshabilitar), mostrando estado visual claro si no están disponibles.
   - Todos los elementos gráficos deben tener atributo de anclaje (`None` por defecto), que puede modificarse para anclar a un borde o a otro elemento, manteniendo posición relativa al redimensionar.
-  - Elementos pueden tener atributo para ser seleccionados por teclado (`False` por defecto, `True` para permitir foco y navegación con Tab), mostrando estado visual claro al recibir foco. Se debe implementar navegación por Tab y acciones específicas según el tipo de elemento.
+  - Elementos pueden tener atributo para ser seleccionados por teclado (`False` por defecto, `True` para permitir foco y navegación con `Tab`), mostrando estado visual claro al recibir foco. Se debe implementar navegación por `Tab` y acciones específicas según el tipo de elemento.
   - TASK: Completar detalles según el framework elegido.
 
 - **Tema visual:**
@@ -123,8 +124,8 @@ Se recomienda revisar cada especificación contra las capacidades nativas del fr
   - Al recibir foco por clic o teclado:
     - Si el campo está vacío, el cursor se posiciona al inicio.
     - Si tiene texto, el texto se muestra preseleccionado por completo, con el cursor en la posición del clic, o al final si se llegó por teclado.
-  - Validación al perder foco o presionar Enter. Si es inválido mostrando control emergente de mensajes con estado y descripción de error.
-  - Edición puede terminar con Escape o Tab, restaurando el valor anterior si es inválido.
+  - Validación al perder foco o presionar `Enter`. Si es inválido mostrando control emergente de mensajes con estado y descripción de error.
+  - Edición puede terminar con `Escape` o `Tab`, restaurando el valor anterior si es inválido.
   - Para lector de pantalla, considerar etiqueta ARIA que diga "{Nombre del campo}, campo de texto" para indicar que es un campo editable. Si no es editable, usar "{Nombre del campo}, etiqueta de texto" para indicar que es solo informativo.
   - TASK: Definir color de fondo y color de texto para estados editable/no editable, color de borde para estados normal/hover/clic/foco/edición, y estilo de control emergente de validación.
 
@@ -153,13 +154,13 @@ Se recomienda revisar cada especificación contra las capacidades nativas del fr
 - **Barra de desplazamiento:**
   - Visible solo si el contenido excede el área visible.
   - Cambia de color al hacer hover, clic o arrastrar.
-  - Implementar navegación alternativa con teclas Page Up/Down, Home/End.
+  - Implementar navegación alternativa con teclas `Page Up`/`Page Down`, `Home`/`End`, y flechas (↑↓←→).
   - TASK: Falta definir color, grosor y estilo de la barra, colores para estados normal/hover/clic/arrastrar.
 
 - **Indicador de plegado:**
   - Icono definido y visible en el borde superior izquierdo del panel.
   - Ícono indica estado: plegado (`▶`) o desplegado (`▼`).
-  - Al hacer clic, alterna entre estados.
+  - Al hacer clic, o presionar tecla `Space` o `Enter` sobre este, alterna entre estados.
   - Cambia color al hacer hover o clic.
   - Para lector de pantalla, considerar etiqueta ARIA que diga "Indicador de plegado, estado {estado actual}" para indicar el estado del panel.
   - TASK: Falta definir color, tamaño y estilo del icono, colores para estados normal/hover/clic.
@@ -197,7 +198,7 @@ Se recomienda revisar cada especificación contra las capacidades nativas del fr
   - Se muestra como un ícono (por ejemplo, `+`) únicamente al hacer hover con el mouse sobre el espacio entre filas, no sobre una fila.
   - El ícono debe ser claramente visible y cambiar de color al hacer hover.
   - Al hacer clic en el ícono o usar Ctrl+Insert, se inserta una nueva fila vacía en la posición correspondiente.
-  - Al tener una fila seleccionada y presionar Ctrl+Insert, se inserta una nueva fila vacía justo debajo de la fila seleccionada.
+  - Al tener una fila seleccionada y presionar `Ctrl+Insert`, se inserta una nueva fila vacía justo debajo de la fila seleccionada.
   - El botón debe mostrar un estado visual de activación al hacer clic.
   - La nueva fila debe crearse con celdas vacías y lista para edición inmediata, posicionando el cursor en la primera celda editable de la nueva fila.
   - No debe mostrar el ícono de inserción ni activarse por teclado entre la penúltima fila de datos y la fila vacía al final de la tabla.
@@ -206,7 +207,7 @@ Se recomienda revisar cada especificación contra las capacidades nativas del fr
 - **Botón de eliminación de fila:**
   - Se muestra como un ícono (por ejemplo, de basurero `🗑` o `-`) al hacer hover con el mouse sobre el borde de la fila, o teniendo la fila seleccionada.
   - Solo al tener la fila seleccionada, es accesible mediante navegación por teclado.
-  - Al hacer clic o usar la tecla Suprimir (según punto anterior), elimina la fila correspondiente, mostrando confirmación previa solo si la fila contiene datos.
+  - Al hacer clic o usar la tecla `Supr` (según punto anterior), elimina la fila correspondiente, mostrando confirmación previa solo si la fila contiene datos.
   - Confirmación de eliminación muestra cuadro de diálogo del sistema (estilo advertencia), con botones "Cancelar" y "Eliminar" con foco en botón de Cancelar. Debe ser accesible por teclado.
   - El ícono debe ser claramente visible y cambiar de color al hacer hover.
   - Debe tener tamaño suficiente para ser fácilmente interactuable en pantallas táctiles y con mouse.
