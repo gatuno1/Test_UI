@@ -78,7 +78,7 @@ Se recomienda revisar cada especificación contra las capacidades nativas del fr
   - Elementos pueden tener atributo para ser seleccionados por teclado (`False` por defecto, `True` para permitir foco y navegación con `Tab`), mostrando estado visual claro al recibir foco.
     - Se debe implementar navegación por teclado, con teclas y acciones específicas según el tipo de elemento.
     - Cuando el elemento gráfico contiene otros que también pueden ser seleccionados por teclado, la la especificación debe indicar el orden o lógica de navegación entre ellos.
-  - TASK: Completar detalles según el framework elegido.
+  - **TASK:** Completar detalles según el framework elegido.
 
 - **Tema visual:**
   - Bordes del elemento gráfico:
@@ -87,7 +87,7 @@ Se recomienda revisar cada especificación contra las capacidades nativas del fr
     - Permite bordes redondeados: Verdadero/Falso.
     - Radio Bordes redondeados: En caso de soportarse.
   - Los iconos existen en 3 tamaños: pequeño, mediano y grande.
-  - TASK: Completar detalles según el framework elegido:
+  - **TASK:** Completar detalles según el framework elegido:
     - Definir paleta de colores principal y secundaria para fondo, texto, bordes y estados (activo, deshabilitado, resaltado).
     - Definir estilos de iconos: línea, relleno, tamaños en píxeles para cada tamaño.
     - Definir tipografía principal y secundaria, tamaños de fuente, negritas y cursivas.
@@ -100,7 +100,7 @@ Se recomienda revisar cada especificación contra las capacidades nativas del fr
   - Muestra barra de desplazamiento vertical u horizontal si el contenido excede el área visible.
   - No cambia color de fondo o bordes al hacer hover, clic o arrastrar en el espacio vacío de la ventana.
   - Se debe implementar soporte para zoom de ventana, sin pérdida de funcionalidad hasta 200%.
-  - TASK: Falta definir color de fondo, color de borde y espaciado interno.
+  - **TASK:** Falta definir color de fondo, color de borde y espaciado interno.
 
 - **Etiquetas:**
   - Tamaño de fuente por defecto igual al texto normal, con alineación a la izquierda por defecto.
@@ -109,7 +109,7 @@ Se recomienda revisar cada especificación contra las capacidades nativas del fr
   - Permiten ajuste de palabras (wordwrap) y multi-línea si es necesario.
   - No son interactivos ni seleccionables, salvo que se especifique lo contrario.
   - Para el lector de pantalla, considerar etiqueta ARIA que diga "{Nombre de la etiqueta}" para indicar que es una etiqueta informativa.
-  - TASK: Falta definir color de texto y alineación por defecto.
+  - **TASK:** Falta definir familia de fuente, tamaño y color de texto y alineación de este.
 
 - **Botones:**
   - Color de fondo cambia al hacer hover o clic.
@@ -117,7 +117,7 @@ Se recomienda revisar cada especificación contra las capacidades nativas del fr
   - Solo se usan botones con texto descriptivo, o con íconos si son acciones simples.
   - Al hacer hover, se muestra una etiqueta emergente con descripción alternativa de la acción del botón.
   - Para el lector de pantalla, considerar etiqueta ARIA que diga "Botón {Nombre del botón}" para indicar que es un botón interactivo.
-  - TASK: Falta definir borde, tamaño y color de texto, colores de fondo para estados normal/hover/clic, y estilo de etiqueta emergente descriptiva.
+  - **TASK:** Falta definir borde, tamaño y color de texto, colores de fondo para estados normal/hover/clic, y estilo de etiqueta emergente descriptiva.
 
 - **Campos de texto:**
   - Texto alineado según se requiera, izquierda por defecto.
@@ -131,7 +131,7 @@ Se recomienda revisar cada especificación contra las capacidades nativas del fr
   - Validación al perder foco o presionar `Enter`. Si validación o *parse* de datos falla, muestra el control emergente de mensajes con estado y descripción de error específica.
   - Edición termina con `Escape` o `Tab`, restaurando el valor anterior si el nuevo es inválido.
   - Para lector de pantalla, considerar etiqueta ARIA que diga "{Nombre del campo}, campo de texto" para indicar que es un campo editable. Si no es editable, usar "{Nombre del campo}, etiqueta de texto" para indicar que es solo informativo.
-  - TASK: Definir color de fondo y color de texto para estados editable/no editable, color de borde para estados normal/hover/clic/foco/edición, y estilo de control emergente de validación.
+  - **TASK:** Definir color de fondo y color de texto para estados editable/no editable, color de borde para estados normal/hover/clic/foco/edición, y estilo de control emergente de validación.
 
 - **Control emergente para mensajes:**
   - Se muestra cerca del elemento vinculado, afectado por validación no exitosa.
@@ -154,13 +154,13 @@ Se recomienda revisar cada especificación contra las capacidades nativas del fr
   - Botón de cierre con ícono pequeño (  ) para ocultar el mensaje mediante clic o teclado.
   - Cuando el control recibe el foco por clic o teclado, se selecciona el botón de cierre. *Nota de implementación:* Los eventos de teclado en cualquier parte del control se redirigen automáticamente al botón de cierre para su procesamiento.
   - Debe ser accesible por tecnologías asistivas, incluyendo etiquetas ARIA apropiadas (nombre del campo asociado, estado del mensaje, texto del mensaje).
-  - TASK: Definir colores específicos para fondo fijo por tipo de mensaje (error/advertencia/información), colores de borde para estados normal vs. resaltado, estilo de texto, margen respecto al control vinculado, márgenes internos de la grilla y elementos, tiempo de auto-ocultación (opcional), animaciones de aparición/desaparición del control emergente.
+  - **TASK:** Definir colores específicos para fondo fijo por tipo de mensaje (error/advertencia/información), colores de borde para estados normal vs. resaltado, estilo de texto, margen respecto al control vinculado, márgenes internos de la grilla y elementos, tiempo de auto-ocultación (opcional), animaciones de aparición/desaparición del control emergente.
 
 - **Barra de desplazamiento:**
   - Visible solo si el contenido excede el área visible.
   - Cambia de color al hacer hover, clic o arrastrar.
   - Implementar navegación alternativa con teclas `Page Up`/`Page Down`, `Home`/`End`, y flechas (↑↓←→).
-  - TASK: Falta definir color, grosor y estilo de la barra, colores para estados normal/hover/clic/arrastrar.
+  - **TASK:** Falta definir color, grosor y estilo de la barra, colores para estados normal/hover/clic/arrastrar.
 
 - **Indicador de plegado:**
   - Botón con ícono definido y visible en el borde superior izquierdo del panel.
@@ -168,7 +168,7 @@ Se recomienda revisar cada especificación contra las capacidades nativas del fr
   - Al hacer clic, o presionar tecla `Space` o `Enter` sobre este, alterna entre estados.
   - Cambia color al hacer hover o clic.
   - Para lector de pantalla, considerar etiqueta ARIA que diga "Indicador de plegado, estado {estado actual}" para indicar el estado del panel.
-  - TASK: Falta definir color, tamaño y estilo del icono, colores para estados normal/hover/clic.
+  - **TASK:** Falta definir color, tamaño y estilo del icono, colores para estados normal/hover/clic.
 
 - **Paneles:**
   - Puede tener título en la parte superior, alineado a la izquierda por defecto.
@@ -176,7 +176,7 @@ Se recomienda revisar cada especificación contra las capacidades nativas del fr
   - Fondo que contraste con texto y elementos internos.
   - Por defecto sin borde, salvo que se especifique.
   - Para accesibilidad implementar estructura de encabezados jerárquica (h1, h2, h3) y derivando landmarks ARIA para navegación rápida.
-  - TASK: Falta definir color de fondo, color de borde y espaciado interno.
+  - **TASK:** Falta definir color de fondo, color de borde y espaciado interno.
 
 - **Tablas:**
   - Permite desplazamiento horizontal y vertical si el contenido excede el área visible.
@@ -219,8 +219,7 @@ Se recomienda revisar cada especificación contra las capacidades nativas del fr
     - Si se presione la tecla `Tab`, se navega a la primera fila de datos.
 
   - Para el lector de pantalla, asegurar encabezados asociados semánticamente con celdas de datos (por ejemplo, al navegar a celda en columna producto, fila 3, se anuncia "Producto {contenido celda}, fila 3 de {número total de filas con datos A ver}").
-  - Las filas deben reservar espacio extra en el borde izquierdo y derecho de la tabla para mostrar un ícono en cualquiera de los costados. Este espacio se rellena del mismo color de la fila, y permite implementar elementos gráficos para insertar o eliminar filas.
-  - TASK: Falta definir color de fondo de celdas, color de texto, color de bordes, estilo de encabezado, colores alternados para filas, colores para estados seleccionada/hover de filas, y color de fondo para espacio extra de íconos.
+  - **TASK:** Falta definir color de fondo de celdas, color de texto, color de bordes, estilo de encabezado, colores alternados para filas, colores para estados seleccionada/hover de filas, margen para espacio extra de botones de inserción/eliminación.
 
 - **Botón de inserción de fila:**
   - Se muestra como un ícono (por ejemplo, `+`) únicamente al hacer hover con el mouse sobre el espacio entre filas, no sobre una fila.
@@ -230,7 +229,7 @@ Se recomienda revisar cada especificación contra las capacidades nativas del fr
   - El botón debe mostrar un estado visual de activación al hacer clic.
   - La nueva fila debe crearse con celdas vacías y lista para edición inmediata, posicionando el cursor en la primera celda editable de la nueva fila.
   - No debe mostrar el ícono de inserción ni activarse por teclado entre la penúltima fila de datos y la fila vacía al final de la tabla.
-  - TASK: Definir color, tamaño y estilo del ícono de inserción, colores para estados normal/hover/activación.
+  - **TASK:** Definir color, tamaño y estilo del ícono de inserción, colores para estados normal/hover/activación.
 
 - **Botón de eliminación de fila:**
   - Se muestra como un ícono (por ejemplo, de basurero `🗑` o `-`) al hacer hover con el mouse sobre el borde de la fila, o teniendo la fila seleccionada.
@@ -239,7 +238,7 @@ Se recomienda revisar cada especificación contra las capacidades nativas del fr
   - El botón cambia de color al hacer hover.
   - Debe tener tamaño suficiente para ser fácilmente interactuable en pantallas táctiles y con mouse.
   - No debe permitir eliminar la última fila vacía destinada a agregar nuevos datos.
-  - TASK: Definir colores para estados normal/hover/activación.
+  - **TASK:** Definir colores para estados normal/hover/activación.
 
 ---
 
@@ -559,7 +558,7 @@ A continuación, cada diagrama especifica las características de la interfaz el
   > └────────────────────────────────────────────────────────────────┘
   > ```
 
-TASK: Definir el contenido a mostrar en el panel "Previsualización".
+**TODO:** Definir el contenido a mostrar en el panel "Previsualización".
 
 - Formulario con panel de detalle de productos plegado
 
