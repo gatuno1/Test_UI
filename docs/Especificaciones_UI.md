@@ -361,7 +361,7 @@ Sin embargo, si dada la posición o alineación del elemento gráfico del que em
 - **Indicador de plegado**
 
   Este indicador implementa un icono en el programa a construir, que representa si un panel está plegado o desplegado.
-  Cuando una sección se muestra desplegada, significa que se deben mostrar todos los componentes gráficos que tienen activado el atributo `MOSTRAR_DESPLEGADO`, mientras que los que no lo tienen activado se deben ocultar. A su vez, cuando la sección se muestra plegada, significa que se deben mostrar todos los componentes gráficos con el atributo `MOSTRAR_PLEGADO`, y ocultar los que no lo tengan activo.
+  Cuando un panel se muestra desplegada, significa que se deben mostrar todos los componentes gráficos que tienen activado el atributo `MOSTRAR_DESPLEGADO`, mientras que los que no lo tienen activado se deben ocultar. A su vez, cuando el panel se muestra plegado, significa que se deben mostrar todos los componentes gráficos con el atributo `MOSTRAR_PLEGADO`, y ocultar los que no lo tengan activo.
 
   La tabla muestra el símbolo y las acciones a realizar cuando se hace clic en cada uno:
 
@@ -396,7 +396,7 @@ Sin embargo, si dada la posición o alineación del elemento gráfico del que em
     Si el panel tiene un título, este se muestra en la parte superior del elemento gráfico, seguido de los elementos contenidos en ella. El título se muestra con el texto alineado según se requiera (izquierda, centrado, derecha).
 
     > ```asciiart
-    > ┌─Título─de─sección───────────────────────────────┐
+    > ┌─Título─de─panel─────────────────────────────────┐
     > │                ┌──────────────┐ ┌─────────────┐ │
     > │  {Etiqueta 1}  │    Botón 1   │ │   Botón 2   │ │
     > │                └──────────────┘ └─────────────┘ │
@@ -408,7 +408,7 @@ Sin embargo, si dada la posición o alineación del elemento gráfico del que em
     Si el panel está desplegado, el indicador se muestra apuntando hacia la derecha en el borde superior izquierdo.
 
     > ```asciiart
-    > ┌─ ▼ Título─de─sección────────────────────────────┐
+    > ┌─ ▼ Título─de─panel──────────────────────────────┐
     > │                ┌──────────────┐ ┌─────────────┐ │
     > │  {Etiqueta 1}  │    Botón 1   │ │   Botón 2   │ │
     > │                └──────────────┘ └─────────────┘ │
@@ -419,12 +419,12 @@ Sin embargo, si dada la posición o alineación del elemento gráfico del que em
 
     Si el panel está plegado, el indicador se representa apuntando hacia abajo en el borde superior izquierdo.
 
-    Los elementos contenidos en la sección plegada se pueden mostrar o no, dependiendo si se establece que deben mostrarse al estar plegados, que deben ser implementados como una propiedad de los elementos gráficos contenidos dentro de este panel.
+    Los elementos contenidos en el panel plegado se pueden mostrar o no, dependiendo si se establece que deben mostrarse al estar plegados, que deben ser implementados como una propiedad de los elementos gráficos contenidos dentro de este panel.
 
-    En el ejemplo siguiente, se considera que es el mismo panel del ejemplo anterior,salvo que ahora está plegada y en cambio muestra dos etiquetas. La etiqueta de "Etiqueta 1" tiene la propiedad de mostrarse tanto al estar plegada como desplegada, mientras que la etiqueta de "Etiqueta 2" sólo se muestra al estar plegada. Por otro lado, los botones no se muestran al estar plegada la sección, pues en este ejemplo no se ha establecido que deban mostrarse al estar plegados.
+    En el ejemplo siguiente, se considera que es el mismo panel del ejemplo anterior,salvo que ahora está plegada y en cambio muestra dos etiquetas. La etiqueta de "Etiqueta 1" tiene la propiedad de mostrarse tanto al estar plegada como desplegada, mientras que la etiqueta de "Etiqueta 2" sólo se muestra al estar plegada. Por otro lado, los botones no se muestran al estar plegado el panel, pues en este ejemplo no se ha establecido que deban mostrarse al estar plegados.
 
     > ```asciiart
-    > ┌─ ▶ Título─de─sección────────────────────────────┐
+    > ┌─ ▶ Título─de─panel──────────────────────────────┐
     > │  {Etiqueta 1}                     {Etiqueta 2}  │
     > └─────────────────────────────────────────────────┘
     > ```
@@ -458,11 +458,12 @@ A continuación, cada diagrama especifica las características de la interfaz el
 
 - Formulario dentro de ventana de la aplicación
 
-  La ventana de la aplicación primeramente tiene un panel que contiene la etiqueta con el Título del programa -centrada respecto al ancho de la ventana-, que para cada programa debe variar según el nombre del framework utilizado, Ejemplo, "Cotizador De productos - customtkinter", "Cotizador De productos - Flet", etcétera. Este panel está anclado al borde superior de la ventana, y tiene la capacidad de achicar su alto cuando el usuario vaya desplazándose hacia abajo en el formulario, manteniéndose en una capa flotante superior respecto al formulario.
+  La ventana de la aplicación primeramente tiene un panel "Título" que contiene la etiqueta con el título del programa -centrada respecto al ancho de la ventana-, que para cada programa debe variar según el nombre del framework utilizado, Ejemplo, "Cotizador De productos - customtkinter", "Cotizador De productos - Flet", etcétera. Este panel está anclado al borde superior de la ventana, y tiene la capacidad de achicar su alto cuando el usuario vaya desplazándose hacia abajo en el formulario, manteniéndose en una capa flotante superior respecto al formulario.
 
-  Luego sigue un panel "Datos cliente", otro panel "Detalle productos", y un panel "Previsualización" -escondido por defecto-. Estos paneles constituyen el cuerpo del formulario que se desplaza debajo de los paneles superior e inferior, mostrando una barra de desplazamiento en el lado derecho, que muestra al usuario la posición de este.  El panel de "Detalle de Productos" contiene una tabla "Productos Cotizados".
+  El cuerpo de formulario se desplaza debajo de los paneles superior e inferior, mostrando una barra de desplazamiento en el lado derecho, que muestra al usuario la posición de este.
+  El formulario contiene los paneles "Datos cliente", otro panel "Detalle productos", y un panel "Previsualización" escondido por defecto. El panel de "Detalle productos" contiene una tabla "Productos Cotizados".
 
-  Finalmente, existe un panel "Botones de acción" que esta anclado al borde inferior de la ventana, manteniéndose también en una capa flotante superior respecto al resto del formulario.
+  Finalmente, existe un panel "Botones" que está anclado al borde inferior de la ventana, manteniéndose también en una capa flotante superior respecto al formulario.
 
   > ```asciiart
   > ┌──────────────────────────────────────────────────────────────────┐
@@ -496,9 +497,9 @@ A continuación, cada diagrama especifica las características de la interfaz el
   > └──────────────────────────────────────────────────────────────────┘
   > ```
 
-- Formulario con sección de previsualización visible
+- Formulario con panel Previsualización visible
 
-  La sección de previsualización debe aparecer completa entre las sección de detalle de productos y el panel inferior con los botones. Este diagrama muestra parte de la ventana y como se representa el formulario con este panel desplegado.
+  El panel "Previsualización" debe aparecer completo entre los paneles de detalle de productos y el panel inferior con los botones. Este diagrama muestra parte de la ventana y como se representa el formulario con este panel desplegado.
 
   > ```asciiart
   > ┌─Datos─Cliente─────────────────────────────────────────────────┐▲
@@ -537,11 +538,11 @@ A continuación, cada diagrama especifica las características de la interfaz el
   > └────────────────────────────────────────────────────────────────┘
   > ```
 
-- Formulario con sección de Detalle de productos plegado
+- Formulario con panel de detalle de productos plegado
 
-  Para la sección de detalle de productos existen ciertos ciertos campos o etiquetas que se muestran de todas maneras al estar plegados.
+  Para el panel "Detalle productos" existen ciertos ciertos campos o etiquetas que se muestran de todas maneras al estar plegados.
 
-  En el ejemplo siguiente, la etiqueta "Total general" y campo "Total" se muestran en ambos casos. Además, la etiqueta de la cantidad de ítems "Cantidad Items" está oculta en la vista desplegada, pero al plegarse sí se muestra. Se ocultan el Botón "Limpiar datos" y la Tabla "Detalle de productos".
+  En el ejemplo siguiente, la etiqueta "Total general" y campo "Total" se muestran en ambos casos. Además, la etiqueta de la cantidad de ítems "Cantidad Items" está oculta en la vista desplegada, pero al plegarse sí se muestra. Se ocultan el botón "Limpiar datos" y la tabla "Productos Cotizados".
 
   > ```asciiart
   > ┌─Datos─Cliente─────────────────────────────────────────────────┐▲
@@ -569,15 +570,15 @@ Esta sección detalla el comportamiento responsivo de la interfaz, complementand
 
 - El formulario debe mostrar scroll vertical si el contenido excede el alto visible (ver "Características comunes" y "Barra de desplazamiento").
 - Todos los paneles principales deben estirarse horizontalmente según el ancho de la ventana (ver "Características comunes").
-- El panel de título y el panel de botones deben permanecer fijos (flotantes) anclados al borde superior e inferior de la ventana, respectivamente (ver atributo de anclaje en "Características comunes").
-- El panel de título puede reducir su altura y/o fuente si la ventana es muy pequeña, pero sólo hasta modificar el título hasta el tamaño de fuente del texto normal con negritas, manteniendo márgenes verticales mínimos de 5px.
-- Las columnas de la tabla Detalle de Productos deben:
+- El panel "Título" y el panel "Botones" deben permanecer fijos (flotantes) anclados al borde superior e inferior de la ventana, respectivamente (ver atributo de anclaje en "Características comunes").
+- El panel "Título" puede reducir su altura y/o fuente si la ventana es muy pequeña, pero sólo hasta modificar el título hasta el tamaño de fuente del texto normal con negritas, manteniendo márgenes verticales mínimos de 5px.
+- Las columnas de la tabla "Productos Cotizados" deben:
   - Mantener proporciones al modificar el ancho de la ventana (ver "Tablas").
   - Las columnas "Cantidad", "Precio Unitario" y "Total" pueden expandirse proporcionalmente, pero solo reducirse hasta el ancho mínimo necesario para mostrar su contenido más largo.
   - La columna "Producto" puede expandirse solo hasta que las otras columnas alcancen su ancho mínimo, pero sus celdas pueden aumentar en altura usando texto multi-línea con ajuste de palabras (wordwrap).
   - Permitir redimensionamiento manual arrastrando los bordes entre columnas, respetando las limitaciones anteriores (ver "Tablas").
   - Activar scroll horizontal si no caben.
-- Las filas de la tabla Detalle de Productos deben:
+- Las filas de la tabla "Productos Cotizados" deben:
   - Activar scroll vertical si no caben (ver "Tablas").
   - No permitir redimensionamiento manual de altura por parte del usuario.
 - Para el panel "Detalle productos":
@@ -587,7 +588,7 @@ Esta sección detalla el comportamiento responsivo de la interfaz, complementand
   - La etiqueta "Cantidad Items" se ajusta automáticamente a su contenido sin truncarse.
   - El campo "Suma total" mantiene como ancho, el mínimo entre el de la columna "Total" de la tabla y el ancho del texto del mismo campo.
   - Activar scroll horizontal si los elementos no caben en el ancho disponible.
-- Para panel "Visualizar Cotización":
+- Para panel "Previsualización":
   - Si el panel está en Estado plegado, el botón de cierre debe habilitarse o deshabilitarse según el resultado de la validación 'Items Válidos en Detalle Productos'.
   - En cambio si el panel está desplegado, el botón de cierre debe estar habilitado y el contenido debe ser visible pero con estado deshabilitado.
 
@@ -670,8 +671,8 @@ Como se muestra en el siguiente ejemplo de código, se debe utilizar la constant
   *Nota de implementación:* Considerar que parámetro de entrada es de tipo int o float.
   Ejemplo de valores válidos: `10000`, `123.00`. Ejemplos no válidos: `0`, `-123`, `math.inf`, `math.nan`.
 
-- **Validación Items Válidos en Detalle Productos**
-  Se debe validar que la tabla de Detalle Productos tenga registros válidos, es decir que existan filas con totales calculados, ignorando filas vacías que se muestren en pantalla o registros incompletos que no permitan calcular aún el total de la fila. La validación deben resultar falsa si los registros validos son cero, verdadera si hay al menos uno.
+- **Validación Items Válidos en Detalle productos**
+  Se debe validar que la tabla de "Detalle productos" tenga registros válidos, es decir que existan filas tanto con producto válido como con totales calculados, ignorando filas vacías que se muestren en pantalla o registros incompletos que no permitan calcular aún el total de la fila. La validación deben resultar falsa si la cantidad de registros validos es cero, verdadera si hay al menos uno.  También debe entregarse la cantidad de registros válidos.
 
 - ***Parse* de Cantidad**
   Al recibirse el texto, lo primero es recortar todos los caracteres de espacio al principio y al final. Luego, tratar de convertir al número entero o de punto flotante, pero respetando las convenciones de caracteres de punto decimal y de separador de miles que se use en este computador corriendo Windows. Si el texto entregado se puede transformar a un número en punto flotante, se debe usar la función de truncar con cero decimales. Si no se puede convertir a número, entregar error de valor.
@@ -689,9 +690,9 @@ Como se muestra en el siguiente ejemplo de código, se debe utilizar la constant
 | Clic Botón Grabar Cotización  | Validar todos los campos visibles. Si son válidos, generar archivo PDF.                     |
 | Clic Botón Cerrar             | Cierra la aplicación. Si hay cambios no guardados debe mostrar un diálogo de confirmación.  |
 | Clic Botón Limpiar Datos      | Elimina todas las filas de la tabla y reinicia el campo “Suma Total” a cero.                |
-| Clic `▶ / ▼` Detalle de Productos  | Alterna la visibilidad del panel de tabla de productos.                                |
-| Clic `▶ / ▼` Visualizar Cotización | Muestra/oculta el panel de previsualización, pero solo si ya hay datos disponibles.    |
-| Edición de celda de tabla     | Al modificar celda de cantidad o precio, recalcular celda “Total” de la fila, actualizar “Suma Total” y  “Cantidad Items”. Si se modifica celda producto, validar nombre. Si se actualiza “Cantidad Items”, se debe validar estado activación de Botón Visualizar Cotización. |
+| Clic `▶ / ▼` "Productos Cotizados"  | Alterna la visibilidad del panel de tabla de productos.                                |
+| Clic `▶ / ▼` Previsualización | Muestra/oculta el panel "Previsualización", pero solo si ya hay datos disponibles.    |
+| Edición de celda de tabla     | Al modificar celda de cantidad o precio, recalcular celda “Total” de la fila, actualizar “Suma Total” y  “Cantidad Items”. Si se modifica celda producto, validar nombre. Si se actualiza “Cantidad Items”, se debe validar estado activación de indicador de plegado de panel "Previsualización". |
 | Clic en fila de tabla         | Selecciona la fila, permitiendo eliminarla con el botón de eliminación.                     |
 | Clic en ícono inserción tabla | Inserta una nueva fila vacía debajo de la fila actual. Posiciona el cursor en la primera celda editable. |
 | Clic en ícono eliminación tabla | Elimina la fila seleccionada, mostrando confirmación si la fila contiene datos.           |
