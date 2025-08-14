@@ -621,20 +621,47 @@ Esta sección detalla el comportamiento responsivo de la interfaz, complementand
 
 ### Detalles adicionales de campos
 
-Para especificar detalles que no pueden ser descritos en los diagramas, la tabla siguiente contiene detalles adicionales de campos:
+Para especificar detalles que no pueden ser descritos en los diagramas, a continuación se presenta un listado de especificaciones adicionales para campos de la interfaz:
 
-TODO: Convertir esta tabla en un listado estructurado
+- Campo: Cliente
+  - Tipo Objeto gráfico: Campo de texto
+  - Tipos de datos: Texto
+  - Detalles adicionales: Nombre del cliente, ingresado por el usuario con "*Parse* de Texto", debe usar "Validación Nombre Cliente".
 
-|Campo    | Tipo objeto gráfico, Tipo de datos | Detalles                         |
-|---------|:----------------------------------:|----------------------------------|
-|Cliente  | Campo de texto, Texto | Nombre del cliente, ingresado por el usuario con "*Parse* de Texto", debe usar "Validación Nombre Cliente". |
-|Item     | Celda de tabla, Número entero | Generado automáticamente por el sistema (comienza en 1 numerando consecutivamente cada fila de la tabla), usa formato de cantidad sin decimales. |
-|Producto | Celda de tabla, Texto | Texto ingresado por el usuario con "*Parse* de Texto", debe usar "Validación Nombre Producto". |
-|Cantidad | Celda de tabla, Número Entero | Ingresado por el usuario con "*Parse* de Cantidad", usa "Validación de Cantidad con valor positivo", para mostrarse con formato de cantidad sin decimales. |
-|Precio Unitario | Celda de tabla, Cantidad monetaria | Ingresado por el usuario con "*Parse* de Formato Monetario" (si se ingresa con decimales se acepta redondeo de hasta dos dígitos), usa "Validación de moneda con monto positivo", para mostrarse con Formato Monetario hasta dos decimales. |
-|Total    | Celda de tabla, Cantidad monetaria | Calculado por el sistema cuando se ingresan producto, cantidad y precio unitario en la misma fila, es decir el resultado de `Cantidad * Precio Unitario` redondeado a cero decimales. Para mostrarse usa Formato Monetario sin decimales. |
-|Suma total | Campo de texto solo lectura, cantidad monetaria | Calculado por el sistema luego de ingresado o modificado algún registro de la tabla, para mostrarse con Formato Monetario sin decimales. |
-|Cantidad Items | Etiqueta, Texto | Calculado por el sistema luego de ingresar, modificar o eliminar algún registro de la tabla, para mostrarse usa formato de cantidad sin decimales. Solo considera celdas con datos. |
+- Campo: Item
+  - Tipo Objeto gráfico: Celda de tabla
+  - Tipos de datos: Número entero
+  - Detalles adicionales: Generado automáticamente por el sistema (comienza en 1 numerando consecutivamente cada fila de la tabla), usa formato de cantidad sin decimales.
+
+- Campo: Producto
+  - Tipo Objeto gráfico: Celda de tabla
+  - Tipos de datos: Texto
+  - Detalles adicionales: Texto ingresado por el usuario con "*Parse* de Texto", debe usar "Validación Nombre Producto".
+
+- Campo: Cantidad
+  - Tipo Objeto gráfico: Celda de tabla
+  - Tipos de datos: Número entero
+  - Detalles adicionales: Ingresado por el usuario con "*Parse* de Cantidad", usa "Validación de Cantidad con valor positivo", para mostrarse con formato de cantidad sin decimales.
+
+- Campo: Precio Unitario
+  - Tipo Objeto gráfico: Celda de tabla
+  - Tipos de datos: Cantidad monetaria
+  - Detalles adicionales: Ingresado por el usuario con "*Parse* de Formato Monetario" (si se ingresa con decimales se acepta redondeo de hasta dos dígitos), usa "Validación de moneda con monto positivo", para mostrarse con Formato Monetario hasta dos decimales.
+
+- Campo: Total
+  - Tipo Objeto gráfico: Celda de tabla
+  - Tipos de datos: Cantidad monetaria
+  - Detalles adicionales: Calculado por el sistema cuando se ingresan producto, cantidad y precio unitario en la misma fila, es decir el resultado de `Cantidad * Precio Unitario` redondeado a cero decimales. Para mostrarse usa Formato Monetario sin decimales.
+
+- Campo: Suma total
+  - Tipo Objeto gráfico: Campo de texto solo lectura
+  - Tipos de datos: Cantidad monetaria
+  - Detalles adicionales: Calculado por el sistema luego de ingresado o modificado algún registro de la tabla, para mostrarse con Formato Monetario sin decimales.
+
+- Campo: Cantidad Ítems
+  - Tipo Objeto gráfico: Etiqueta
+  - Tipos de datos: Texto
+  - Detalles adicionales: Calculado por el sistema luego de ingresar, modificar o eliminar algún registro de la tabla, para mostrarse usa formato de cantidad sin decimales. Solo considera celdas con datos.
 
 ### Reglas de cálculo automático
 
