@@ -73,7 +73,9 @@ Se recomienda revisar cada especificación contra las capacidades nativas del fr
   - Todos los elementos gráficos deben tener atributo de visibilidad (`True` por defecto, `False` para ocultar), y si están ocultos no ocupan espacio ni son interactivos.
   - Todos los elementos gráficos deben tener atributo de habilitación (`True` por defecto, `False` para deshabilitar), mostrando estado visual claro si no están disponibles.
   - Todos los elementos gráficos deben tener atributo de anclaje (`None` por defecto), que puede modificarse para anclar a un borde o a otro elemento, manteniendo posición relativa al redimensionar.
-  - Elementos pueden tener atributo para ser seleccionados por teclado (`False` por defecto, `True` para permitir foco y navegación con `Tab`), mostrando estado visual claro al recibir foco. Se debe implementar navegación por `Tab` y acciones específicas según el tipo de elemento.
+  - Elementos pueden tener atributo para ser seleccionados por teclado (`False` por defecto, `True` para permitir foco y navegación con `Tab`), mostrando estado visual claro al recibir foco.
+    - Se debe implementar navegación por teclado, con teclas y acciones específicas según el tipo de elemento.
+    - Cuando el elemento gráfico contiene otros que también pueden ser seleccionados por teclado, la la especificación debe indicar el orden o lógica de navegación entre ellos.
   - TASK: Completar detalles según el framework elegido.
 
 - **Tema visual:**
@@ -121,11 +123,11 @@ Se recomienda revisar cada especificación contra las capacidades nativas del fr
   - Si es editable, el usuario puede modificar el texto; si no, solo puede seleccionarlo.
   - Al hacer hover, clic o recibir foco por teclado: el borde cambia de color para indicar interactividad.
   - Al estar en edición, colores de fondo y texto cambian según estado editable o no.
-  - Al recibir foco por clic o teclado:
+  - Entrar en edición por clic o teclado (`Enter`/`F2`):
     - Si el campo está vacío, el cursor se posiciona al inicio.
     - Si tiene texto, el texto se muestra preseleccionado por completo, con el cursor en la posición del clic, o al final si se llegó por teclado.
   - Validación al perder foco o presionar `Enter`. Si validación o *parse* de datos falla, muestra el control emergente de mensajes con estado y descripción de error específica.
-  - Edición puede terminar con `Escape` o `Tab`, restaurando el valor anterior si es inválido.
+  - Edición termina con `Escape` o `Tab`, restaurando el valor anterior si el nuevo es inválido.
   - Para lector de pantalla, considerar etiqueta ARIA que diga "{Nombre del campo}, campo de texto" para indicar que es un campo editable. Si no es editable, usar "{Nombre del campo}, etiqueta de texto" para indicar que es solo informativo.
   - TASK: Definir color de fondo y color de texto para estados editable/no editable, color de borde para estados normal/hover/clic/foco/edición, y estilo de control emergente de validación.
 
@@ -158,7 +160,7 @@ Se recomienda revisar cada especificación contra las capacidades nativas del fr
   - TASK: Falta definir color, grosor y estilo de la barra, colores para estados normal/hover/clic/arrastrar.
 
 - **Indicador de plegado:**
-  - Icono definido y visible en el borde superior izquierdo del panel.
+  - Botón con ícono definido y visible en el borde superior izquierdo del panel.
   - Ícono indica estado: plegado (`▶`) o desplegado (`▼`).
   - Al hacer clic, o presionar tecla `Space` o `Enter` sobre este, alterna entre estados.
   - Cambia color al hacer hover o clic.
@@ -188,10 +190,33 @@ Se recomienda revisar cada especificación contra las capacidades nativas del fr
   - Ancho mínimo calculado automáticamente según contenido, no cambia al hacer scroll horizontal.
   - Celdas no permiten modificar alto manualmente, pero sí indirectamente por contenido.
   - Celdas tienen mismo comportamiento que campos de texto respecto a interacción, validaciones, *parse* y mensajes de error.
-  - Implementar navegación por teclas de flechas entre celdas, permitiendo edición de celdas con Enter.
+  - Navegación por teclado desde otro control elemento gráfico externo: se debe seleccionar la primera celda izquierda de la primera fila.
+  - Navegación entre celdas: Usar flechas (↑↓←→) para moverse entre celdas individuales.
+  - Edición de celda: Presionar `Enter` o `F2` en la celda seleccionada para editarla.
+
+  - Navegación entre filas:
+    - Estando seleccionada una celda, usar `Tab` para seleccionar la fila completa.
+    - Estando seleccionada una fila, tecla `Tab` navega a la fila siguiente, con `Shift+Tab` haciendo lo inverso.
+      - Si la fila es la última de la tabla, se sale de ésta yendo al control siguiente.
+      - Si la fila es la primera de la tabla, se pasa a la navegación en encabezado.
+      - Sí se presiona la flecha arriba (↑) o abajo (↓), se selecciona respectivamente la fila superior o inferior a la actual, excepto en caso de los extremos:
+        - Si es la primera fila y se presiona la flecha arriba (↑), se pasa a la navegación en encabezado.
+        - Si es la última fila y se presiona la flecha abajo (↓), se sale de la tabla yendo al control siguiente.
+      - **TODO**: Agregar navegación a botones de inserción de fila y de eliminación de fila, utilizando flechas izquierda y derecha.
+
+  - Estando seleccionada una fila, si se presiona flecha izquierda (←), flecha derecha (→), `Home` o `End` se entra al modo de navegación entre celdas, variando cual es la celda seleccionada:
+    - Si se presiona la flecha izquierda (←) o tecla `Home`, el foco pasa a la primera celda a la izquierda de la fila.
+    - Sí se presiona la flecha derecha (→) o tecla `End`, el foco pasa a la última celda a la derecha de la fila.
+
+  - Navegación en encabezados de tabla:
+    - Cuando se entra a este modo de navegación de una fila del la misma tabla, se selecciona por defecto la primera celda de la izquierda del encabezado. En cambio, cuando se entra desde una celda se mantiene la misma columna desde donde venía.
+    - Usar tecla flecha izquierda (←) o derecha (→) para moverse entre celdas del encabezado, seleccionando una a una.
+    - Si se presiona la tecla flecha abajo (↓), regresa a la primera fila de datos.
+    - Si se presione la tecla flecha arriba (↑) o `Shift+Tab`, se sale de la tabla yendo al control anterior.
+    - Si se presione la tecla `Tab`, se navega a la primera fila de datos.
+
   - Para el lector de pantalla, asegurar encabezados asociados semánticamente con celdas de datos (por ejemplo, al navegar a celda en columna producto, fila 3, se anuncia "Producto {contenido celda}, fila 3 de {número total de filas con datos A ver}").
-  - Uso de tecla Tab para navegar entre filas, seleccionándolas.
-  - Las filas deben reservar espacio extra en el borde izquierdo y derecho de la tabla para mostrar un ícono en cualquiera de los costados. Este espacio se rellena del mismo color de fondo, y permite implementar elementos gráficos para insertar o eliminar filas.
+  - Las filas deben reservar espacio extra en el borde izquierdo y derecho de la tabla para mostrar un ícono en cualquiera de los costados. Este espacio se rellena del mismo color de la fila, y permite implementar elementos gráficos para insertar o eliminar filas.
   - TASK: Falta definir color de fondo de celdas, color de texto, color de bordes, estilo de encabezado, colores alternados para filas, colores para estados seleccionada/hover de filas, y color de fondo para espacio extra de íconos.
 
 - **Botón de inserción de fila:**
@@ -206,14 +231,12 @@ Se recomienda revisar cada especificación contra las capacidades nativas del fr
 
 - **Botón de eliminación de fila:**
   - Se muestra como un ícono (por ejemplo, de basurero `🗑` o `-`) al hacer hover con el mouse sobre el borde de la fila, o teniendo la fila seleccionada.
-  - Solo al tener la fila seleccionada, es accesible mediante navegación por teclado.
-  - Al hacer clic o usar la tecla `Supr` (según punto anterior), elimina la fila correspondiente, mostrando confirmación previa solo si la fila contiene datos.
-  - Confirmación de eliminación muestra cuadro de diálogo del sistema (estilo advertencia), con botones "Cancelar" y "Eliminar" con foco en botón de Cancelar. Debe ser accesible por teclado.
-  - El ícono debe ser claramente visible y cambiar de color al hacer hover.
+    - Con fila seleccionada presionar `Supr` es equivalente al hacer clic sobre el icono: requiere confirmación de eliminación solo si la fila contiene datos.
+    - Confirmación de eliminación muestra cuadro de diálogo del sistema (estilo advertencia), con botones "Cancelar" y "Eliminar" con foco en botón de cancelar. Debe ser accesible por teclado.
+  - El botón cambia de color al hacer hover.
   - Debe tener tamaño suficiente para ser fácilmente interactuable en pantallas táctiles y con mouse.
-  - El botón debe mostrar un estado visual de activación al hacer clic.
   - No debe permitir eliminar la última fila vacía destinada a agregar nuevos datos.
-  - TASK: Definir color, tamaño y estilo del ícono de eliminación, colores para estados normal/hover/activación.
+  - TASK: Definir colores para estados normal/hover/activación.
 
 ---
 
@@ -607,6 +630,24 @@ Para especificar detalles que no pueden ser descritos en los diagramas, la tabla
 | Total (por fila) | `Cantidad * Precio Unitario`                 | Cuando se modifica cantidad o precio |
 | Suma Total       | Suma de todos los campos "Total" de la tabla | Cuando se modifica una fila          |
 | Cantidad Ítems   | Si tabla está vacía, mostrar "Sin ítems", habiendo 1 fila mostrar "1 ítem" y para el resto mostrar "X ítems" con X la cantidad. La cantidad es obtenida desde la "Validación Items Válidos en Detalle productos"  | Al agregar o quitar una fila válida, o acción del botón "Limpiar Datos" |
+
+### Jerarquía de navegación con el teclado
+
+- La navegación directa entre elementos gráficos se da al usar la tecla `Tab`.
+- La navegación inversa se realiza al utilizar `Shift+Tab`,
+- El primer elemento corresponde al valor por defecto cuando cuando se abre la aplicación.
+- Al recorrer la lista utilizando el teclado, cuando se llega a cualquiera de los dos extremos no se puede avanzar o retroceder más allá de éste.
+- También se puede navegar al comienzo o al final de la lista con las teclas `Home` y `End`, respectivamente.
+
+- Orden de navegación entre elementos gráficos:
+  - Panel "Datos cliente", campo "Cliente".
+  - Panel "Detalle productos", Indicador de plegado.
+  - Panel "Detalle productos", Tabla "Productos Cotizados".
+  - Panel "Detalle productos", Botón "Limpiar Datos".
+  - Panel "Detalle productos", Campo "Suma total".
+  - Panel "Previsualización", Indicador de plegado.
+  - Panel "Botones", Botón "Grabar cotización".
+  - Panel "Botones", Botón "Cerrar".
 
 ## 6. Notas de implementación
 
