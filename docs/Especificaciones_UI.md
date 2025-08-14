@@ -124,7 +124,7 @@ Se recomienda revisar cada especificación contra las capacidades nativas del fr
   - Al recibir foco por clic o teclado:
     - Si el campo está vacío, el cursor se posiciona al inicio.
     - Si tiene texto, el texto se muestra preseleccionado por completo, con el cursor en la posición del clic, o al final si se llegó por teclado.
-  - Validación al perder foco o presionar `Enter`. Si es inválido mostrando control emergente de mensajes con estado y descripción de error.
+  - Validación al perder foco o presionar `Enter`. Si validación o *parse* de datos falla, muestra el control emergente de mensajes con estado y descripción de error específica.
   - Edición puede terminar con `Escape` o `Tab`, restaurando el valor anterior si es inválido.
   - Para lector de pantalla, considerar etiqueta ARIA que diga "{Nombre del campo}, campo de texto" para indicar que es un campo editable. Si no es editable, usar "{Nombre del campo}, etiqueta de texto" para indicar que es solo informativo.
   - TASK: Definir color de fondo y color de texto para estados editable/no editable, color de borde para estados normal/hover/clic/foco/edición, y estilo de control emergente de validación.
@@ -187,7 +187,7 @@ Se recomienda revisar cada especificación contra las capacidades nativas del fr
   - Columnas permiten redimensionamiento manual de ancho, salvo indicación contraria, y se autoajustan al hacer clic en el borde entre ellas.
   - Ancho mínimo calculado automáticamente según contenido, no cambia al hacer scroll horizontal.
   - Celdas no permiten modificar alto manualmente, pero sí indirectamente por contenido.
-  - Celdas tienen mismo comportamiento que campos de texto respecto a interacción, validaciones y mensajes de error.
+  - Celdas tienen mismo comportamiento que campos de texto respecto a interacción, validaciones, *parse* y mensajes de error.
   - Implementar navegación por teclas de flechas entre celdas, permitiendo edición de celdas con Enter.
   - Para el lector de pantalla, asegurar encabezados asociados semánticamente con celdas de datos (por ejemplo, al navegar a celda en columna producto, fila 3, se anuncia "Producto {contenido celda}, fila 3 de {número total de filas con datos A ver}").
   - Uso de tecla Tab para navegar entre filas, seleccionándolas.
@@ -363,12 +363,12 @@ Sin embargo, si dada la posición o alineación del elemento gráfico del que em
   Este indicador implementa un icono en el programa a construir, que representa si un panel está plegado o desplegado.
   Cuando un panel se muestra desplegada, significa que se deben mostrar todos los componentes gráficos que tienen activado el atributo `MOSTRAR_DESPLEGADO`, mientras que los que no lo tienen activado se deben ocultar. A su vez, cuando el panel se muestra plegado, significa que se deben mostrar todos los componentes gráficos con el atributo `MOSTRAR_PLEGADO`, y ocultar los que no lo tengan activo.
 
-  La tabla muestra el símbolo y las acciones a realizar cuando se hace clic en cada uno:
+  La tabla muestra el símbolo, significado y las acciones a realizar cuando se hace clic en cada uno:
 
-  | Símbolo | Significado en diagrama                    | Acción al hacer clic en ícono |
-  |:-------:|--------------------------------------------|-------------------------------|
-  |   `▼`   | Indica mostrar una sección como desplegada | Plegar la sección             |
-  |   `▶`   | Indica mostrar una sección como plegada    | Desplegar la sección          |
+  | Símbolo | Significado                  | Que mostrar        | Acción en clic  |
+  |:-------:|------------------------------|--------------------|-----------------|
+  |   `▼`   | Panel desplegado (expandido) | Contenido completo | Plegar panel    |
+  |   `▶`   | Panel plegado (colapsado)    | Contenido mínimo   | Desplegar panel |
 
   - Sugerencia de implementación para atributo:
     Clase `TipoPlegado` - Implementar como una clase que herede de `enum`, especificando que actúan como flag, con instancias `NEUTRO`, `MOSTRAR_DESPLEGADO`,  `MOSTRAR_PLEGADO`.
@@ -377,7 +377,7 @@ Sin embargo, si dada la posición o alineación del elemento gráfico del que em
 
   Un Panel puede contener etiquetas, campos de texto, botones o tablas. Puede tener un título o no, y puede ser plegable o no.
 
-  Los paneles se representan aquí con un borde completo, y un indicador de plegado si tienen capacidad de desplegarse/plegarse. Los paneles que no tienen capacidad de plegado se muestran sin ese indicador.
+  Los paneles se representan aquí con un borde completo aunque en la implementación no lo tengan, y un indicador de plegado si tienen capacidad de desplegarse/plegarse. Los paneles que no tienen capacidad de plegado se muestran sin ese indicador.
 
   - **Ejemplo de panel sin título**
 
@@ -405,7 +405,7 @@ Sin embargo, si dada la posición o alineación del elemento gráfico del que em
 
   - **Ejemplo de Panel Desplegado**
 
-    Si el panel está desplegado, el indicador se muestra apuntando hacia la derecha en el borde superior izquierdo.
+    Si el panel está desplegado, el indicador se representa con el carácter '▼' en el borde superior izquierdo.
 
     > ```asciiart
     > ┌─ ▼ Título─de─panel──────────────────────────────┐
@@ -417,7 +417,7 @@ Sin embargo, si dada la posición o alineación del elemento gráfico del que em
 
   - **Ejemplo de Panel Plegado**
 
-    Si el panel está plegado, el indicador se representa apuntando hacia abajo en el borde superior izquierdo.
+    Si el panel está plegado, el indicador se representa con el carácter '▶' en el borde superior izquierdo.
 
     Los elementos contenidos en el panel plegado se pueden mostrar o no, dependiendo si se establece que deben mostrarse al estar plegados, que deben ser implementados como una propiedad de los elementos gráficos contenidos dentro de este panel.
 
@@ -433,7 +433,7 @@ Sin embargo, si dada la posición o alineación del elemento gráfico del que em
 
   Una tabla es un elemento gráfico que contiene otros elementos gráficos: una fila de encabezados y múltiples filas de datos alineados en una grilla. En sentido vertical, contiene encabezados de columna en la primera fila, y luego continúan celdas de datos alineadas en una grilla.
 
-  La tabla se representa en esta especificación con un borde completo alrededor, las columnas se representan con caracteres `|` entre las celdas, mientras que las filas de la grilla sólo se representan con cambios de línea y bordes horizontales.
+  La tabla se representa en esta especificación con un borde completo alrededor, las columnas se representan con caracteres `|` entre las celdas, mientras que las filas de la grilla sólo se representan con cambios de línea y bordes horizontales. Nota: Por limitaciones del formato asciiart no se puede representar los espacios entre filas, ni bordes entre celdas, aunque sí se requiera.
 
   La especificación de una tabla contiene los encabezados de columna en la primera fila, la segunda fila la alineación de cada columna, y luego siguen las filas de datos. Los encabezados especifican el nombre de cada columna y también siguen la alineación especificada para cada columna.
 
@@ -502,11 +502,6 @@ A continuación, cada diagrama especifica las características de la interfaz el
   El panel "Previsualización" debe aparecer completo entre los paneles de detalle de productos y el panel inferior con los botones. Este diagrama muestra parte de la ventana y como se representa el formulario con este panel desplegado.
 
   > ```asciiart
-  > ┌─Datos─Cliente─────────────────────────────────────────────────┐▲
-  > │        ┌────────────────────────────────────────────────────┐ ││
-  > │{Nombre}│                                                    │ ││
-  > │        └────────────────────────────────────────────────────┘ ││
-  > └───────────────────────────────────────────────────────────────┘│
   > ┌─ ▼ Detalle─Productos──────────────────────────────────────────┐│
   > │ {Productos Cotizados}                                         ││
   > │ ┌───────────────────────────────────────────────────────────┐ ││
@@ -538,30 +533,22 @@ A continuación, cada diagrama especifica las características de la interfaz el
   > └────────────────────────────────────────────────────────────────┘
   > ```
 
+TASK: Definir el contenido a mostrar en el panel "Previsualización".
+
 - Formulario con panel de detalle de productos plegado
 
   Para el panel "Detalle productos" existen ciertos ciertos campos o etiquetas que se muestran de todas maneras al estar plegados.
 
-  En el ejemplo siguiente, la etiqueta "Total general" y campo "Total" se muestran en ambos casos. Además, la etiqueta de la cantidad de ítems "Cantidad Items" está oculta en la vista desplegada, pero al plegarse sí se muestra. Se ocultan el botón "Limpiar datos" y la tabla "Productos Cotizados".
+  - Etiqueta "Total general" y campo "Total" se deben mostrar en ambos casos.
+  - Etiqueta "Cantidad Items" debe ocultarse en la vista desplegada, pero al plegarse sí se debe mostrar.
+  - Al plegarse se ocultan el botón "Limpiar datos" y la tabla "Productos Cotizados".
 
   > ```asciiart
-  > ┌─Datos─Cliente─────────────────────────────────────────────────┐▲
-  > │        ┌────────────────────────────────────────────────────┐ ││
-  > │{Nombre}│                                                    │ ││
-  > │        └────────────────────────────────────────────────────┘ ││
-  > └───────────────────────────────────────────────────────────────┘│
-  > ┌─ ▶ Detalle─Productos──────────────────────────────────────────┐│
-  > │                                              ┌──────────────┐ ││
-  > │ {Cantidad Items}              {Total general}│  <Suma Total>│ ││
-  > │                                              └──────────────┘ ││
-  > └───────────────────────────────────────────────────────────────┘│
-  > ┌─ ▶ Visualizar─Cotización──────────────────────────────────────┐│
-  > └───────────────────────────────────────────────────────────────┘▼
-  > ┌────────────────────────────────────────────────────────────────┐
-  > │        ┌───────────────────┐      ┌───────────────────┐        │
-  > │        │ Grabar Cotización │      │      Cerrar       │        │
-  > │        └───────────────────┘      └───────────────────┘        │
-  > └────────────────────────────────────────────────────────────────┘
+  > ┌─ ▶ Detalle─Productos──────────────────────────────────────────┐
+  > │                                              ┌──────────────┐ │
+  > │ {Cantidad Items}              {Total general}│  <Suma Total>│ │
+  > │                                              └──────────────┘ │
+  > └───────────────────────────────────────────────────────────────┘
   > ```
 
 ## 4. Comportamiento responsivo esperado
@@ -589,8 +576,10 @@ Esta sección detalla el comportamiento responsivo de la interfaz, complementand
   - El campo "Suma total" mantiene como ancho, el mínimo entre el de la columna "Total" de la tabla y el ancho del texto del mismo campo.
   - Activar scroll horizontal si los elementos no caben en el ancho disponible.
 - Para panel "Previsualización":
-  - Si el panel está en Estado plegado, el botón de cierre debe habilitarse o deshabilitarse según el resultado de la validación 'Items Válidos en Detalle Productos'.
-  - En cambio si el panel está desplegado, el botón de cierre debe estar habilitado y el contenido debe ser visible pero con estado deshabilitado.
+  - Si el panel está plegado, el indicador de plegado debe habilitarse solo si la validación 'Items Válidos en Detalle Productos' es verdadera.
+  - Si el panel está desplegado, el contenido debe estar visible pero en estado deshabilitado.
+  - Al estar desplegado puede modificarse su alto arrastrando el borde inferior, aunque tiene un alto mínimo determinado.
+- Panel "Botones" tiene altura fija.
 
 ---
 
@@ -617,17 +606,17 @@ Para especificar detalles que no pueden ser descritos en los diagramas, la tabla
 |------------------|----------------------------------------------|--------------------------------------|
 | Total (por fila) | `Cantidad * Precio Unitario`                 | Cuando se modifica cantidad o precio |
 | Suma Total       | Suma de todos los campos "Total" de la tabla | Cuando se modifica una fila          |
-| Cantidad Ítems   | Concatenar valor de cantidad de ítems de la tabla con el texto " Ítems" o " Ítem" si hay 0 o 1 ítem en total. Restricción: Conteo de filas con producto válido y cantidad > 0 | Al agregar o quitar una fila válida      |
+| Cantidad Ítems   | Si tabla está vacía, mostrar "Sin ítems", habiendo 1 fila mostrar "1 ítem" y para el resto mostrar "X ítems" con X la cantidad. La cantidad es obtenida desde la "Validación Items Válidos en Detalle productos"  | Al agregar o quitar una fila válida, o acción del botón "Limpiar Datos" |
 
-### Notas de implementación
+## 6. Notas de implementación
 
-#### Construcción de controles personalizados
+### Construcción de controles personalizados
 
 - Se debe construir un control personalizado desde cero solo en el caso de que un control estándar no exista en el framework utilizado.
 - Sin embargo, se debe evitar la duplicación de esfuerzos y reutilizar componentes existentes siempre que sea posible. Por ejemplo, si el control de texto ya existe, pero le falta la funcionalidad de mostrar que tiene el foco, se debe extender ese control en lugar de crear uno nuevo.
 - Además, se debe documentar adecuadamente el control personalizado para facilitar su mantenimiento y posible reutilización en el futuro.
 
-#### Propiedades de interés para Control emergente para mensajes
+### Propiedades de interés para Control emergente para mensajes
 
 - Control vinculado: Vinculo al control desde donde se muestra el mensaje emergente.
 - Texto de categoría de mensaje: Valores válidos "error", "advertencia", "información". Si el framework contiene constante para estas categorías, utilizarlas para la implementación.
@@ -638,7 +627,7 @@ Para especificar detalles que no pueden ser descritos en los diagramas, la tabla
 - Alto y ancho mínimos del control: Valores de solo lectura en píxeles.
 - Los demás atributos específicos que requiera o hereda por ser elemento gráfico en cada framework.
 
-#### Implementación de formatos
+### Implementación de formatos
 
 Para la representación en string de los formatos, tanto del de Cantidad, como del Monetario, se debe utilizar las funcionalidades de la librería `locale`, estableciéndose la utilización de esos formatos como constantes en todo el programa.
 Como se muestra en el siguiente ejemplo de código, se debe utilizar la constante `FORMATO_CANTIDAD` en todo el programa:
@@ -701,6 +690,6 @@ Como se muestra en el siguiente ejemplo de código, se debe utilizar la constant
 | Clic en ícono inserción tabla | Inserta una nueva fila vacía debajo de la fila actual. Posiciona el cursor en la primera celda editable. |
 | Clic en ícono eliminación tabla | Elimina la fila seleccionada, mostrando confirmación si la fila contiene datos.           |
 
-## 6. Referencias
+## 7. Referencias
 
 - Herramienta web para crear bosquejos: <https://asciiflow.com/>
