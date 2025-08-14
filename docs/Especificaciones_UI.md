@@ -103,35 +103,38 @@ Se recomienda revisar cada especificación contra las capacidades nativas del fr
   - **TASK:** Falta definir color de fondo, color de borde y espaciado interno.
 
 - **Etiquetas:**
-  - Tamaño de fuente por defecto igual al texto normal, con alineación a la izquierda por defecto.
+  - Tamaño de fuente por defecto igual al texto normal.
+  - Texto alineado según se requiera, izquierda por defecto.
   - Sin borde ni color de fondo distintivo, no cambian de color al hacer hover o clic, salvo que se especifique lo contrario.
-  - La alineación puede ser a la izquierda, derecha o centrada.
   - Permiten ajuste de palabras (wordwrap) y multi-línea si es necesario.
   - No son interactivos ni seleccionables, salvo que se especifique lo contrario.
   - Para el lector de pantalla, considerar etiqueta ARIA que diga "{Nombre de la etiqueta}" para indicar que es una etiqueta informativa.
   - **TASK:** Falta definir familia de fuente, tamaño y color de texto y alineación de este.
 
 - **Botones:**
-  - Color de fondo cambia al hacer hover o clic.
-  - Texto centrado por defecto, puede alinearse según se requiera.
   - Solo se usan botones con texto descriptivo, o con íconos si son acciones simples.
+  - Texto alineado según se requiera, izquierda por defecto.
+  - Color de fondo cambia al hacer hover o clic.
+  - Borde definido, que cambia al estar seleccionado.
   - Al hacer hover, se muestra una etiqueta emergente con descripción alternativa de la acción del botón.
   - Para el lector de pantalla, considerar etiqueta ARIA que diga "Botón {Nombre del botón}" para indicar que es un botón interactivo.
-  - **TASK:** Falta definir borde, tamaño y color de texto, colores de fondo para estados normal/hover/clic, y estilo de etiqueta emergente descriptiva.
+  - **TASK:** Falta definir borde normal/seleccionado, familia de fuente, tamaño y color de texto, alineación de texto y/o ícono, colores de fondo para estados normal/hover/clic, y estilo de etiqueta emergente descriptiva.
 
 - **Campos de texto:**
   - Texto alineado según se requiera, izquierda por defecto.
   - Permiten ajuste de palabras (wordwrap) y texto multi-línea si es necesario.
   - Si es editable, el usuario puede modificar el texto; si no, solo puede seleccionarlo.
-  - Al hacer hover, clic o recibir foco por teclado: el borde cambia de color para indicar interactividad.
+  - Al hacer clic, hover o recibir foco por teclado: el borde cambia de color para indicar interactividad.
   - Al estar en edición, colores de fondo y texto cambian según estado editable o no.
   - Entrar en edición por clic o teclado (`Enter`/`F2`):
     - Si el campo está vacío, el cursor se posiciona al inicio.
     - Si tiene texto, el texto se muestra preseleccionado por completo, con el cursor en la posición del clic, o al final si se llegó por teclado.
-  - Validación al perder foco o presionar `Enter`. Si validación o *parse* de datos falla, muestra el control emergente de mensajes con estado y descripción de error específica.
+  - El campo puede utilizar funciones de *parse*/validación de datos:
+    - Éstas se ejecutan al perder foco o presionar `Enter`.
+    - Si validación o *parse* de datos falla, muestra el control emergente para mensajes, con estado de mensaje y texto de descripción específicos, que deben detallarse cuando se utilice.
   - Edición termina con `Escape` o `Tab`, restaurando el valor anterior si el nuevo es inválido.
   - Para lector de pantalla, considerar etiqueta ARIA que diga "{Nombre del campo}, campo de texto" para indicar que es un campo editable. Si no es editable, usar "{Nombre del campo}, etiqueta de texto" para indicar que es solo informativo.
-  - **TASK:** Definir color de fondo y color de texto para estados editable/no editable, color de borde para estados normal/hover/clic/foco/edición, y estilo de control emergente de validación.
+  - **TASK:** Definir color de fondo, familia de fuente y tamaño de texto, color de texto para estados editable/no editable, color de borde para estados normal/hover/clic/foco/edición.
 
 - **Control emergente para mensajes:**
   - Se muestra cerca del elemento vinculado, afectado por validación no exitosa.
@@ -141,7 +144,7 @@ Se recomienda revisar cada especificación contra las capacidades nativas del fr
     - En cambio, si el elemento está cerca del borde derecho del contenedor del elemento vinculado, el control se alinea con el borde derecho del elemento.
     - Si el elemento está en el límite inferior visible, el control se ancla en el borde superior del elemento vinculado.
     - Debe mantener un margen específico respecto al otro control.
-  - El Control tiene borde y color de fondo específicos.
+  - El control tiene borde y color de fondo específicos.
     - Al hacer hover, clic o recibir foco por teclado: el borde cambia de color desde normal a resaltado, para indicar interactividad.
     - El color de fondo es fijo según el tipo de Estado a representar (Error, Advertencia, Información) y se mantiene mientras el control esté visible.
   - El área interna del control contiene una grilla 1x2 de alineamiento horizontal, sin margen respecto al borde.
@@ -149,7 +152,7 @@ Se recomienda revisar cada especificación contra las capacidades nativas del fr
     - Ícono de Estado está anclado al borde superior izquierdo de la grilla, con un margen adecuado.
     - Botón de cierre está anclado al borde superior derecho de la celda con un margen de 0px respecto a ambos bordes.
     - La etiqueta con mensaje está centrada horizontal y verticalmente respecto a su celda, con un margen adecuado. La etiqueta y celda se expanden según el contenido de la primera.
-  - El ícono de estado es de tamaño mediano, y su imagen según categoría: Error (  ), Advertencia (  ), Información (  ).
+  - El ícono de estado es de tamaño mediano, y su imagen según categoría es: Error (  ), Advertencia (  ), Información (  ).
   - La etiqueta con Mensaje permite texto multilínea y con Word wrap habilitado.
   - Botón de cierre con ícono pequeño (  ) para ocultar el mensaje mediante clic o teclado.
   - Cuando el control recibe el foco por clic o teclado, se selecciona el botón de cierre. *Nota de implementación:* Los eventos de teclado en cualquier parte del control se redirigen automáticamente al botón de cierre para su procesamiento.
@@ -180,19 +183,33 @@ Se recomienda revisar cada especificación contra las capacidades nativas del fr
 
 - **Tablas:**
   - Permite desplazamiento horizontal y vertical si el contenido excede el área visible.
-  - Encabezado distinguible, con fondo y texto contrastantes, no permite cambiar nombre, orden ni alto.
-  - Encabezado tiene alto fijo y siempre visible al hacer scroll vertical (anclado arriba).
-  - Filas alternan colores para legibilidad.
+  - Tiene estilo y tamaño de fuente definidos, que aplican a todas las celdas y encabezado por defecto.
+  - Encabezado distinguible, no permite cambiar nombre, orden ni alto.
+    - Tiene alto fijo y siempre visible al hacer scroll vertical (anclado arriba).
+    - Tiene un color de fondo y alineación vertical definidos.
+    - Hereda estilo y tamaño de fuente de la tabla por defecto, pero permite redefinirlos para todo el encabezado.
+    - Alineación horizontal del texto en cada celda del encabezado es independiente y definida como atributo por cada columna.
   - Alto mínimo para mostrar encabezado y fila vacía al final; atributo para cantidad de filas visibles (por defecto 3, mínimo 1).
   - Al cargar datos, genera filas según datos y siempre incluye una fila vacía al final para agregar nuevos registros, sin usar campos de texto aparte.
-  - Filas cambian de color al estar seleccionadas o al hacer hover.
   - Filas sin bordes entre ellas, pero con margen especificado como atributo.
-  - Alto de fila determinado por celda más alta, no cambia al hacer scroll. Incluso sin datos, la fila debe tener alto mínimo suficiente para mostrar una línea de texto.
+    - Filas alternan colores de fondo definidos, para legibilidad.
+    - Cambian de color al estar seleccionadas o al hacer hover.
+    - Heredan estilo y tamaño de fuente de la tabla por defecto, pero permiten redefinirlos para cada fila.
+    - Alto de fila determinado por celda más alta, no cambia al hacer scroll.
+    - Incluso sin datos, la fila debe tener alto mínimo suficiente para mostrar una línea de texto.
+    - Las filas deben reservar espacio extra en el costado izquierdo y derecho de la tabla para poder mostrar un botón en ambos lugares, con un margen. Este espacio se rellena del mismo color de fondo de la fila.
+      - En el costado izquierdo se mostrará el botón de eliminación de fila, mientras que en el derecho se mostrará el botón de inserción de fila. Ver sus definiciones más adelante en [Botón de eliminación de fila](#boton-de-eliminacion-de-fila) y [Botón de inserción de fila](#boton-de-insercion-de-fila).
+      - Ambos botones de la tabla tienen el mismo comportamiento que los botones normales, respecto a interacción y validaciones.
   - Columnas tienen borde entre ellas, con margen entre celdas, especificado como atributo.
-  - Columnas permiten redimensionamiento manual de ancho, salvo indicación contraria, y se autoajustan al hacer clic en el borde entre ellas.
-  - Ancho mínimo calculado automáticamente según contenido, no cambia al hacer scroll horizontal.
-  - Celdas no permiten modificar alto manualmente, pero sí indirectamente por contenido.
-  - Celdas tienen mismo comportamiento que campos de texto respecto a interacción, validaciones, *parse* y mensajes de error.
+    - Heredan estilo y tamaño de fuente de la tabla por defecto, pero permiten redefinirlos para cada columna.
+    - Permiten redimensionamiento manual de ancho, salvo indicación contraria, y se autoajustan al hacer clic en el borde entre ellas.
+    - Ancho mínimo calculado automáticamente según contenido, no cambia al hacer scroll horizontal.
+    - Cada columna tiene alineación de texto especificada como atributo, tanto horizontal (izquierda, centro, derecha), como vertical (arriba, centro, abajo).
+      - La alineación horizontal de texto se aplica a todas las celdas de la columna, incluyendo encabezado.
+      - La alineación vertical de texto es independiente entre la celda de encabezado y las celdas de datos.
+  - Una celda en modo normal se muestra con los atributos de la columna y la fila a la cual pertenece.
+    - Celda al estar en modo de edición tiene mismo comportamiento que campos de texto respecto a aspecto, interacción, validaciones, *parse* y mensajes de error.
+    - Celdas no permiten modificar alto manualmente, pero sí indirectamente por contenido.
   - Navegación por teclado desde otro control elemento gráfico externo: se debe seleccionar la primera celda izquierda de la primera fila.
   - Navegación entre celdas: Usar flechas (↑↓←→) para moverse entre celdas individuales.
   - Edición de celda: Presionar `Enter` o `F2` en la celda seleccionada para editarla.
@@ -205,7 +222,10 @@ Se recomienda revisar cada especificación contra las capacidades nativas del fr
       - Sí se presiona la flecha arriba (↑) o abajo (↓), se selecciona respectivamente la fila superior o inferior a la actual, excepto en caso de los extremos:
         - Si es la primera fila y se presiona la flecha arriba (↑), se pasa a la navegación en encabezado.
         - Si es la última fila y se presiona la flecha abajo (↓), se sale de la tabla yendo al control siguiente.
-      - **TODO**: Agregar navegación a botones de inserción de fila y de eliminación de fila, utilizando flechas izquierda y derecha.
+      - Navegación horizontal a botones: Usar flecha izquierda (←) para acceder al botón de eliminación de la fila actual, flecha derecha (→) para acceder al botón de inserción entre fila actual y la anterior.
+        - Navegación vertical entre botones del mismo tipo: Flecha arriba (↑) y abajo (↓) navega entre botones de eliminación de filas adyacentes, o entre botones de inserción de filas adyacentes.
+        - Casos limites: Si se está en la primera fila, la flecha arriba (↑) desde cualquier botón, navega al encabezado de la tabla. Sí se está en la última fila, la flecha abajo (↓) desde cualquier botón, sale de la tabla yendo al control siguiente.
+        - Salida de navegación entre botones: Flecha derecha (→) para salir del botón de eliminación y entrar en la navegación entre filas. Flecha izquierda (←) para salir del botón de inserción y entrar en la navegación entre filas.
 
   - Estando seleccionada una fila, si se presiona flecha izquierda (←), flecha derecha (→), `Home` o `End` se entra al modo de navegación entre celdas, variando cual es la celda seleccionada:
     - Si se presiona la flecha izquierda (←) o tecla `Home`, el foco pasa a la primera celda a la izquierda de la fila.
@@ -221,17 +241,17 @@ Se recomienda revisar cada especificación contra las capacidades nativas del fr
   - Para el lector de pantalla, asegurar encabezados asociados semánticamente con celdas de datos (por ejemplo, al navegar a celda en columna producto, fila 3, se anuncia "Producto {contenido celda}, fila 3 de {número total de filas con datos A ver}").
   - **TASK:** Falta definir color de fondo de celdas, color de texto, color de bordes, estilo de encabezado, colores alternados para filas, colores para estados seleccionada/hover de filas, margen para espacio extra de botones de inserción/eliminación.
 
-- **Botón de inserción de fila:**
+- **Botón de inserción de fila:** <a id="boton-de-insercion-de-fila"></a>
   - Se muestra como un ícono (por ejemplo, `+`) únicamente al hacer hover con el mouse sobre el espacio entre filas, no sobre una fila.
   - El ícono debe ser claramente visible y cambiar de color al hacer hover.
-  - Al hacer clic en el ícono o usar Ctrl+Insert, se inserta una nueva fila vacía en la posición correspondiente.
+  - Al hacer clic en el ícono, se inserta una nueva fila vacía en la posición correspondiente.
   - Al tener una fila seleccionada y presionar `Ctrl+Insert`, se inserta una nueva fila vacía justo debajo de la fila seleccionada.
   - El botón debe mostrar un estado visual de activación al hacer clic.
   - La nueva fila debe crearse con celdas vacías y lista para edición inmediata, posicionando el cursor en la primera celda editable de la nueva fila.
   - No debe mostrar el ícono de inserción ni activarse por teclado entre la penúltima fila de datos y la fila vacía al final de la tabla.
   - **TASK:** Definir color, tamaño y estilo del ícono de inserción, colores para estados normal/hover/activación.
 
-- **Botón de eliminación de fila:**
+- **Botón de eliminación de fila:** <a id="boton-de-eliminacion-de-fila"></a>
   - Se muestra como un ícono (por ejemplo, de basurero `🗑` o `-`) al hacer hover con el mouse sobre el borde de la fila, o teniendo la fila seleccionada.
     - Con fila seleccionada presionar `Supr` es equivalente al hacer clic sobre el icono: requiere confirmación de eliminación solo si la fila contiene datos.
     - Confirmación de eliminación muestra cuadro de diálogo del sistema (estilo advertencia), con botones "Cancelar" y "Eliminar" con foco en botón de cancelar. Debe ser accesible por teclado.
