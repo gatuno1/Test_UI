@@ -69,7 +69,11 @@ Test_UI_v3/
 ├── global_templates/
 │   └── cotizacion.html                 # HTML template for PDF generation
 ├── src/                                # Empty - ready for source code
-└── tests/                              # Empty - ready for test files
+├── tests/                              # Empty - ready for test files
+└── tools/
+    ├── contrast_checker.py             # WCAG contrast checker tool
+    ├── contrast_checker_colorspacious.py  # Advanced contrast checker with colorspacious library
+    └── README-contrast_checker.md      # Documentation for contrast checker tools
 ```
 
 ## UI Specifications
