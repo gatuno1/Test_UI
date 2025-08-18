@@ -129,7 +129,7 @@ Estos elementos pueden utilizarse como base para la implementación, aunque algu
 
 ### 1. Definiciones de Tema Visual (Ya Definidas)
 
-#### **Paleta de colores principal y secundaria** ✅
+#### **Paleta de colores principal y secundaria**
 
 - **Oceanix**: Usa tonos azul oscuro y verde con pares de colores para modo claro/oscuro
   - Color primario: `["#244461", "#0b2539"]` (botones)
@@ -142,7 +142,7 @@ Estos elementos pueden utilizarse como base para la implementación, aunque algu
   - Color de fondo principal: `["gray92", "gray14"]` (ventana principal)
   - Colores de borde: `["gray65", "gray28"]` (marcos)
 
-#### **Tipografía principal** ✅
+#### **Tipografía principal**
 
 - **Ambos temas** definen familias por OS:
   - Windows: "Roboto", tamaño 13px, peso normal
@@ -153,12 +153,12 @@ Estos elementos pueden utilizarse como base para la implementación, aunque algu
   - Blue: `["gray10", "#DCE4EE"]` (normal), `["gray60", "gray45"]` (deshabilitado)
   - Placeholder: Oceanix `["#718ead", "#5c9ec9"]`, Blue `["gray52", "gray62"]`
 
-#### **Radio de esquinas estándar** ✅
+#### **Radio de esquinas estándar**
 
 - **Oceanix**: Marcos 10px, botones/campos 6px, elementos circulares 1000px
 - **Blue**: Marcos 6px, botones/campos 6px, elementos circulares 1000px
 
-#### **Grosor de bordes estándar** ✅
+#### **Grosor de bordes estándar**
 
 - **Oceanix**: Botones 2px, campos de texto 1px, marcos 0px
 - **Blue**: Campos de texto 2px, botones 0px, marcos 0px
@@ -170,20 +170,20 @@ Estos elementos pueden utilizarse como base para la implementación, aunque algu
 
 ### 2. Elementos Básicos de Interfaz (Ya Definidos)
 
-#### **Ventana** ✅
+#### **Ventana**
 
 - **Color de fondo definido** en ambos temas:
   - Oceanix: `["#3b5068", "#3e5365"]`
   - Blue: `["gray92", "gray14"]`
 
-#### **Etiquetas** ✅
+#### **Etiquetas**
 
 - **Colores de texto definidos**:
   - Oceanix: `["white", "#ffffff"]` (normal y deshabilitado)
   - Blue: `["gray10", "#DCE4EE"]` (normal y deshabilitado)
 - **Alineación**: No especificada en JSON (por defecto izquierda)
 
-#### **Campos de texto** ✅
+#### **Campos de texto**
 
 - **Colores de fondo y texto definidos**:
   - Oceanix: fondo `["#375774", "#173145"]`, texto `["white", "#ffffff"]`
@@ -193,7 +193,7 @@ Estos elementos pueden utilizarse como base para la implementación, aunque algu
   - Blue: `["#979DA2", "#565B5E"]` (normal)
 - **Placeholder definido** en ambos temas
 
-#### **Botones** ✅
+#### **Botones**
 
 - **Colores de fondo por estado definidos**:
   - Oceanix: normal `["#244461", "#0b2539"]`, hover `["#375774", "#142e42"]`
@@ -203,14 +203,14 @@ Estos elementos pueden utilizarse como base para la implementación, aunque algu
   - Blue: `["#DCE4EE", "#DCE4EE"]`
 - **Bordes y esquinas definidos**
 
-#### **Barra de desplazamiento** ✅
+#### **Barra de desplazamiento**
 
 - **Colores por estado definidos**:
   - Oceanix: botón `["#173145", "#456582"]`, hover `["#2e4c68", "#22333F"]`
   - Blue: botón `["gray55", "gray41"]`, hover `["gray40", "gray53"]`
 - **Estilo**: radio 1000px (circular), border_spacing 4px
 
-#### **Paneles** ✅
+#### **Paneles**
 
 - **Colores de fondo definidos**:
   - Oceanix: `["#51667e", "#213844"]` (marcos)
@@ -220,7 +220,7 @@ Estos elementos pueden utilizarse como base para la implementación, aunque algu
 
 ### 3. Elementos Complejos de Datos (Ya Definidos)
 
-#### **Componentes de tabla disponibles** ✅
+#### **Componentes de tabla disponibles**
 
 - **CTkScrollableFrame** definido en ambos temas:
   - Oceanix: `label_fg_color: ["#5e7690", "#415668"]`
@@ -230,7 +230,7 @@ Estos elementos pueden utilizarse como base para la implementación, aunque algu
 
 ### 4. Elementos Adicionales Disponibles
 
-#### **Controles de formulario definidos** ✅
+#### **Controles de formulario definidos**
 
 - **CTkCheckBox**: colores, bordes, estados hover
 - **CTkRadioButton**: estilos circulares, estados seleccionado/no seleccionado
