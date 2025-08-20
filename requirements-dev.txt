@@ -4,6 +4,10 @@
 # Instalar requerimientos de ejecución antes
 -r requirements.txt
 
+# Requerimientos para herramientas
+colorspacious
+
+# Requerimientos de desarrollo
 coverage
 debugpy
 pylint

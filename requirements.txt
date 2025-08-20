@@ -5,6 +5,8 @@
 # Dependencias comunes
 jinja2
 pydyf==0.10.0
+rich
+rich_argparse
 WeasyPrint==61.2
 
 # Frameworks específicos

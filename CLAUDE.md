@@ -72,7 +72,6 @@ Test_UI_v3/
 ├── tests/                              # Empty - ready for test files
 └── tools/
     ├── contrast_checker.py             # WCAG contrast checker tool
-    ├── contrast_checker_colorspacious.py  # Advanced contrast checker with colorspacious library
     └── README-contrast_checker.md      # Documentation for contrast checker tools
 ```
 
