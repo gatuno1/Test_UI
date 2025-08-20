@@ -6,9 +6,82 @@ Evalúa cumplimiento WCAG 2.1 AA y genera URLs de verificación
 """
 
 import json
-from typing import Dict, List, Tuple
+import os
 from dataclasses import dataclass
+from enum import StrEnum
+from typing import Dict, List, Tuple
+
 import colorspacious
+
+# Constantes de colores con nombres
+NAMED_COLORS: Dict[str, str] = {
+    "white": "#ffffff",
+    "gray10": "#1a1a1a",
+    "gray14": "#242424",
+    "gray17": "#2b2b2b",
+    "gray20": "#333333",
+    "gray36": "#5c5c5c",
+    "gray40": "#666666",
+    "gray41": "#696969",
+    "gray45": "#737373",
+    "gray50": "#808080",
+    "gray52": "#858585",
+    "gray53": "#878787",
+    "gray55": "#8c8c8c",
+    "gray60": "#999999",
+    "gray62": "#9e9e9e",
+    "gray65": "#a6a6a6",
+    "gray70": "#b3b3b3",
+    "gray74": "#bdbdbd",
+    "gray75": "#bfbfbf",
+    "gray78": "#c7c7c7",
+    "gray81": "#cfcfcf",
+    "gray86": "#dbdbdb",
+    "gray90": "#e6e6e6",
+    "gray92": "#ebebeb",
+    "gray100": "#ffffff",
+    "transparent": "#ffffff",  # Asume fondo blanco para transparente
+}
+
+# Constantes WCAG
+WCAG_CONTRAST_OFFSET: float = 0.05
+WCAG_AA_NORMAL_RATIO: float = 4.5
+WCAG_AA_LARGE_RATIO: float = 3.0
+WCAG_AAA_NORMAL_RATIO: float = 7.0
+WCAG_AAA_LARGE_RATIO: float = 4.5
+
+# Constantes de normalización
+RGB_NORMALIZER: float = 255.0
+XYZ_NORMALIZER: float = 100.0
+
+# Constante Delta E
+DELTA_E_THRESHOLD: float = 3.0
+
+# Componentes con texto que necesitan verificación
+TEXT_COMPONENTS: Dict[str, List[str]] = {
+    "CTkLabel": ["text_color", "fg_color"],
+    "CTkButton": ["text_color", "fg_color"],
+    "CTkEntry": ["text_color", "fg_color"],
+    "CTkCheckBox": ["text_color", "fg_color"],
+    "CTkRadioButton": ["text_color", "fg_color"],
+    "CTkOptionMenu": ["text_color", "fg_color"],
+    "CTkComboBox": ["text_color", "fg_color"],
+    "CTkTextbox": ["text_color", "fg_color"],
+    "DropdownMenu": ["text_color", "fg_color"],
+}
+
+# Colores de fallback
+FALLBACK_COLORS: List[str] = ["#ffffff", "#000000"]
+
+# Archivo de configuración de temas
+THEMES_CONFIG_FILE = "themes_config.json"
+
+
+class ThemeMode(StrEnum):
+    """Enumeración para los modos de tema"""
+
+    LIGHT = "light"
+    DARK = "dark"
 
 
 @dataclass
@@ -30,36 +103,7 @@ class ContrastResult:
 
 def hex_to_rgb(hex_color: str) -> Tuple[int, int, int]:
     """Convierte color hex a RGB"""
-    named_colors: Dict[str, str] = {
-        "white": "#ffffff",
-        "gray10": "#1a1a1a",
-        "gray14": "#242424",
-        "gray17": "#2b2b2b",
-        "gray20": "#333333",
-        "gray36": "#5c5c5c",
-        "gray40": "#666666",
-        "gray41": "#696969",
-        "gray45": "#737373",
-        "gray50": "#808080",
-        "gray52": "#858585",
-        "gray53": "#878787",
-        "gray55": "#8c8c8c",
-        "gray60": "#999999",
-        "gray62": "#9e9e9e",
-        "gray65": "#a6a6a6",
-        "gray70": "#b3b3b3",
-        "gray74": "#bdbdbd",
-        "gray75": "#bfbfbf",
-        "gray78": "#c7c7c7",
-        "gray81": "#cfcfcf",
-        "gray86": "#dbdbdb",
-        "gray90": "#e6e6e6",
-        "gray92": "#ebebeb",
-        "gray100": "#ffffff",
-        "transparent": "#ffffff",  # Asume fondo blanco para transparente
-    }
-
-    hex_color = named_colors.get(hex_color, hex_color)
+    hex_color = NAMED_COLORS.get(hex_color, hex_color)
 
     # Limpia el color hex
     hex_color = hex_color.lstrip("#")
@@ -73,7 +117,7 @@ def hex_to_rgb(hex_color: str) -> Tuple[int, int, int]:
 def rgb_to_xyz(rgb: Tuple[int, int, int]) -> Tuple[float, float, float]:
     """Convierte RGB a XYZ usando colorspacious"""
     # Normaliza RGB a 0-1
-    rgb_normalized = tuple(c / 255.0 for c in rgb)
+    rgb_normalized = tuple(c / RGB_NORMALIZER for c in rgb)
 
     # Convierte a XYZ usando colorspacious
     xyz = colorspacious.cspace_convert(rgb_normalized, "sRGB1", "XYZ100")
@@ -91,14 +135,14 @@ def calculate_contrast_ratio_colorspacious(fg_color: str, bg_color: str) -> floa
         bg_xyz = rgb_to_xyz(bg_rgb)
 
         # Calcula luminancia Y (segundo componente de XYZ)
-        fg_luminance = fg_xyz[1] / 100.0  # Normaliza de 0-100 a 0-1
-        bg_luminance = bg_xyz[1] / 100.0
+        fg_luminance: float = fg_xyz[1] / XYZ_NORMALIZER  # Normaliza de 0-100 a 0-1
+        bg_luminance: float = bg_xyz[1] / XYZ_NORMALIZER
 
         # Calcula ratio de contraste según WCAG 2.1
-        lighter = max(fg_luminance, bg_luminance)
-        darker = min(fg_luminance, bg_luminance)
+        lighter: float = max(fg_luminance, bg_luminance)
+        darker: float = min(fg_luminance, bg_luminance)
 
-        return (lighter + 0.05) / (darker + 0.05)
+        return (lighter + WCAG_CONTRAST_OFFSET) / (darker + WCAG_CONTRAST_OFFSET)
     except (ValueError, KeyError, IndexError):
         return 0.0
 
@@ -110,8 +154,8 @@ def calculate_color_difference(fg_color: str, bg_color: str) -> float:
         bg_rgb = hex_to_rgb(bg_color)
 
         # Normaliza RGB a 0-1
-        fg_normalized = tuple(c / 255.0 for c in fg_rgb)
-        bg_normalized = tuple(c / 255.0 for c in bg_rgb)
+        fg_normalized = tuple(c / RGB_NORMALIZER for c in fg_rgb)
+        bg_normalized = tuple(c / RGB_NORMALIZER for c in bg_rgb)
 
         # Convierte a LAB
         fg_lab = colorspacious.cspace_convert(fg_normalized, "sRGB1", "CIELab")
@@ -126,41 +170,14 @@ def calculate_color_difference(fg_color: str, bg_color: str) -> float:
 
 def generate_webaim_url(fg_color: str, bg_color: str) -> str:
     """Genera URL para WebAIM Contrast Checker"""
-    fg_clean = fg_color.lstrip("#")
-    bg_clean = bg_color.lstrip("#")
+    fg_clean: str = fg_color.lstrip("#")
+    bg_clean: str = bg_color.lstrip("#")
 
-    # Para colores con nombre, usa conversión
-    named_colors: Dict[str, str] = {
-        "white": "ffffff",
-        "gray10": "1a1a1a",
-        "gray14": "242424",
-        "gray17": "2b2b2b",
-        "gray20": "333333",
-        "gray36": "5c5c5c",
-        "gray40": "666666",
-        "gray41": "696969",
-        "gray45": "737373",
-        "gray50": "808080",
-        "gray52": "858585",
-        "gray53": "878787",
-        "gray55": "8c8c8c",
-        "gray60": "999999",
-        "gray62": "9e9e9e",
-        "gray65": "a6a6a6",
-        "gray70": "b3b3b3",
-        "gray74": "bdbdbd",
-        "gray75": "bfbfbf",
-        "gray78": "c7c7c7",
-        "gray81": "cfcfcf",
-        "gray86": "dbdbdb",
-        "gray90": "e6e6e6",
-        "gray92": "ebebeb",
-        "gray100": "ffffff",
-        "transparent": "ffffff",
-    }
+    # Convierte colores con nombre a hex sin #
+    named_colors_hex = {k: v.lstrip("#") for k, v in NAMED_COLORS.items()}
 
-    fg_clean = named_colors.get(fg_color, fg_clean)
-    bg_clean = named_colors.get(bg_color, bg_clean)
+    fg_clean = named_colors_hex.get(fg_color, fg_clean)
+    bg_clean = named_colors_hex.get(bg_color, bg_clean)
 
     return f"https://webaim.org/resources/contrastchecker/?fcolor={fg_clean}&bcolor={bg_clean}"
 
@@ -169,20 +186,7 @@ def extract_color_pairs(theme_data: Dict) -> List[ContrastResult]:
     """Extrae pares de colores relevantes del tema"""
     results = []
 
-    # Componentes con texto que necesitan verificación
-    text_components: Dict[str, List[str]] = {
-        "CTkLabel": ["text_color", "fg_color"],
-        "CTkButton": ["text_color", "fg_color"],
-        "CTkEntry": ["text_color", "fg_color"],
-        "CTkCheckBox": ["text_color", "fg_color"],
-        "CTkRadioButton": ["text_color", "fg_color"],
-        "CTkOptionMenu": ["text_color", "fg_color"],
-        "CTkComboBox": ["text_color", "fg_color"],
-        "CTkTextbox": ["text_color", "fg_color"],
-        "DropdownMenu": ["text_color", "fg_color"],
-    }
-
-    for component, color_keys in text_components.items():
+    for component, color_keys in TEXT_COMPONENTS.items():
         if component in theme_data:
             _process_component(theme_data, component, color_keys, results)
 
@@ -206,17 +210,18 @@ def _process_component(
     if bg_colors == "transparent":
         # Usa el color de fondo del contenedor padre (CTk o CTkFrame)
         if "CTkFrame" in theme_data:
-            bg_colors = theme_data["CTkFrame"].get("fg_color", ["#ffffff", "#000000"])
+            bg_colors = theme_data["CTkFrame"].get("fg_color", FALLBACK_COLORS)
         else:
-            bg_colors = ["#ffffff", "#000000"]  # Fallback
+            bg_colors: List[str] = FALLBACK_COLORS  # Fallback
 
     # Procesa ambos modos (claro/oscuro)
-    modes = ["light", "dark"]
-    for i, mode in enumerate(modes):
-        text_color = _get_color_for_mode(text_colors, i)
-        bg_color = _get_color_for_mode(bg_colors, i)
+    for i, mode in enumerate(ThemeMode):
+        text_color: str = _get_color_for_mode(text_colors, i)
+        bg_color: str = _get_color_for_mode(bg_colors, i)
         if text_color and bg_color:
-            result = _create_contrast_result(component, mode, text_color, bg_color)
+            result: ContrastResult = _create_contrast_result(
+                component, mode, text_color, bg_color
+            )
             results.append(result)
 
 
@@ -233,9 +238,9 @@ def _create_contrast_result(
     component: str, mode: str, text_color: str, bg_color: str
 ) -> ContrastResult:
     """Crea un resultado de contraste para los colores dados"""
-    ratio = calculate_contrast_ratio_colorspacious(text_color, bg_color)
-    delta_e = calculate_color_difference(text_color, bg_color)
-    webaim_url = generate_webaim_url(text_color, bg_color)
+    ratio: float = calculate_contrast_ratio_colorspacious(text_color, bg_color)
+    delta_e: float = calculate_color_difference(text_color, bg_color)
+    webaim_url: str = generate_webaim_url(text_color, bg_color)
 
     return ContrastResult(
         foreground=text_color,
@@ -243,10 +248,10 @@ def _create_contrast_result(
         component=component,
         mode=mode,
         ratio=ratio,
-        wcag_aa_normal=ratio >= 4.5,
-        wcag_aa_large=ratio >= 3.0,
-        wcag_aaa_normal=ratio >= 7.0,
-        wcag_aaa_large=ratio >= 4.5,
+        wcag_aa_normal=ratio >= WCAG_AA_NORMAL_RATIO,
+        wcag_aa_large=ratio >= WCAG_AA_LARGE_RATIO,
+        wcag_aaa_normal=ratio >= WCAG_AAA_NORMAL_RATIO,
+        wcag_aaa_large=ratio >= WCAG_AAA_LARGE_RATIO,
         webaim_url=webaim_url,
         lab_delta_e=delta_e,
     )
@@ -265,28 +270,28 @@ def print_results(results: List[ContrastResult], theme_name: str):
     print("Usando colorspacious para cálculos precisos")
     print(f"{'=' * 80}")
 
-    failed_aa_normal = []
-    failed_aa_large = []
-    failed_aaa_normal = []
-    failed_aaa_large = []
+    failed_aa_normal: list[ContrastResult] = []
+    failed_aa_large: list[ContrastResult] = []
+    failed_aaa_normal: list[ContrastResult] = []
+    failed_aaa_large: list[ContrastResult] = []
 
     for result in results:
         # Estados WCAG AA
-        status_aa_normal = "PASA" if result.wcag_aa_normal else "FALLA"
-        status_aa_large = "PASA" if result.wcag_aa_large else "FALLA"
+        status_aa_normal: str = "PASA" if result.wcag_aa_normal else "FALLA"
+        status_aa_large: str = "PASA" if result.wcag_aa_large else "FALLA"
 
         # Estados WCAG AAA
-        status_aaa_normal = "PASA" if result.wcag_aaa_normal else "FALLA"
-        status_aaa_large = "PASA" if result.wcag_aaa_large else "FALLA"
+        status_aaa_normal: str = "PASA" if result.wcag_aaa_normal else "FALLA"
+        status_aaa_large: str = "PASA" if result.wcag_aaa_large else "FALLA"
 
         print(f"\n{result.component} ({result.mode})")
         print(f"  Texto: {result.foreground} | Fondo: {result.background}")
         print(f"  Ratio: {result.ratio:.2f}:1")
         print(f"  Delta E (LAB): {result.lab_delta_e:.1f}")
-        print(f"  WCAG AA Normal (4.5:1): {status_aa_normal}")
-        print(f"  WCAG AA Large (3:1): {status_aa_large}")
-        print(f"  WCAG AAA Normal (7:1): {status_aaa_normal}")
-        print(f"  WCAG AAA Large (4.5:1): {status_aaa_large}")
+        print(f"  WCAG AA Normal ({WCAG_AA_NORMAL_RATIO}:1): {status_aa_normal}")
+        print(f"  WCAG AA Large ({WCAG_AA_LARGE_RATIO}:1): {status_aa_large}")
+        print(f"  WCAG AAA Normal ({WCAG_AAA_NORMAL_RATIO}:1): {status_aaa_normal}")
+        print(f"  WCAG AAA Large ({WCAG_AAA_LARGE_RATIO}:1): {status_aaa_large}")
         print(f"  WebAIM URL: {result.webaim_url}")
 
         # Recolecta fallas
@@ -310,36 +315,63 @@ def print_results(results: List[ContrastResult], theme_name: str):
     print(f"Fallan WCAG AAA Large: {len(failed_aaa_large)}")
 
     # Análisis de diferencias perceptuales
-    avg_delta_e = sum(r.lab_delta_e for r in results) / len(results)
+    avg_delta_e: float = sum(r.lab_delta_e for r in results) / len(results)
     print(f"Delta E promedio: {avg_delta_e:.1f}")
-    print("(Delta E > 3.0 indica diferencia perceptualmente notable)")
+    print(f"(Delta E > {DELTA_E_THRESHOLD} indica diferencia perceptualmente notable)")
 
-    if failed_aa_normal:
-        print("\nComponentes que fallan WCAG AA Normal:")
-        for result in failed_aa_normal:
+    _print_failed_components("WCAG AA Normal", failed_aa_normal)
+    _print_failed_components("WCAG AA Large", failed_aa_large)
+    _print_failed_components("WCAG AAA Normal", failed_aaa_normal)
+    _print_failed_components("WCAG AAA Large", failed_aaa_large)
+
+
+def _print_failed_components(
+    test_name: str, failed_results: List[ContrastResult]
+) -> None:
+    """Imprime componentes que fallan una prueba específica"""
+    if failed_results:
+        print(f"\nComponentes que fallan {test_name}:")
+        for result in failed_results:
             print(f"  - {result.component} ({result.mode}): {result.ratio:.2f}:1")
 
-    if failed_aa_large:
-        print("\nComponentes que fallan WCAG AA Large:")
-        for result in failed_aa_large:
-            print(f"  - {result.component} ({result.mode}): {result.ratio:.2f}:1")
+
+def load_themes_config() -> Dict[str, str]:
+    """Carga la configuración de temas desde el archivo JSON"""
+    config_path: str = os.path.join(os.path.dirname(__file__), THEMES_CONFIG_FILE)
+
+    try:
+        with open(config_path, "r", encoding="utf-8") as f:
+            config = json.load(f)
+        return config.get("themes", {})
+
+    except FileNotFoundError:
+        print(f"Error: No se encontró el archivo de configuración {config_path}")
+        return {}
+    except json.JSONDecodeError as e:
+        print(
+            f"Error: El archivo de configuración {config_path} no es un JSON válido: {e}"
+        )
+        return {}
+    except (OSError, KeyError) as e:
+        print(f"Error cargando configuración de temas: {e}")
+        return {}
 
 
 def main():
     """Función principal"""
-    # Rutas de los temas
-    theme_paths: Dict[str, str] = {
-        "Blue": "docs/Temas_ejemplo/Blue.json",
-        "Oceanix": "docs/Temas_ejemplo/Oceanix.json",
-    }
+    theme_paths: dict = load_themes_config()
+
+    if not theme_paths:
+        print("No se pudieron cargar los temas. Verificar configuración.")
+        return
 
     for theme_name, theme_path in theme_paths.items():
         try:
             # Carga tema
-            theme_data = load_theme(theme_path)
+            theme_data: dict = load_theme(theme_path)
 
             # Analiza contraste
-            results = extract_color_pairs(theme_data)
+            results: List[ContrastResult] = extract_color_pairs(theme_data)
 
             # Imprime resultados
             print_results(results, theme_name)

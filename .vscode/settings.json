@@ -24,6 +24,7 @@
       "configurables",
       "cotizador",
       "Cotizador",
+      "cspace",
       "customtkinter",
       "debugpy",
       "deshabilitación",
@@ -76,8 +77,10 @@
       "toplevel",
       "treeview",
       "venv",
+      "wcag",
       "WCAG",
       "weasyprint",
+      "webaim",
       "winfo",
       "xdist"
    ]
