@@ -34,18 +34,26 @@ Agrega las siguientes consideraciones:
 
 ## Informe Generado por Claude
 
-[**Análisis Comparativo de Asistentes CLI de Codificación para Casos de Uso Empresariales v.3:**](Análisis_Comparativo_de_Asistentes_CLI_de_Codificación_para_Casos_de_Uso_Empresariales_v.3.md)
+**Documento:** [Análisis Comparativo de Asistentes CLI de Codificación para Casos de Uso Empresariales v.3](Análisis_Comparativo_de_Asistentes_CLI_de_Codificación_para_Casos_de_Uso_Empresariales_v.3.md)
 
 ## Informe generado por ChatGPT
 
-[**Comparativa de asistentes de codificación CLI:**](Comparativa_de_asistentes_de_codificación_CLI.md)
+**Documento:** [Comparativa de asistentes de codificación CLI](Comparativa_de_asistentes_de_codificación_CLI.md)
 
-Nota: para convertir de word a markdown, use el siguiente comando en la terminal:
+- 1 Nota: para convertir de *word* (`.docx`) a *markdown* (`.md`), usar el siguiente comando en la terminal:
 
-```powershell
-pandoc -s -f docx -t gfm+subscript+superscript "Comparativa_de_asistentes_de_codificación_CLI.docx" -o "Comparativa_de_asistentes_de_codificación_CLI.md" --wrap=none --markdown-headings=atx --strip-comments=true
-```
+  ```powershell
+  pandoc -s -f docx -t gfm+subscript+superscript "Comparativa_de_asistentes_de_codificación_CLI.docx" -o "Comparativa_de_asistentes_de_codificación_CLI.md" --wrap=none --markdown-headings=atx --strip-comments=true
+  ```
+
+- 2 Transformaciones adicionales
+  - 2.1 *Arregla saltos de linea adicional en tablas:*
+    Reemplazar ```'[\<br\>]'``` por ```'<br>'``` (case insensitive).
+  - 2.2 *Agrega etiquetas de superíndice a referencias:*
+    Reemplazar ```'[\['``` por ```'[<sup>{'```.
+  - 2.3 *Cierra etiquetas de superíndice en referencias:*
+    Reemplazar ```'\]]'``` por ```'}</sup>]'```.
 
 ## Informe generado por Gemini
 
-[**Análisis Comparativo de Asistentes de Codificación CLI:**](Comparativa_CLIs_para_desarrollo_Windows-amplio.md)
+**Documento:** [Análisis Comparativo de Asistentes de Codificación CLI](Comparativa_CLIs_para_desarrollo_Windows-amplio.md)
