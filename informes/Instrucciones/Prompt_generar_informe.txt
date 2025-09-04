@@ -1,1 +1,1 @@
-Necesito de tu ayuda para construir el informe de commits de este repositorio. Para ello utiliza el plan que está en el archivo @informes\Instrucciones\Plan_generar_informe.md y la plantilla @informes\Instrucciones\Template_Informe_{repositorio}.md
+Ejecuta el plan para construir el informe de commits de este repositorio. Utiliza el archivo @informes\Instrucciones\Plan_Claude.md
