@@ -1,4 +1,24 @@
-# Resumen de Cambios - Agosto 2025 - Test_UI_v3
+# Informe de Desarrollo - Especificaciones-UI
+
+## Periodo: Agosto 2025
+
+Este informe detalla todos los cambios realizados en el repositorio `Especificaciones-UI` durante el mes de agosto de 2025, agrupados por temas.
+
+## Resumen
+
+Durante agosto de 2025 se realizaron 26 commits en el repositorio Especificaciones-UI, consolidando una fase intensiva de documentación y especificaciones técnicas. El proyecto, que se encuentra en su fase inicial de planificación, tuvo como objetivo principal establecer las especificaciones completas para implementar aplicaciones de cotización de productos idénticas en 7 frameworks GUI de Python: CustomTkinter, Flet, Kivy, PySide6, QtQuick, Tkinter+TTK y wxPython.
+
+Las actividades se concentraron principalmente en el refinamiento continuo de especificaciones de interfaz de usuario, con 12 commits dedicados exclusivamente a mejorar y expandir el documento `Especificaciones_UI.md`. Se establecieron pautas detalladas de accesibilidad WCAG 2.1 AA, especificaciones de navegación por teclado, validaciones de entrada de datos, y sistemas de temas visuales. Adicionalmente, se desarrollaron herramientas especializadas para verificación de contraste de colores y se creó un sistema de documentación para evaluar capacidades de asistentes de codificación con IA.
+
+El trabajo realizado durante este período representa una consolidación técnica fundamental, estableciendo una base sólida de especificaciones y documentación que prepara el terreno para la fase de implementación práctica de las aplicaciones en los diferentes frameworks GUI seleccionados.
+
+## Clasificación de Temas
+
+- Mejoras en las funcionalidades
+- Mejoras en la documentación
+- Limpieza de código y comentarios
+
+## Resumen estadístico por tema
 
 ## Mejoras en las funcionalidades
 
@@ -81,8 +101,6 @@
 - **Cambios principales:**
   - Merge de cambios de la rama main para sincronización (f1e32f28)
 
-## Resumen General
-
 **Total de commits procesados:** 26 commits
 
 **Distribución por categorías:**
@@ -98,4 +116,6 @@
 3. **Documentación técnica:** Mejoras continuas en guías y especificaciones para desarrolladores
 4. **Accesibilidad:** Implementación de pautas WCAG 2.1 AA y navegación por teclado
 
-El proyecto Test_UI_v3 ha consolidado durante agosto 2025 una base sólida de especificaciones y documentación técnica, preparando el terreno para la fase de implementación de las aplicaciones de cotización en los diferentes frameworks GUI de Python.
+El proyecto Especificaciones-UI ha consolidado durante agosto 2025 una base sólida de especificaciones y documentación técnica, preparando el terreno para la fase de implementación de las aplicaciones de cotización en los diferentes frameworks GUI de Python.
+
+## Fin del informe
