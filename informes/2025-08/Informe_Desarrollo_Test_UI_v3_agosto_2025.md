@@ -1,16 +1,16 @@
-# Informe de Desarrollo - `Test_UI_v3`
+# Informe de Desarrollo - Test_UI_v3
 
-## Periodo: `Agosto 2025`
+## Periodo: Agosto 2025
 
-Este informe detalla todos los cambios realizados en el repositorio `Test_UI_v3` durante el mes de `agosto` de `2025`, agrupados por temas.
+Este informe detalla todos los cambios realizados en el repositorio Test_UI_v3 durante el mes de agosto de 2025, agrupados por temas.
 
 ## Resumen
 
-Durante agosto 2025 se realizaron **27 commits** que establecieron las bases completas del proyecto Test_UI_v3, un framework de comparación de interfaces de usuario en Python. El desarrollo se centró exclusivamente en la **fase de documentación inicial**, con especial énfasis en especificaciones técnicas detalladas, herramientas de accesibilidad WCAG y configuración de entorno de desarrollo.
+Durante agosto de 2025 se realizaron 27 commits centrados en completar y estructurar la documentación técnica de la aplicación de referencia. Se reordenaron y precisaron las especificaciones en el documento 'Especificaciones_UI' (16 actualizaciones), incluyendo: definición de estados visuales, comportamiento de botones y controles emergentes (confirmación de borrado y cierre), validación y parseo de datos, manejo de errores en campos y celdas, navegación por teclado con secuencias y atajos, ajustes responsivos de la tabla “Productos Cotizados” y estandarización de nomenclatura de componentes. Se actualizaron diagramas ASCII para la representación de requerimientos gráficos, se limpiaron marcas de formato y se resaltaron tareas pendientes. Además, se añadió documentación específica para estados de widgets en CustomTkinter.
 
-El proyecto alcanzó un estado de preparación técnica completa con más de **15,000 líneas de código y documentación** agregadas, incluyendo especificaciones UI comprehensivas con diagramas ASCII, herramientas robustas de verificación de contraste, sistema de temas personalizable y documentación automatizada mediante asistentes de IA. Todos los elementos necesarios están listos para comenzar las implementaciones de frameworks GUI en fases posteriores.
+Se incorporaron herramientas de accesibilidad y temas. Destaca la creación y refactorización de un programa unificado para verificar el contraste de los widget gráficos; se retiró la versión duplicada previa. Se documentó su uso y se añadieron ejemplos. También se creó el tema Oceanix2 con su configuración JSON y previsualizaciones, y un archivo central de configuración de temas (tools/themes_config.json) para facilitar pruebas y verificación.
 
-La documentación técnica se refinó iterativamente a través de 16 commits específicos, resultando en especificaciones que cumplen estándares WCAG 2.1 AA, incluyen navegación completa por teclado y definen comportamientos responsivos detallados. Las herramientas de desarrollo implementadas aseguran calidad y accesibilidad desde el inicio del proyecto.
+Se consolidó la infraestructura de trabajo: ajustes en .vscode/settings.json y reglas de linting Markdown, incorporación de dependencias de prueba en requirements y requirements-dev, y un sistema de plantillas e informes para asistentes de codificación que automatiza la generación de reportes mensuales y evaluaciones de capacidades.
 
 ## Clasificación de Temas
 
