@@ -60,7 +60,7 @@ Realizar las siguientes acciones, informando al usuario solo en caso de error si
   > ## Lista de commits
   > | Fecha y Hora        | Identificador | Enlace al Commit  | Título         | Detalles         | Archivo Afectado | Líneas +  | Líneas -   |
   > |---------------------|---------------|-------------------|----------------|------------------|------------------|----------:|-----------:|
-  > | YYYY-MM-DD HH:MM:SS | SHA           | [Ver commit](URL) | Título Mensaje | Detalles Mensaje |`Archivo1`<br>`Archivo2`<br>`Archivo3` |num_agregadas1<br>num_agregadas2<br>num_agregadas3|num_eliminadas1<br>num_eliminadas2<br>num_eliminadas3|
+  > | YYYY-MM-DD HH:MM:SS | SHA corto     | [Ver commit](URL) | Título Mensaje | Detalles Mensaje |`Archivo1`<br>`Archivo2`<br>`Archivo3` |num_agregadas1<br>num_agregadas2<br>num_agregadas3|num_eliminadas1<br>num_eliminadas2<br>num_eliminadas3|
   > ```
 
   Nota: los campos `archivo`, `num_agregadas` y `num_eliminadas` se completarán en la siguiente etapa.
@@ -94,6 +94,7 @@ Para cada commit, listar los archivos modificados y obtener el número de línea
   - Número de líneas eliminadas.
 - Actualizar el archivo `informes/{año}-{mes como número}/commits_{mes}_{año}.md` para incluir esta información en las columnas correspondientes.
   - Cada archivo modificado debe estar listado dentro de la celda correspondiente, separando los nombres de los archivos con saltos de línea (`<br>`).
+  - Cada nombre de archivo debe estar rodeado con caracteres '`' para formato de código.
   - Hacer lo mismo para las columnas de líneas agregadas y eliminadas, asegurándose que cada número corresponda al archivo en la misma posición.
 
 ### 4. Generar resumen de cambios por commit
@@ -159,9 +160,9 @@ Para cada commit, realizar las siguientes tareas:
   - **Archivos Modificados:**
     - `{Archivo Modificado}`: {Líneas Agregadas} líneas agregadas | {Líneas Eliminadas} líneas eliminadas.
   - **Cambios realizados:**
-     - {Lista de cambios realizados en el commit}
+     - {Lista detallada de cambios}
   - **Resumen de cambios:**
-    {Resumen de cambios realizados en el commit, explicando qué cambió}
+    {Explicación técnica de qué cambió}
 
   ---
 
@@ -179,7 +180,7 @@ Generar un resumen de cambios agrupados por temas, basado en el análisis realiz
 
 #### 5.1. Clasificar los cambios por temática
 
-- Analizar los mensajes de los commits, los cambios técnicos y el resumen de cambios realizados en los commits, para generar una lista de cambios, y estos clasificarlos en las siguientes categorías:
+- Categorías estándar para este repositorio:
   - Mejoras en las funcionalidades
   - Corrección de errores (bugfixes)
   - Mejoras de rendimiento
@@ -191,45 +192,29 @@ Generar un resumen de cambios agrupados por temas, basado en el análisis realiz
   - Actualizaciones de dependencias
   - Otros cambios relevantes
 
-- Generar un resumen de cambios agrupados por temas.
-  - Proceder a ordenar y priorizar los temas dentro de cada categoría.
+- Proceso de clasificación:
+  - Análisis de mensajes de commit
+  - Correlación con cambios técnicos identificados
+  - Identificación de temas relevantes
+  - Agrupación automática por categoría y temática dentro de cada categoría
+  - Priorización dentro de cada categoría por impacto, relevancia y volumen
+
+- Requisitos para el resumen de cambios:
   - Asegurarse que cada tema tiene una descripción clara y concisa de los cambios realizados.
   - El resumen debe ser conciso y directo, evitando usar adjetivos rimbombantes. Usar un tono profesional y objetivo.
-  - Guardar este resumen en el archivo `informes/{año}-{mes como número}/resumen_cambios_{mes}_{año}.md`, en la sección correspondiente.
-  - El formato de los temas del resumen de cambios será el siguiente:
+  - Guardar este resumen en el archivo `informes/{año}-{mes como número}/resumen_cambios_{mes}_{año}.md`.
+  - El formato de los temas del resumen de cambios es:
 
   ```markdown
-  ## Resumen de cambios por temas
+  # Resumen de cambios por temas
 
-  ### Mejoras en las funcionalidades
-  - Descripción de las nuevas funcionalidades implementadas.
+  ## `{Categoría de Cambios}`
 
-  ### Corrección de errores
-  - Descripción de los errores corregidos.
-
-  ### Refactorización de código
-  - Descripción de las refactorizaciones realizadas.
-
-  ### Limpieza de código y comentarios
-  - Descripción de la limpieza realizada en el código y comentarios.
-
-  ### Mejoras de rendimiento
-  - Descripción de las mejoras de rendimiento implementadas.
-
-  ### Mejoras en la documentación
-  - Descripción de las mejoras realizadas en la documentación.
-
-  ### Mejoras en pruebas
-  - Descripción de las mejoras realizadas en las pruebas del proyecto.
-
-  ### Mejoras en empaquetado y despliegue
-  - Descripción de las mejoras realizadas en el empaquetado y despliegue del proyecto.
-
-  ### Actualizaciones de dependencias
-  - Descripción de las actualizaciones realizadas a las dependencias del proyecto.
-
-  ### Otros cambios relevantes
-  - Descripción de otros cambios relevantes realizados.
+  ### `{Tema}`
+  - **Commits:** `{número de commits}` commits de `{detalle tema}`.
+  - **Impacto técnico:** `{Descripción del impacto técnico de los cambios}`.
+  - **Cambios principales:**
+    - `{Detalle de los cambios ordenado por prioridad}`
 
    ```
 
@@ -249,7 +234,7 @@ Generar un resumen de cambios agrupados por temas, basado en el análisis realiz
     - Usar un tono profesional y objetivo.
   - `{Resumen de los cambios agrupados por temas, indicando la cantidad de commits}`: Resumen generado en la etapa anterior.
 
-- Guardar el informe como `informes/{año}-{mes como número}/Informe_Desarrollo_{nombre repositorio}_{mes}_{año}.md`.
+- Guardar el informe como `informes/{año}-{mes como número}/Informe_Desarrollo_{repositorio}_{mes}_{año}.md`.
 
 #### 5.3. Revisión final
 
