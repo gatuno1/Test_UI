@@ -8,7 +8,7 @@ Este informe detalla todos los cambios realizados en el repositorio `Especificac
 
 Durante agosto de 2025 se realizaron 26 commits en el repositorio Especificaciones-UI, consolidando una fase intensiva de documentación y especificaciones técnicas. El proyecto, que se encuentra en su fase inicial de planificación, tuvo como objetivo principal establecer las especificaciones completas para implementar aplicaciones de cotización de productos idénticas en 7 frameworks GUI de Python: CustomTkinter, Flet, Kivy, PySide6, QtQuick, Tkinter+TTK y wxPython.
 
-Las actividades se concentraron principalmente en el refinamiento continuo de especificaciones de interfaz de usuario, con 12 commits dedicados exclusivamente a mejorar y expandir el documento `Especificaciones_UI.md`. Se establecieron pautas detalladas de accesibilidad WCAG 2.1 AA, especificaciones de navegación por teclado, validaciones de entrada de datos, y sistemas de temas visuales. Adicionalmente, se desarrollaron herramientas especializadas para verificación de contraste de colores y se creó un sistema de documentación para evaluar capacidades de asistentes de codificación con IA.
+Las actividades se concentraron principalmente en el refinamiento continuo de especificaciones de interfaz de usuario, con 12 commits dedicados exclusivamente a mejorar y expandir el documento `Especificaciones_UI.md`. Se establecieron pautas detalladas de accesibilidad, especificaciones de navegación por teclado, validaciones de entrada de datos, y sistemas de temas visuales. Adicionalmente, se desarrollaron herramientas especializadas para verificación de contraste de colores y se creó un sistema de documentación para evaluar los cambios al repositorio utilizando de asistentes de codificación con IA.
 
 El trabajo realizado durante este período representa una consolidación técnica fundamental, estableciendo una base sólida de especificaciones y documentación que prepara el terreno para la fase de implementación práctica de las aplicaciones en los diferentes frameworks GUI seleccionados.
 
@@ -17,8 +17,6 @@ El trabajo realizado durante este período representa una consolidación técnic
 - Mejoras en las funcionalidades
 - Mejoras en la documentación
 - Limpieza de código y comentarios
-
-## Resumen estadístico por tema
 
 ## Mejoras en las funcionalidades
 
@@ -31,9 +29,9 @@ El trabajo realizado durante este período representa una consolidación técnic
   - Actualización integral del documento Especificaciones_UI con nuevos requerimientos (de57aba7)
   - Mejora en especificaciones de validaciones de entrada de datos (4cd4bfb1)
   - Ampliación de especificaciones de tema y control emergente (1c85bde5)
-  - Mejora de pautas de accesibilidad WCAG 2.1 AA (8a71cae7)
+  - Mejora de pautas de accesibilidad contraste/legibilidad (WCAG 2.1 AA) (8a71cae7)
   - Corrección en uso de paneles y nombres estandarizados (87c51a13)
-  - Actualización de especificaciones de validación y parseo de datos (5d21b9f1)
+  - Actualización de especificaciones de validación e ingreso de datos (5d21b9f1)
   - Mejora en validación y manejo de errores (1c923ae7)
   - Adición de pautas de navegación por teclado (ad83f362)
   - Mejora en especificación del control emergente (5d428be7)
@@ -55,7 +53,7 @@ El trabajo realizado durante este período representa una consolidación técnic
 - **Commits:** 1 commit de temas visuales
 - **Impacto técnico:** Expansión de opciones de personalización visual para las aplicaciones GUI
 - **Cambios principales:**
-  - Agregación del tema Oceanix2 con paleta de colores profesional (ba243dbf)
+  - Agregación del tema Oceanix2 para CustomTkinter, con paleta de colores mejorada (ba243dbf)
 
 ### Dependencias de Desarrollo
 
@@ -117,5 +115,3 @@ El trabajo realizado durante este período representa una consolidación técnic
 4. **Accesibilidad:** Implementación de pautas WCAG 2.1 AA y navegación por teclado
 
 El proyecto Especificaciones-UI ha consolidado durante agosto 2025 una base sólida de especificaciones y documentación técnica, preparando el terreno para la fase de implementación de las aplicaciones de cotización en los diferentes frameworks GUI de Python.
-
-## Fin del informe

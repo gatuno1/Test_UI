@@ -206,13 +206,13 @@ Este documento contiene el análisis técnico detallado de cada commit realizado
 
 - **Fecha y Hora:** 2025-08-14 13:05:03
 - **Enlace al Commit:** [Commit 5d21b9f](https://github.com/gatuno1/Test_UI/commit/5d21b9f15065547b9fba0e3ffbc5cd9ff2f2b86a)
-- **Título:** Actualiza especificaciones de validación y parseo de datos en la interfaz de usuario
+- **Título:** Actualiza especificaciones de validación y parse de datos en la interfaz de usuario
 - **Detalles:** Sin detalles adicionales
 - **Archivos Modificados:**
-  - `docs/Especificaciones_UI.md`: actualizaciones en validación y parseo
+  - `docs/Especificaciones_UI.md`: actualizaciones en validación y parse
 - **Cambios realizados:**
   - Mejora en especificaciones de validación de datos de entrada
-  - Definición de procesos de parseo y transformación de datos
+  - Definición de procesos de parse y transformación de datos
   - Establecimiento de reglas de validación más robustas
 - **Resumen de cambios:**
   Fortalecimiento de las especificaciones técnicas relacionadas con validación y procesamiento de datos, mejorando la robustez y confiabilidad del sistema de entrada de datos.
