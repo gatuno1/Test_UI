@@ -241,3 +241,7 @@ $RECYCLE.BIN/
 
 # Built Visual Studio Code Extensions
 *.vsix
+
+# ==== Específicos de este repositorio ====
+informes/**/*.zip
+informes/**/*.7z

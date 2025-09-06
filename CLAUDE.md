@@ -62,17 +62,37 @@ Test_UI_v3/
 ├── requirements-dev.txt                # Development tools
 ├── .python-version                     # Python 3.11
 ├── .gitignore                          # Comprehensive Python gitignore
+├── .gitattributes                      # Git line ending configuration
+├── .markdownlint.json                  # Markdown linting configuration
+├── CLAUDE.md                           # Claude Code guidance (this file)
+├── GEMINI.md                           # Gemini AI guidance
+├── .claude/
+│   └── settings.local.json             # Local Claude settings (ignored)
+├── .vscode/
+│   └── settings.json                   # VS Code workspace settings
 ├── docs/
 │   ├── Especificaciones_UI.md          # Detailed UI specifications
 │   ├── AI_Code_Assistant_Instructions.md  # Previous iteration docs
-│   └── references/                     # Color themes and examples
+│   ├── AI_Project_Assistant_Instructions.md  # Project assistant docs
+│   ├── Definiciones_UI.md              # UI definitions and components
+│   ├── Evaluacion_Customtkinter.md     # CustomTkinter evaluation
+│   ├── Análisis Asistentes Codificación/  # AI assistant analysis docs
+│   ├── references/                     # Color themes and examples
+│   └── Temas_ejemplo/                  # Theme examples and screenshots
 ├── global_templates/
 │   └── cotizacion.html                 # HTML template for PDF generation
+├── informes/
+│   └── Instrucciones/                  # Report generation instructions
+│       ├── .markdownlint.json          # Markdown config for reports
+│       ├── Plan_generar_informe.md     # Original report plan
+│       ├── Template_Informe_{repositorio}.md  # Report template
+│       └── Prompt_generar_informe.txt  # Generation prompt
+├── tools/
+│   ├── contrast_checker.py             # WCAG contrast checker tool
+│   ├── themes_config.json              # Theme configuration for tools
+│   └── README-contrast_checker.md      # Documentation for contrast checker
 ├── src/                                # Empty - ready for source code
-├── tests/                              # Empty - ready for test files
-└── tools/
-    ├── contrast_checker.py             # WCAG contrast checker tool
-    └── README-contrast_checker.md      # Documentation for contrast checker tools
+└── tests/                              # Empty - ready for test files
 ```
 
 ## UI Specifications
