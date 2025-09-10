@@ -1,12 +1,12 @@
-# Informe de Desarrollo - `{nombre repositorio}`
+# Informe de Desarrollo - {nombre repositorio}
 
-## Periodo: `{mes y año solicitado}`
+## Periodo: {mes y año solicitado}
 
-Este informe detalla todos los cambios realizados en el repositorio `{repositorio}` durante el mes de `{mes}` de `{año}`, agrupados por temas.
+Este informe detalla todos los cambios realizados en el repositorio {repositorio} durante el mes de {mes} de {año}, agrupados por temas.
 
 ## Resumen
 
-`{Resumen de los cambios realizados en el repositorio, indicando la cantidad de commits y principales áreas de mejora o nuevas funcionalidades.}`
+{Resumen de los cambios realizados en el repositorio, indicando la cantidad de commits y principales áreas de mejora o nuevas funcionalidades.}
 
 ## Clasificación de Temas
 
@@ -19,6 +19,6 @@ Este informe detalla todos los cambios realizados en el repositorio `{repositori
 
 ## Resumen estadístico por tema
 
-`{Estadística de los cambios agrupados por temas, indicando la cantidad de commits}`
+{Estadística de los cambios agrupados por temas, indicando la cantidad de commits}
 
 ## Fin del informe

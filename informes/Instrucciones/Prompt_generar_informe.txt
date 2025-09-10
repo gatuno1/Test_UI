@@ -1,1 +1,1 @@
-Ejecuta el plan para construir el informe de commits de este repositorio. Utiliza el archivo @informes\Instrucciones\Plan_Claude.md
+Ejecuta el plan para construir el informe de commits de este repositorio. Utiliza el plan en @informes\Instrucciones\Plan_Claude.md y la plantilla @informes\Instrucciones\Template_Informe_{repositorio}.md

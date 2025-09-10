@@ -40,7 +40,7 @@ Realizar las siguientes acciones, informando al usuario solo en caso de error si
   ```
 
 - Utilizar herramienta: Obtener la lista completa de commits del rango de fechas a informar, teniendo en consideración que la información puede llegar en lotes y no completa de una sola vez. Usar paginación si es necesario.
-- Asegurarse que se obtienen todos los commits, sin omitir ninguno.
+- Asegurarse que se obtienen todos los commits, sin omitir ninguno. Si no hay commits en el rango de fechas, informar al usuario y finalizar el proceso.
 - Guardar la lista de commits en una estructura de datos adecuada para su posterior procesamiento.
 - Cada commit debe incluir:
   - Identificador único (SHA)
@@ -78,9 +78,8 @@ Realizar las siguientes acciones, informando al usuario solo en caso de error si
 #### 2.3 Correcciones de formato
 
 - Debes revisar los detalles del mensaje de cada commit para asegurarte que se reemplacen caracteres especiales `*` por `+` para que no rompan el formato markdown de la tabla, pues los utilizo en los mensajes del commit como viñetas de lista.
-- Revisar el archivo generado con linter para markdown y corregir cualquier problema de formato detectado, usando el comando indicado en la sección de herramientas necesarias.
+- Revisar el archivo generado con linter para markdown y corregir cualquier problema de formato detectado, sin desestimar ninguna advertencia.
   - Asegurarse de que todos los enlaces a commits de GitHub estén correctamente formateados y sean accesibles.
-  - Corregir cualquier problema de formato adicional que se detecte, sin desestimar ninguna advertencia.
 
 ### 3. Determinar lineas cambiadas por commit
 
@@ -170,8 +169,7 @@ Para cada commit, realizar las siguientes tareas:
 
 #### 4.3 Validar el documento
 
-- Revisar el archivo generado con linter para markdown y corregir cualquier problema de formato detectado, usando el comando indicado en la sección de herramientas necesarias.
-  - Corregir cualquier problema de formato adicional que se detecte, sin desestimar ninguna advertencia.
+- Revisar el archivo generado con linter para markdown y corregir cualquier problema de formato detectado, sin desestimar ninguna advertencia.
   - Asegurarse de que todos los enlaces a commits de GitHub estén correctamente formateados y sean accesibles.
 
 ### 5. Resumen de cambios por temas y generación del informe final
@@ -218,7 +216,7 @@ Generar un resumen de cambios agrupados por temas, basado en el análisis realiz
 
    ```
 
-- Revisar el archivo generado con linter para markdown y corregir cualquier problema de formato detectado.
+- Revisar el archivo generado con linter para markdown y corregir cualquier problema de formato detectado, sin desestimar ninguna advertencia.
 
 #### 5.2. Generar el documento del informe final
 
@@ -243,4 +241,4 @@ Generar un resumen de cambios agrupados por temas, basado en el análisis realiz
   - Asegurarse que el resumen de cambios por temas es claro y conciso.
   - Confirmar que el formato del documento es consistente y profesional.
   - Asegurarse que no haya secciones o detalles no solicitados en el informe: el informe debe centrarse exclusivamente en los commits y los cambios realizados.
-- Revisar el archivo generado con linter para markdown y corregir cualquier problema de formato detectado.
+- Revisar el archivo generado con linter para markdown y corregir cualquier problema de formato detectado, sin desestimar ninguna advertencia.
