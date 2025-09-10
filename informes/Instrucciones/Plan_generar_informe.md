@@ -178,7 +178,7 @@ Esta etapa es la más importante y crítica del proceso, ya que implica entender
 - Generar un resumen de cada commit, que sintetice los cambios realizados en cada uno:
   - Cambios realizados en el código.
   - Impacto de los cambios.
-  - Motivo de los cambios, si es que se puede inferir del ¿Hay algo que guardar? mensaje del commit o del análisis del diff.
+  - Motivo de los cambios, si es que se puede inferir del mensaje del commit o del análisis del diff.
   - **Requisitos del resumen:**
     - Este resumen debe ser técnico, directo y claro, explicando qué cambió y por qué.
       - Evitar redundancias y explicaciones innecesarias.
