@@ -57,13 +57,13 @@ Realizar las siguientes acciones, informando al usuario solo en caso de error si
   > ```markdown
   > # Lista detallada de commits - {mes} {año}
   >
-  > ## Lista de commits
+  > ## Tabla de commits
   > | Fecha y Hora        | Identificador | Enlace al Commit  | Título         | Detalles         | Archivo Afectado | Líneas +  | Líneas -   |
   > |---------------------|---------------|-------------------|----------------|------------------|------------------|----------:|-----------:|
   > | YYYY-MM-DD HH:MM:SS | SHA corto     | [Ver commit](URL) | Título Mensaje | Detalles Mensaje |`Archivo1`<br>`Archivo2`<br>`Archivo3` |num_agregadas1<br>num_agregadas2<br>num_agregadas3|num_eliminadas1<br>num_eliminadas2<br>num_eliminadas3|
   > ```
 
-  Nota: los campos `archivo`, `num_agregadas` y `num_eliminadas` se completarán en la siguiente etapa.
+  **Nota:** los campos `archivo`, `num_agregadas` y `num_eliminadas` se completarán en la siguiente etapa.
 
 - Para cada commit obtener los detalles:
   - Identificador único (SHA)
@@ -78,81 +78,53 @@ Realizar las siguientes acciones, informando al usuario solo en caso de error si
   - Asegurarte que la cantidad de commits sea la misma que la cantidad de líneas en la tabla de commits.
   - Abstenerse de agregar otras secciones o detalles.
 
-#### 2.3 Correcciones de formato
+#### 2.3 Determinar lineas cambiadas por commit
 
-- Reemplazar caracteres `*` por `+` en mensajes para evitar conflictos markdown:
-  - Si hay múltiples reemplazos en el mismo mensaje, separarlos con `<br>`
-- Revisar el archivo generado con herramienta de linter para markdown y corregir cualquier problema de formato detectado, sin desestimar ninguna advertencia.
-- Asegurarse de que todos los enlaces a commits de GitHub estén correctamente formateados y sean accesibles.
-
-### 3. Determinar lineas cambiadas por commit
-
-Para cada commit, listar los archivos modificados y obtener el número de líneas agregadas y eliminadas por archivo.
-
-- Para cada commit en el archivo `informes/{año}-{mes como número}/commits_{mes}_{año}.md`, obtener la lista de archivos modificados y el número de líneas agregadas y eliminadas por archivo.
-- Para obtener esta información utilizar herramienta de línea de comandos como `git show --stat {SHA}`.
-- Para cada archivo modificado en el commit, obtener:
-  - Nombre del archivo modificado.
-  - Número de líneas agregadas.
-  - Número de líneas eliminadas.
-- Actualizar el archivo `informes/{año}-{mes como número}/commits_{mes}_{año}.md` para incluir esta información en las columnas correspondientes.
-  - Cada archivo modificado debe estar listado dentro de la celda correspondiente, separando los nombres de los archivos con saltos de línea (`<br>`).
-  - Cada nombre de archivo debe estar rodeado con caracteres '`' para formato de código.
-  - Hacer lo mismo para las columnas de líneas agregadas y eliminadas, asegurándose que cada número corresponda al archivo en la misma posición.
-  - No omitir ningún archivo, incluso si son muchos.
-- Validar que la cantidad total de registros procesados coincida con la cantidad informada por la API.
-
-### 4. Generar resumen de cambios por commit
-
-#### 4.1 Analizar cada commit
-
-Esta etapa es la más importante y crítica del proceso, ya que implica entender los cambios realizados en cada commit y generar un resumen técnico y claro de los mismos.
-El objetivo es describir los cambios de una manera técnica y detallada, explicando que cambió.
+En esta etapa se procesará cada commit, obteniendo una lista de todos los archivos modificados, y el número de líneas agregadas y eliminadas por cada uno.
 
 **Tareas a realizar:**
 
-- Procesar y analizar cada commit, para asegurar que se comprende cada cambio realizado.
-  - Desde el archivo `informes/{año}-{mes como número}/commits_{mes}_{año}.md`, leer cada fila de la Tabla de commits para obtener los detalles de cada uno.
+- Para cada commit en el archivo `informes/{año}-{mes como número}/commits_{mes}_{año}.md`, obtener la lista de archivos modificados y el número de líneas agregadas y eliminadas por archivo.
+  - Utilizar herramienta de línea de comandos como `git show --stat {SHA}`.
+  - Para cada archivo modificado en el commit, obtener:
+    - Nombre del archivo.
+    - Número de líneas agregadas.
+    - Número de líneas eliminadas.
 
-- Se debe detectar si un commit está vacío (sin cambios en archivos): en ese caso, el resumen debe indicar "Commit sin cambios en archivos", terminando el procesamiento de de ese commit. Si no está vacío, continuar con el análisis.
+- Actualizar el archivo `informes/{año}-{mes como número}/commits_{mes}_{año}.md` para incluir esta información en las columnas correspondientes.
+  - Si un commit no tiene archivos modificados, escribir "Sin cambios", "0" y "0" en las columnas de archivos afectados, líneas agregadas y líneas eliminadas, respectivamente.
+  - En cambio, si el commit tiene al menos un archivo modificado, listar todos los archivos y sus respectivas líneas agregadas y eliminadas, separando los nombres de los archivos con saltos de línea (`<br>`).
+    - Cada nombre de archivo debe estar rodeado con caracteres '`' para formato de código.
+  - Hacer lo mismo para las columnas de líneas agregadas y eliminadas, asegurándose que cada número corresponda al archivo en la misma posición.
+  - No omitir ningún archivo, incluso si son muchos.
 
-- Obtener el diff del commit, que muestre los cambios realizados en el código. Para esto, usar herramienta de línea de comandos como `git diff`.
-  - Leer el diff de cada commit para entender los cambios realizados, tanto a nivel de variables, como de lógica y documentación, relacionando estos cambios con el mensaje del commit.
+- Validar que la cantidad total de registros procesados coincida con la cantidad informada por la API.
 
-- Generar un resumen de cada commit, que sintetice los cambios realizados en cada uno:
-  - Cambios realizados en el código.
-  - Impacto de los cambios.
-  - Motivo de los cambios, si es que se puede inferir del mensaje del commit o del análisis del diff.
+#### 2.4 Correcciones de formato
 
-**Requisitos del resumen:**
+- Reemplazar caracteres `*` por `+` en mensajes para evitar conflictos markdown:
+  - Si hay múltiples reemplazos en el mismo mensaje, separarlos con `<br>`
+- Revisar el archivo generado con linter para markdown y corregir cualquier problema de formato detectado, sin desestimar ninguna advertencia.
+- Asegurarse de que todos los enlaces a commits de GitHub estén correctamente formateados y sean accesibles.
 
-- Este resumen debe ser técnico, directo y claro, explicando qué cambió y por qué.
-  - Evitar redundancias y explicaciones innecesarias.
-  - Usa un tono objetivo, evita juicios de valor y el uso de adjetivos rimbombantes.
-- La extensión del resumen debe ser proporcional a la complejidad o cantidad de cambios del commit, pero no debe ser excesivamente largo. En general, un párrafo de 2 a 8 líneas es adecuado.
+### 3. Generar resumen de cambios por commit
 
-**Uso De agentes:**
-Si tienes la capacidad de crear subagentes, utilízalos y delega estas tareas a un subagente especializado en análisis de código y generación de resúmenes técnicos. Si no tienes la capacidad de crear subagentes, realiza esta tarea tú mismo.
+#### 3.1 Escribir detalles de commits
 
-- El subagente puedes llamarlo "Agente Analista de Commits".
-- Este subagente debe tener la capacidad de leer y analizar diffs de código, entender cambios en variables, lógica y documentación, y generar resúmenes técnicos claros.
-- Comunica al subagente los detalles ya disponibles del commit, y solicita el análisis técnico y el resumen de cambios.
-- Genera un prompt claro y detallado para el subagente, asegurándote de incluir:
-  - El contexto del proyecto.
-  - El objetivo del análisis.
-  - El formato esperado para la respuesta.
-  - Cualquier restricción o detalle específico que deba considerar.
-- Genera varios subagentes si es necesario para dividir la carga de trabajo.
-- Supervisa el progreso del subagente y asegúrate de que cumple con los requisitos.
-- Revisa y valida la información proporcionada por el subagente antes de integrarla en el informe final.
+**Tareas a realizar:**
 
-#### 4.2 Escribir detalles de commits
-
-Guardar cada commit en archivo `informes/{año}-{mes como número}/commits_detallados_{mes}_{año}.md`, con el siguiente formato:
+- Crear un archivo `informes/{año}-{mes como número}/commits_detallados_{mes}_{año}.md` que contendrá el análisis detallado de cada commit. El formato del comienzo del archivo es:
 
   ```markdown
   # Análisis detallado de commits - {mes} {año}
 
+  ---
+
+  ```
+
+- Desde el archivo `informes/{año}-{mes como número}/commits_{mes}_{año}.md`, leer cada fila de la Tabla de commits para obtener los detalles de cada uno, agregando un nuevo registro al final del archivo de commits detallados, con el siguiente formato:
+
+  ```markdown
   ## {numero correlativo}. {Título del Commit} - {SHA corto}
   - **Fecha y Hora:** {YYYY-MM-DD HH:MM:SS}
   - **Enlace al Commit:** [Commit {SHA corto}]({URL})
@@ -169,37 +141,75 @@ Guardar cada commit en archivo `informes/{año}-{mes como número}/commits_detal
 
   ```
 
+**Nota:** Los campos `{Lista detallada de cambios técnicos}` y `{Resumen del commit}` se completarán en la etapa siguiente, por lo que en esta etapa deben dejarse como un marcador de posición.
+
 **Requisitos:**
 
-- Asegurarse que cada commit tiene un número correlativo único,
 - Ordenar commits por fecha y hora de forma ascendente (del más antiguo al más reciente).
+- Asegurarse que cada commit tiene un número correlativo único, comenzando en 1.
 - Asegurarse que la cantidad de commits sea la misma que la cantidad de líneas en la tabla de commits en `commits_{mes}_{año}.md`.
 - Reutilizar exactamente Título y Detalles saneados de la tabla, sin modificar.
 - **Importante:** Abstente de agregar otras secciones o detalles que no sean estrictamente necesarios.
 
-- **Importante:** Si tienes la capacidad de crear subagentes, utilízalos y delega esta tarea a un subagente especializado en redacción técnica. Si no tienes la capacidad de crear subagentes, realiza esta tarea tú mismo.
-  - El subagente puedes llamarlo "Agente Redactor Técnico".
-  - Este subagente debe tener la capacidad de redactar resúmenes técnicos claros y concisos, adaptados a una audiencia técnica y no técnica.
-  - Comunica al subagente los detalles del commit y solicita el resumen de cambios.
-  - Genera un prompt claro y detallado para el subagente, asegurándote de incluir:
-    - El contexto del proyecto.
-    - El objetivo del resumen.
-    - El formato esperado para la respuesta.
-    - Cualquier restricción o detalle específico que deba considerar.
-  - Genera varios subagentes si es necesario para dividir la carga de trabajo.
-  - Supervisa el progreso del subagente y asegúrate de que cumple con los requisitos.
-  - Revisa y valida la información proporcionada por el subagente antes de integrarla en el informe final.
+#### 3.2 Analizar cada commit
 
-#### 4.3 Validar el documento
+Esta etapa es la más importante y crítica del proceso, ya que implica entender los cambios realizados en cada commit y generar un resumen técnico y claro de los mismos.
+
+**Tareas a realizar:**
+
+- Procesar y analizar cada commit, para asegurar que se comprende cada cambio realizado.
+  - Desde el archivo `commits_detallados_{mes}_{año}.md` generado en el paso anterior, leer cada registro de commit para obtener los detalles de cada uno.
+
+- Se debe detectar si un commit está vacío (sin cambios en archivos): en ese caso, el resumen debe indicar "Commit sin cambios en archivos", terminando el procesamiento de de ese commit. Si no está vacío, continuar con el análisis.
+
+- Obtener el diff del commit, que muestre los cambios realizados en el código. Para esto, usar herramienta de línea de comandos como `git diff`.
+  - Leer el diff de cada commit para entender los cambios realizados, tanto a nivel de variables, como de lógica y documentación, relacionando estos cambios con el mensaje del commit.
+
+- Generar una lista detallada de los cambios realizados en el commit. Esta lista debe incluir:
+  - Cambios en variables (nuevas, eliminadas, renombradas, modificadas).
+  - Cambios en la lógica del código (nuevas funciones, modificaciones en funciones existentes, cambios en estructuras de control).
+  - Cambios en la documentación (nuevos comentarios, modificaciones en comentarios existentes).
+  - Cambios en archivos de configuración o scripts.
+  - **Requisitos de la lista detallada:**
+    - Esta lista debe ser técnica y clara, explicando qué cambió y por qué.
+    - Evitar redundancias y explicaciones innecesarias.
+    - Usar un tono objetivo, evitando juicios de valor y el uso de adjetivos rimbombantes.
+
+- Generar un resumen de cada commit, que sintetice los cambios realizados en cada uno:
+  - Cambios realizados en el código.
+  - Impacto de los cambios.
+  - Motivo de los cambios, si es que se puede inferir del ¿Hay algo que guardar? mensaje del commit o del análisis del diff.
+  - **Requisitos del resumen:**
+    - Este resumen debe ser técnico, directo y claro, explicando qué cambió y por qué.
+      - Evitar redundancias y explicaciones innecesarias.
+      - Usa un tono objetivo, evita juicios de valor y el uso de adjetivos rimbombantes.
+    - La extensión del resumen debe ser proporcional a la complejidad o cantidad de cambios del commit, pero no debe ser excesivamente largo. En general, un párrafo de 2 a 8 líneas es adecuado.
+
+**Uso De agentes:**
+Si tienes la capacidad de crear subagentes, utilízalos y delega estas tareas a un subagente especializado en análisis de código y generación de resúmenes técnicos. Si no tienes la capacidad de crear subagentes, realiza esta tarea tú mismo.
+
+- El subagente puedes llamarlo "Agente Analista de Commits".
+- Este subagente debe tener la capacidad de leer y analizar diffs de código, entender cambios en variables, lógica y documentación, y generar resúmenes técnicos claros.
+- Comunica al subagente los detalles ya disponibles del commit, y solicita el análisis técnico y el resumen de cambios.
+- Genera un prompt claro y detallado para el subagente, asegurándote de incluir:
+  - El contexto del proyecto.
+  - El objetivo del análisis.
+  - El formato esperado para la respuesta.
+  - Cualquier restricción o detalle específico que deba considerar.
+- Genera varios subagentes si es necesario para dividir la carga de trabajo.
+- Supervisa el progreso del subagente y asegúrate de que cumple con los requisitos.
+- Revisa y valida la información proporcionada por el subagente antes de integrarla en el informe final.
+
+#### 3.3 Validar el documento
 
 - Revisar el archivo generado con herramienta de linter para markdown y corregir cualquier problema de formato detectado, sin desestimar ninguna advertencia.
 - Asegurarse de que todos los enlaces a commits de GitHub estén correctamente formateados y sean accesibles.
 
-### 5. Resumen de cambios por temas y generación del informe final
+### 4. Resumen de cambios por temas y generación del informe final
 
 Generar un resumen de cambios agrupados por temas, basado en el análisis realizado en la etapa anterior.
 
-#### 5.1. Clasificar los cambios por temática
+#### 4.1. Clasificar los cambios por temática
 
 - Categorías estándar para este repositorio:
   - Mejoras en las funcionalidades
@@ -224,31 +234,42 @@ Generar un resumen de cambios agrupados por temas, basado en el análisis realiz
     - Alcance (número de archivos o módulos)
     - Frecuencia (cantidad de commits similares)
     - Tamaño relativo (líneas modificadas netas)
+  - Se debe describir brevemente la prioridad asignada a cada tema, registrando el motivo, para completar el campo `{Explicación Prioridad}` en la tabla del resumen de cambios.
+  - Asignación de un tema a cada commit, asegurando que cada tema tenga una descripción clara y concisa de los cambios realizados.
 
-- Requisitos para el resumen de cambios:
-  - Asegurarse que cada tema tiene una descripción clara y concisa de los cambios realizados.
-  - El resumen debe ser conciso y directo, evitando usar adjetivos rimbombantes. Usar un tono profesional y objetivo.
-  - Guardar este resumen en el archivo `informes/{año}-{mes como número}/resumen_cambios_{mes}_{año}.md`.
-  - El formato de los temas del resumen de cambios es:
+#### 4.2 Generar resumen por temas
+
+- Guardar resumen de cambios en el archivo `informes/{año}-{mes como número}/resumen_cambios_{mes}_{año}.md`, con el siguiente formato de encabezado:
 
   ```markdown
   # Resumen de cambios por temas
 
-  ## `{Categoría de Cambios}`
+  ```
 
-  ### `{Tema}`
-  - **Commits:** `{número de commits}` commits de `{detalle tema}`.
-  - **Impacto técnico:** `{Descripción del impacto técnico de los cambios}`.
+- Requisitos para el resumen de cambios:
+  - Asegurarse que cada tema tiene una descripción clara y concisa de los cambios realizados.
+    - Si una categoría no tiene temas, no debe incluirse en el resumen.
+  - El resumen debe ser conciso y directo, evitando usar adjetivos rimbombantes. Usar un tono profesional y objetivo.
+
+- El formato de los temas es:
+
+  ```markdown
+  ## {Categoría de Cambios} {número de commits en la categoría} commits.
+
+  ### {Tema}
+  - **Commits:** {número de commits} commits.
+  - **Descripción:** {Descripción del tema}.
+  - **Impacto técnico:** {Descripción del impacto técnico de los cambios}.
   - **Cambios principales:**
-    - `{Detalle de los cambios ordenado por prioridad}`
+    - {Detalle de los cambios ordenado por prioridad}. Prioridad: {Explicación Prioridad}
 
    ```
 
 - Revisar el archivo generado con herramienta de linter para markdown y corregir cualquier problema de formato detectado, sin desestimar ninguna advertencia.
 
-#### 5.2. Generar el documento del informe final
+#### 4.3. Generar el documento del informe final
 
-- Estructurar el informe Utilizando el template `informes/Instrucciones/Template_Informe_{repositorio}.md`, completando los campos necesarios:
+- Estructurar el informe utilizando el template `informes/Instrucciones/Template_Informe_{repositorio}.md`, completando los campos necesarios:
   - `{repositorio}`: Nombre del repositorio.
   - `{mes}`: Mes seleccionado.
   - `{año}`: Año seleccionado.
@@ -262,7 +283,7 @@ Generar un resumen de cambios agrupados por temas, basado en el análisis realiz
 
 - Guardar el informe como `informes/{año}-{mes como número}/Informe_Desarrollo_{repositorio}_{mes}_{año}.md`.
 
-#### 5.3. Revisión final
+#### 4.4 Revisión final
 
 - Validar que el documento cumple con los requisitos y está listo para ser entregado, incluyendo:
   - Verificar que todos los commits están listados y detallados correctamente.
