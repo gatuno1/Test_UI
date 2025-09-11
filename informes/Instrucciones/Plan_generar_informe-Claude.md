@@ -1,249 +1,376 @@
-# Plan para generación de informes de commits usando Claude Code
+# Plan de Generación de Informes de Commits - Optimizado para Claude Code
 
-**Objetivo:** Generar un informe detallado de commits del repositorio durante un mes específico, usando las capacidades de Claude Code para análisis técnico y documentación automatizada.
+**Objetivo:** Generar un informe completo y detallado de commits realizados durante un mes específico, aprovechando las capacidades nativas de Claude Code para automatización, análisis técnico y documentación.
 
-## Capacidades de Claude Code utilizadas
+## Herramientas y Capacidades de Claude Code
 
-- **Herramientas Git**: Comandos git a través de la herramienta Bash
-- **Creación/edición de archivos**: Herramientas Write, Edit y MultiEdit
-- **Búsqueda de archivos**: Herramientas Glob y Grep
-- **Validación markdown**: markdownlint-cli2 a través de Bash
-- **Agentes especializados**: Task tool con subagentes especializados
-- **Gestión de tareas**: TodoWrite para seguimiento de progreso
+### Herramientas Principales
 
-## Variables del proyecto
+- **Bash**: Comandos Git con soporte PowerShell/Windows, ejecución paralela
+- **Read/Write/Edit/MultiEdit**: Manejo avanzado de archivos con ediciones masivas
+- **Grep/Glob**: Búsqueda inteligente de archivos y patrones
+- **Task**: Agentes especializados para análisis técnico complejo
+- **TodoWrite**: Gestión granular de tareas con seguimiento en tiempo real
+- **markdownlint-cli2**: Validación automática con configuración específica:
 
-- **{repositorio}**: "Test_UI_v3" (detectado automáticamente del directorio actual)
-- **{mes}** y **{año}**: Definidos por input del usuario en Fase 1
-
-## Proceso de implementación
-
-### Fase 0: Preparación inicial
-
-Claude realizará automáticamente:
-
-- Verificar acceso al repositorio actual (`{repositorio}`)
-- Confirmar herramientas disponibles (git, markdownlint-cli2)
-- Validar estructura de directorios de informes
-- Crear directorios necesarios si no existen
-
-**Nota:** Solo se reportarán errores si alguna herramienta no está disponible.
-
-### Fase 1: Solicitud de parámetros
-
-- **Entrada requerida del usuario**: Mes y año para el informe
-- **Validación**: Claude verificará que el mes sea válido (1-12)
-- **Cálculo automático**: Determinación del rango de fechas (1 al último día del mes)
-- **Variables**: Se establecerán `{mes}` y `{año}` para uso posterior
-
-### Fase 2: Extracción de datos de commits
-
-#### 2.1 Obtención de lista de commits
-
-- **Comando git utilizado**:
-
-  ```bash
-  git log --since="YYYY-MM-01" --until="YYYY-MM-31" --pretty=format:"%H|%an|%ad|%s" --date=iso
-  ```
-
-- **Procesamiento**: Claude analizará la salida completa, manejando paginación si es necesaria
-- **Estructura de datos**: Cada commit incluirá:
-  - SHA completo
-  - Autor
-  - Fecha/hora ISO
-  - Mensaje completo
-  - URL de GitHub (se generará automáticamente)
-
-#### 2.2 Creación del archivo base
-
-- **Validación de directorio**: `informes/{año}-{mes como número}/`
-- **Archivo objetivo**: `commits_{mes}_{año}.md`
-- **Estructura de tabla**:
-
-  ```markdown
-  | Fecha y Hora | Identificador | Enlace al Commit | Título | Detalles | Archivo Afectado | Líneas + | Líneas - |
-  ```
-
-- **Ordenamiento**: Cronológico ascendente (más antiguo a más reciente)
-- **Separación mensaje**: Título (primera línea) y detalles (resto del mensaje)
-
-#### 2.3 Correcciones de formato automáticas
-
-- **Escape de caracteres**: Reemplazo obligatorio de `*` por `+` en mensajes de commit, con separadores `<br>`
-- **Validación markdown**: **OBLIGATORIA** - Ejecución automática de:
-
-  ```bash
+  ```powershell
   markdownlint-cli2 --config "informes/Instrucciones/.markdownlint.json" "informes/{año}-{mes como número}/commits_{mes}_{año}.md"
   ```
 
-- **Corrección de enlaces**: Verificación y corrección de URLs de GitHub
-- **Requisito no negociable**: Corregir cualquier problema de formato detectado, sin desestimar ninguna advertencia
+### Optimizaciones Específicas
 
-### Fase 3: Análisis de cambios por commit
+- **Procesamiento en lotes**: Análisis de múltiples commits simultáneamente
+- **Agentes especializados**: Delegación de análisis técnico complejo
+- **Ejecución paralela**: Comandos Git concurrentes cuando es posible
+- **Validación continua**: Linting automático después de cada generación
+- **MultiEdit**: Operaciones masivas de edición en archivos grandes
 
-#### 3.1 Estadísticas de archivos
+## Variables del Proyecto
 
-- **Por cada commit**: Ejecución de `git show --stat {SHA}`
-- **Extracción de datos**:
-  - Nombres de archivos modificados
-  - Líneas agregadas por archivo
-  - Líneas eliminadas por archivo
-- **Actualización de tabla**: Inserción de datos en columnas correspondientes con separadores `<br>`
+- **{repositorio}**: `Especificaciones-UI` Asignado para el informe
+- **{mes}** y **{año}**: Definidos por input del usuario
+- **{mes como número}**: Conversión automática (enero=01, febrero=02, etc.)
 
-### Fase 4: Análisis técnico detallado
+## Proceso Optimizado - 6 Fases
 
-#### 4.1 Análisis usando subagentes
+### Fase 0: Preparación Automática
 
-- **Agente especializado**: "general-purpose" para análisis de código
-- **Proceso por commit**:
-  - Obtención de `git diff` completo
-  - Análisis del contexto técnico
-  - Comprensión de cambios en variables, lógica y documentación
-- **Tareas del agente**:
-  - Leer y analizar diffs de código
-  - Correlacionar cambios con mensajes de commit
-  - Generar resúmenes técnicos objetivos
-  - Evitar juicios de valor y adjetivos rimbombantes
+**Tareas automáticas de Claude:**
 
-#### 4.2 Documentación de cambios
+- Asegurarse que tienes acceso al repositorio en GitHub y que puedes clonarlo localmente si es necesario
+- Asegurarse que tienes permisos para leer los commits y detalles del repositorio
+- Verificar herramientas Git y markdownlint-cli2 están instaladas y funcionan correctamente
+- Validar/crear estructura: `informes/{año}-{mes como número}/`
+- Configurar variables del proyecto automáticamente
 
-- **Agente de redacción**: "general-purpose" para redacción técnica
-- **Archivo objetivo**: `commits_detallados_{mes}_{año}.md`
-- **RESTRICCIÓN**: Abstente de agregar otras secciones o detalles que no sean estrictamente necesarios para el informe de commits
-- **Numeración obligatoria**: Cada commit debe tener un número correlativo único, ordenados cronológicamente ascendente
-- **Formato exacto por commit**:
+**Nota:** Solo reportar al usuario si hay errores críticos
 
-  ```markdown
-  ### {numero correlativo}. Título del Commit - {SHA corto}
-  - **Fecha y Hora:** {YYYY-MM-DD HH:MM:SS}
-  - **Enlace al Commit:** [Commit {SHA corto}]({URL})
-  - **Título:** {Título Mensaje}
-  - **Detalles:** {Detalles Mensaje}
-  - **Archivos Modificados:**
-    - `{Archivo Modificado}`: {Líneas Agregadas} líneas agregadas | {Líneas Eliminadas} líneas eliminadas
-  - **Cambios realizados:**
-    - {Lista detallada de cambios}
-  - **Resumen de cambios:**
-    {Explicación técnica objetiva de qué cambió}
+### Fase 1: Configuración de Período
 
-  ---
+**Interacción con usuario:**
 
+- Solicitar mes y año específico
+- Validación automática (1-12 para mes, año coherente)
+- Cálculo automático del rango de fechas completo
+- Confirmación de período seleccionado
+
+### Fase 2: Extracción Masiva de Datos
+
+#### 2.1 Comando Git Optimizado
+
+```powershell
+git log --since="YYYY-MM-01" --until="YYYY-MM-31" --pretty=format:"%H|%an|%ad|%s" --date=iso
+```
+
+**Procesamiento inteligente:**
+
+- **Crítico**: Obtener la lista completa de commits del rango de fechas, considerando que la información puede llegar en lotes y no completa de una sola vez. Usar paginación si es necesario
+- Asegurarse que se obtienen todos los commits, sin omitir ninguno
+- Si no hay commits en el rango de fechas, informar al usuario y finalizar el proceso
+- Estructuración completa de datos en memoria
+- Generación automática de enlaces GitHub desde `git remote -v`
+- Ordenamiento cronológico ascendente (del más antiguo al más reciente)
+- **Garantía**: Obtención completa de todos los commits
+
+**Cada commit debe incluir:**
+
+- Identificador único (SHA)
+- Autor
+- Fecha y hora
+- Mensaje de commit completo
+- Enlace al commit en GitHub (se completará después si no se puede obtener inicialmente)
+
+#### 2.2 Generación de Archivo Base
+
+**Archivo:** `commits_{mes}_{año}.md`
+
+**Formato del encabezado del archivo:**
+
+```markdown
+# Lista detallada de commits - {mes} {año}
+
+## Tabla de commits
+| Fecha y Hora        | Identificador | Enlace al Commit  | Título         | Detalles         | Archivo Afectado | Líneas +  | Líneas -   |
+|---------------------|---------------|-------------------|----------------|------------------|------------------|----------:|-----------:|
+```
+
+**Procesamiento de cada commit:**
+
+- Para cada commit obtener los detalles:
+  - Identificador único (SHA)
+  - Fecha y hora
+  - Enlace al commit
+  - **Separación específica de título y detalles del mensaje de commit**, sin resumir ni acortarlos:
+    - **El título es la primera línea antes de un salto de línea**
+    - **Detalles son el resto del mensaje, y puede resultar vacío si el mensaje de commit es solo una línea**
+
+**Requisitos de escritura:**
+
+- Escribir la información al archivo, donde cada fila de la tabla debe corresponder a un commit
+- **Commits ordenados por fecha y hora ascendente (del más antiguo al más reciente)**
+- Asegurarse que la cantidad de commits sea la misma que la cantidad de líneas en la tabla
+- **Abstenerse de agregar otras secciones o detalles**
+
+**Optimizaciones:**
+
+- **Crítico**: Escape automático de caracteres problemáticos (`*` → `+`) en mensajes
+- Separación con `<br>` si hay múltiples reemplazos en el mismo mensaje
+- Formato de tabla markdown optimizado
+- **Validación inmediata** con markdownlint-cli2
+
+### Fase 3: Análisis Técnico con Estadísticas
+
+#### 3.1 Extracción de Estadísticas de Archivos
+
+**Comando optimizado por commit:**
+
+```bash
+git show --stat {SHA}
+```
+
+**Procesamiento automático:**
+
+- Nombres de archivos modificados (cada archivo rodeado con caracteres '`')
+- Separación de múltiples archivos con `<br>`
+- **Estadísticas por archivo individual**: Para cada archivo mostrar líneas agregadas y eliminadas específicas usando formato `archivo: X+ \| Y-`
+- **Commits sin archivos**: "Sin cambios", "0" y "0" en columnas respectivas
+- **Commits con archivos**: Listar todos los archivos sin omitir ninguno con sus estadísticas individuales
+- **Escritura en columnas correspondientes**: Separar números con saltos de línea (`<br>`) para múltiples archivos, asegurándose que cada número corresponda al archivo en la misma posición
+- Correlación exacta archivo ↔ estadísticas (mismo orden/posición)
+- Actualización masiva con MultiEdit
+- Validación: cantidad procesada = cantidad total de commits
+
+#### 3.1.1 Correcciones de Formato Críticas
+
+**Tareas obligatorias:**
+
+- Reemplazar caracteres `*` por `•` en mensajes para evitar conflictos markdown
+- Si hay múltiples reemplazos en el mismo mensaje, separarlos con `<br>`
+- Validación inmediata con markdownlint-cli2 usando configuración específica
+- Verificación de todos los enlaces GitHub correctamente formateados y accesibles
+
+#### 3.2 Análisis de Diffs Completo
+
+**Comando por commit:**
+
+```bash
+git show {SHA}
+git diff {SHA}^..{SHA}  # Para análisis detallado de cambios
+```
+
+**Uso específico de agentes especializados:**
+
+Si tienes la capacidad de crear subagentes, utilízalos y delega estas tareas a un subagente especializado en análisis de código y generación de resúmenes técnicos. Si no tienes la capacidad de crear subagentes, realiza esta tarea tú mismo.
+
+- **Nombre del subagente**: "Agente Analista de Commits"
+- **Capacidades requeridas**: Leer y analizar diffs de código, entender cambios en variables, lógica y documentación, y generar resúmenes técnicos claros
+- **Prompt detallado debe incluir**:
+  - El contexto del proyecto
+  - El objetivo del análisis
+  - El formato esperado para la respuesta
+  - Cualquier restricción o detalle específico que deba considerar
+- Generar varios subagentes si es necesario para dividir la carga de trabajo
+- Supervisar el progreso del subagente y asegurarse de que cumple con los requisitos
+- Revisar y validar la información proporcionada por el subagente antes de integrarla
+
+**Procesamiento con Task agent "Agente Analista de Commits":**
+
+- **Detección de commits vacíos**: Identificar commits sin cambios en archivos
+- Análisis técnico detallado de cada diff completo usando `git diff`
+- Identificación específica de:
+  - Cambios en variables (nuevas, eliminadas, renombradas, modificadas)
+  - Cambios en lógica (funciones, estructuras de control)
+  - Cambios en documentación (comentarios)
+  - Cambios en archivos de configuración
+- Generación de resúmenes técnicos objetivos proporcionales a la complejidad:
+  - **Commits simples** (1-2 archivos, cambios menores): 1-3 líneas
+  - **Commits moderados** (múltiples archivos, cambios significativos): 3-5 líneas
+  - **Commits complejos** (refactorizaciones, nuevas funcionalidades): 5-8 líneas
+  - **Criterios de complejidad**: número de archivos, líneas modificadas, tipo de cambios (lógica vs documentación)
+- **Requisitos del análisis**:
+  - Técnico y claro, explicando qué cambió y por qué
+  - Evitar redundancias y explicaciones innecesarias
+  - Tono objetivo, evitando juicios de valor y adjetivos rimbombantes
+
+### Fase 4: Documentación Detallada
+
+#### 4.1 Generación de Análisis Detallado
+
+**Archivo:** `commits_detallados_{mes}_{año}.md`
+
+**Formato del encabezado del archivo:**
+
+```markdown
+# Análisis detallado de commits - {mes} {año}
+
+---
+
+```
+
+**Con agente especializado Task:**
+
+- Formato estándar por commit con numeración correlativa
+- Análisis técnico completo de cambios
+- Resúmenes concisos y objetivos
+- **Restricción CRÍTICA**: Solo contenido solicitado, sin secciones adicionales
+- **Abstención obligatoria**: No agregar detalles no estrictamente necesarios
+- **Manejo de commits vacíos**: Si no hay cambios, indicar "Commit sin cambios en archivos"
+- **Evaluación de complejidad para resúmenes proporcionales**:
+  - **Commits simples**: Cambios menores en documentación, correcciones ortográficas, ajustes de formato → 1-3 líneas
+  - **Commits moderados**: Múltiples archivos modificados, nuevas características menores, refactorizaciones simples → 3-5 líneas
+  - **Commits complejos**: Refactorizaciones mayores, nuevas funcionalidades significativas, cambios arquitectónicos → 5-8 líneas
+
+**Formato exacto por commit:**
+
+```markdown
+## {N}. {Título del Commit} - {SHA corto}
+- **Fecha y Hora:** {YYYY-MM-DD HH:MM:SS}
+- **Enlace al Commit:** [Commit {SHA corto}]({URL GitHub})
+- **Título:** {Título mensaje}
+- **Detalles:** {Detalles mensaje}
+- **Archivos Modificados:**
+  - `{archivo}`: {líneas+} líneas agregadas | {líneas-} líneas eliminadas
+- **Cambios realizados:**
+  - {Lista técnica detallada específica}
+- **Resumen de cambios:**
+  {Explicación técnica objetiva proporcional a la complejidad del commit}
+
+---
+```
+
+**Requisitos de formato específicos:**
+
+- Usar exactamente títulos y detalles saneados de la tabla original
+- Ordenar commits cronológicamente ascendente
+- Numeración correlativa única comenzando en 1
+- Para commits vacíos: "Commit sin cambios en archivos" y terminar procesamiento
+
+#### 4.2 Validación Automática
+
+- **Obligatorio**: markdownlint-cli2 sin errores
+- Verificación de enlaces GitHub
+- Consistencia de formato y numeración
+
+### Fase 5: Clasificación y Resumen
+
+#### 5.1 Clasificación Temática Automática
+
+**Categorías estándar:**
+
+- Mejoras en funcionalidades
+- Corrección de errores (bugfixes)
+- Mejoras de rendimiento
+- Refactorización de código
+- Limpieza de código y comentarios
+- Mejoras en documentación
+- Mejoras en pruebas (testing)
+- Mejoras en empaquetado y despliegue
+- Actualizaciones de dependencias
+- Otros cambios relevantes
+
+**Proceso con agente Task:**
+
+- Análisis automático de mensajes de commit
+- Correlación con cambios técnicos identificados
+- Identificación de temas relevantes
+- Agrupación automática por categoría y temática dentro de cada categoría
+- **Priorización dentro de cada categoría por**:
+  - Impacto (afecta funcionalidad central / superficie de usuarios)
+  - Complejidad (cambios simples versus complejos)
+  - Alcance (número de archivos o módulos)
+  - Frecuencia (cantidad de commits similares)
+  - Tamaño relativo (líneas modificadas netas)
+- **Crítico**: Describir brevemente la prioridad asignada a cada tema, registrando el motivo, para completar el campo `{Explicación Prioridad}`
+- Asignación de un tema a cada commit, asegurando que cada tema tenga una descripción clara y concisa
+
+#### 5.2 Generación de Resumen por Temas
+
+**Archivo:** `resumen_cambios_{mes}_{año}.md`
+
+**Formato del encabezado del archivo:**
+
+```markdown
+# Resumen de cambios por temas
+
+```
+
+**Requisitos para el resumen de cambios:**
+
+- Asegurarse que cada tema tiene una descripción clara y concisa de los cambios realizados
+- Si una categoría no tiene temas, no debe incluirse en el resumen
+- El resumen debe ser conciso y directo, evitando usar adjetivos rimbombantes. Usar un tono profesional y objetivo
+
+**Formato por categoría y tema:**
+
+```markdown
+## {Categoría de Cambios} - {número de commits en la categoría} commits
+
+### {Tema}
+- **Commits:** {número de commits} commits
+- **Descripción:** {Descripción del tema}
+- **Impacto técnico:** {Descripción del impacto técnico de los cambios}
+- **Cambios principales:**
+  - {Detalle de los cambios ordenado por prioridad}. Prioridad: {Explicación Prioridad}
+```
+
+### Fase 6: Informe Final Consolidado
+
+#### 6.1 Generación desde Template
+
+**Base:** `informes/Instrucciones/Template_Informe_{repositorio}.md`
+
+**Variables auto-completadas:**
+
+- `{repositorio}` → Nombre asignado al repositorio para el informe
+- `{mes}` → Mes seleccionado por el usuario
+- `{año}` → Año seleccionado por el usuario
+- `{mes y año solicitado}` → Formato "Mes Año" (ej: "Julio 2025")
+- `{Resumen ejecutivo}` → Resumen técnico en máximo 4 párrafos:
+  - Incluir cantidad total de commits
+  - Listar principales cambios de las dos primeras categorías
+  - Explicar qué cambió y por qué (técnico y claro)
+  - Tono profesional y objetivo, sin adjetivos rimbombantes
+- `{Resumen por temas}` → Contenido completo del archivo resumen_cambios
+
+**Archivo final:** `Informe_Desarrollo_{repositorio}_{mes}_{año}.md`
+
+#### 6.2 Validación Final Completa
+
+- **Crítico**: markdownlint-cli2 con configuración específica:
+
+  ```powershell
+  markdownlint-cli2 --config "informes/Instrucciones/.markdownlint.json" "informes/{año}-{mes como número}/*.md"
   ```
 
-#### 4.3 Validación final de documentos
+- Verificación de todos los enlaces GitHub funcionales
+- Validación de caracteres `*` reemplazados por `+`
+- Consistencia de formato con caracteres '`' en nombres de archivos
+- Completitud: cantidad de commits procesados = cantidad listada
+- Sin secciones adicionales no solicitadas en ningún documento
 
-- **CRÍTICO**: Validación **OBLIGATORIA** del documento
-- **Linter markdown**: **REQUISITO NO NEGOCIABLE** - Verificación automática de formato usando:
+#### 6.3 Revisión Final de Requisitos
 
-  ```bash
-  markdownlint-cli2 --config "informes/Instrucciones/.markdownlint.json" "informes/{año}-{mes como número}/commits_detallados_{mes}_{año}.md"
-  ```
+**Validación obligatoria antes de entregar:**
 
-- **Corrección de enlaces**: Validación obligatoria de accesibilidad de URLs de GitHub
-- **Consistencia**: Verificación obligatoria de numeración y ordenamiento cronológico
-- **Completitud**: Corregir **TODOS** los problemas detectados, sin desestimar ninguna advertencia
+- Verificar que todos los commits están listados y detallados correctamente
+- Confirmar que el resumen de cambios por temas es claro y conciso
+- Validar formato consistente y profesional en todos los documentos
+- **Crítico**: No debe haber secciones o detalles no solicitados en ningún informe
+- El informe debe centrarse exclusivamente en commits y cambios realizados
 
-### Fase 5: Generación de informe consolidado
+## Productos Entregables
 
-#### 5.1 Clasificación temática
+1. **`commits_{mes}_{año}.md`** - Tabla completa con estadísticas
+2. **`commits_detallados_{mes}_{año}.md`** - Análisis técnico detallado
+3. **`resumen_cambios_{mes}_{año}.md`** - Clasificación temática
+4. **`Informe_Desarrollo_{repositorio}_{mes}_{año}.md`** - Documento final consolidado
 
-- **Categorías estándar**:
-  - Mejoras en las funcionalidades
-  - Corrección de errores (bugfixes)
-  - Mejoras de rendimiento
-  - Refactorización de código
-  - Limpieza de código y comentarios
-  - Mejoras en la documentación
-  - Mejoras en pruebas (testing)
-  - Mejoras en empaquetado y despliegue
-  - Actualizaciones de dependencias
-  - Otros cambios relevantes
-
-- **Proceso de clasificación**:
-  - Análisis de mensajes de commit
-  - Correlación con cambios técnicos identificados
-  - Agrupación automática por temática
-  - Priorización dentro de cada categoría
-
-#### 5.2 Generación de resumen por temas
-
-- **Archivo objetivo**: `resumen_cambios_{mes}_{año}.md`
-- **Formato específico por categoría**:
-
-  ```markdown
-  ## `{Categoría de Cambios}`
-
-  ### `{Tema}`
-  - **Commits:** `{número de commits}` commits de `{detalle tema}`
-  - **Impacto técnico:** `{Descripción del impacto técnico de los cambios}`
-  - **Cambios principales:**
-    - `{Detalle de los cambios ordenado por prioridad}`
-  ```
-
-- **Contenido por categoría estándar**:
-  - Descripción concisa de cambios
-  - Impacto técnico identificado
-  - Tono profesional y objetivo
-  - Evitar juicios de valor y adjetivos rimbombantes
-- **SIEMPRE**: Revisar con linter después de generar resumen_cambios
-
-#### 5.3 Informe final consolidado
-
-- **Template base**: `informes/Instrucciones/Template_Informe_{repositorio}.md`
-- **Variables completadas automáticamente**:
-  - `{repositorio}`: Variable definida ("Test_UI_v3")
-  - `{mes}` y `{año}`: Del input del usuario
-  - `{mes y año solicitado}`: Formato "Mes Año" (ejemplo: "Agosto 2025")
-  - `{resumen}`: Resumen ejecutivo (máximo 4 párrafos, primera línea debe indicar cantidad total de commits)
-  - `{cambios agrupados}`: Contenido completo del archivo resumen_cambios_{mes}_{año}.md
-
-- **Archivo final**: `Informe_Desarrollo_{repositorio}_{mes}_{año}.md`
-
-### Fase 6: Validación y entrega
-
-#### 6.1 Verificaciones finales
-
-- **Completitud**: Todos los commits procesados y documentados
-- **Consistencia**: Formato uniforme en todos los documentos
-- **Calidad**: Enlaces funcionales y markdown válido
-- **Exclusividad**: Solo contenido solicitado, sin secciones adicionales
-
-#### 6.2 Limpieza y organización
-
-- **VALIDACIÓN FINAL OBLIGATORIA**: Linter debe ejecutarse **SIN ERRORES** en todos los archivos generados
-- **Verificación de enlaces**: **TODAS** las URLs de GitHub deben ser accesibles y funcionales
-- **Estructura de archivos**: Organización correcta en directorios
-- **ENFOQUE EXCLUSIVO**: El informe debe centrarse exclusivamente en commits y cambios realizados
-
-## Herramientas de Claude Code empleadas
-
-- **Bash**: git log, git show, git diff, markdownlint-cli2
-- **Write/Edit/MultiEdit**: Creación y modificación de archivos markdown
-- **Task**: Delegación a agentes especializados en análisis y redacción
-- **TodoWrite**: Seguimiento de progreso y gestión de tareas
-- **Glob/Grep**: Búsqueda de archivos y patrones si es necesario
-
-## Flujo de ejecución con seguimiento
+## Gestión de Tareas con TodoWrite
 
 Claude utilizará TodoWrite para:
 
-1. **Planificar** todas las fases como tareas individuales
-2. **Actualizar estado** de cada tarea en tiempo real
-3. **Reportar progreso** al usuario durante la ejecución
-4. **Marcar completado** cada fase al finalizar
-
-## Productos entregables
-
-1. `commits_{mes}_{año}.md` - Tabla detallada de commits
-2. `commits_detallados_{mes}_{año}.md` - Análisis técnico por commit
-3. `resumen_cambios_{mes}_{año}.md` - Resumen agrupado por temas
-4. `Informe_Desarrollo_{repositorio}_{mes}_{año}.md` - Informe final consolidado
-
-## Consideraciones especiales
-
-- **Repositorio objetivo**: Variable `{repositorio}` definida como "Test_UI_v3"
-- **Adaptación automática**: El plan se ajusta al repositorio específico usando variables
-- **Manejo de errores**: Reportes claros si faltan herramientas o permisos
-- **Eficiencia**: Uso de herramientas batch de Claude para optimizar tiempo
-- **Calidad**: Análisis técnico detallado usando capacidades de IA de Claude
-- **Formato markdown**: **OBLIGATORIO** en cada fase, sin excepciones ni advertencias pendientes
+- **Planificación granular**: Cada sub-tarea como ítem individual
+- **Seguimiento en tiempo real**: Estado actualizado continuamente
+- **Progreso visible**: El usuario ve el avance paso a paso
+- **Detección de problemas**: Identificación temprana de issues
+- **Completitud garantizada**: Verificación de que todas las tareas se completan
