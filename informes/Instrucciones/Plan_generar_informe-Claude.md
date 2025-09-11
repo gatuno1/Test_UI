@@ -113,7 +113,7 @@ git log --since="YYYY-MM-01" --until="YYYY-MM-31" --pretty=format:"%H|%an|%ad|%s
 
 **Optimizaciones:**
 
-- **Crítico**: Escape automático de caracteres problemáticos (`*` → `+`) en mensajes
+- **Crítico**: Escape automático de caracteres problemáticos (`*` → `•`) en mensajes
 - Separación con `<br>` si hay múltiples reemplazos en el mismo mensaje
 - Formato de tabla markdown optimizado
 - **Validación inmediata** con markdownlint-cli2
