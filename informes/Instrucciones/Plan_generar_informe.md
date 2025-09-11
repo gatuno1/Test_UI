@@ -18,7 +18,7 @@
 
 Realizar las siguientes acciones, informando al usuario solo en caso de error si alguna de estas acciones no se puede completar:
 
-- Recordar que el nombre del repositorio es `Especificaciones-UI`.
+- Recordar que el nombre asignado al repositorio será `Especificaciones-UI`, para su uso en el informe.
 - Asegurarse que tienes acceso al repositorio en GitHub y que puedes clonarlo localmente si es necesario.
 - Asegurarse que tienes permisos para leer los commits y detalles del repositorio.
 - Asegurarse que están instaladas las [herramientas listadas en la sección](#herramientas-necesarias) y que funcionan correctamente.
@@ -95,14 +95,14 @@ En esta etapa se procesará cada commit, obteniendo una lista de todos los archi
   - Si un commit no tiene archivos modificados, escribir "Sin cambios", "0" y "0" en las columnas de archivos afectados, líneas agregadas y líneas eliminadas, respectivamente.
   - En cambio, si el commit tiene al menos un archivo modificado, listar todos los archivos y sus respectivas líneas agregadas y eliminadas, separando los nombres de los archivos con saltos de línea (`<br>`).
     - Cada nombre de archivo debe estar rodeado con caracteres '`' para formato de código.
-  - Hacer lo mismo para las columnas de líneas agregadas y eliminadas, asegurándose que cada número corresponda al archivo en la misma posición.
+  - Escribir el valor de líneas agregadas y eliminadas en las columnas correspondientes, separando los números con saltos de línea (`<br>`) para múltiples archivos, asegurándose que cada número corresponda al archivo en la misma posición.
   - No omitir ningún archivo, incluso si son muchos.
 
 - Validar que la cantidad total de registros procesados coincida con la cantidad informada por la API.
 
 #### 2.4 Correcciones de formato
 
-- Reemplazar caracteres `*` por `+` en mensajes para evitar conflictos markdown:
+- Reemplazar caracteres `*` por `•` en mensajes para evitar conflictos markdown:
   - Si hay múltiples reemplazos en el mismo mensaje, separarlos con `<br>`
 - Revisar el archivo generado con linter para markdown y corregir cualquier problema de formato detectado, sin desestimar ninguna advertencia.
 - Asegurarse de que todos los enlaces a commits de GitHub estén correctamente formateados y sean accesibles.
