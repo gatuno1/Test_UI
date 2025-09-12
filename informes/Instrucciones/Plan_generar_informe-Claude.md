@@ -59,7 +59,7 @@
 #### 2.1 Comando Git Optimizado
 
 ```powershell
-git log --since="YYYY-MM-01" --until="YYYY-MM-31" --pretty=format:"%H|%an|%ad|%s" --date=iso
+git log --since="YYYY-MM-01" --until="YYYY-MM-31" --pretty=format:"%H|%an|%ad|%s" --date=iso --reverse
 ```
 
 **Procesamiento inteligente:**
@@ -89,10 +89,15 @@ git log --since="YYYY-MM-01" --until="YYYY-MM-31" --pretty=format:"%H|%an|%ad|%s
 ```markdown
 # Lista detallada de commits - {mes} {año}
 
+Generado usando `{nombre archivo del plan}`.
+
 ## Tabla de commits
 | Fecha y Hora        | Identificador | Enlace al Commit  | Título         | Detalles         | Archivo Afectado | Líneas +  | Líneas -   |
 |---------------------|---------------|-------------------|----------------|------------------|------------------|----------:|-----------:|
+| YYYY-MM-DD HH:MM:SS | SHA corto     | [Commit {SHA corto}](URL) | Título Mensaje | Detalles Mensaje |`Archivo1`<br>`Archivo2`<br>`Archivo3` |num_agregadas1<br>num_agregadas2<br>num_agregadas3|num_eliminadas1<br>num_eliminadas2<br>num_eliminadas3|
 ```
+
+**Nota:** los campos `archivo`, `num_agregadas` y `num_eliminadas` se completarán en la siguiente etapa.
 
 **Procesamiento de cada commit:**
 
@@ -100,22 +105,22 @@ git log --since="YYYY-MM-01" --until="YYYY-MM-31" --pretty=format:"%H|%an|%ad|%s
   - Identificador único (SHA)
   - Fecha y hora
   - Enlace al commit
-  - **Separación específica de título y detalles del mensaje de commit**, sin resumir ni acortarlos:
-    - **El título es la primera línea antes de un salto de línea**
+  - **Separación específica de Título y Detalles desde el mensaje de commit**, sin resumir ni acortarlos:
+    - **El Título es la primera línea antes de un salto de línea**
     - **Detalles son el resto del mensaje, y puede resultar vacío si el mensaje de commit es solo una línea**
 
 **Requisitos de escritura:**
 
 - Escribir la información al archivo, donde cada fila de la tabla debe corresponder a un commit
 - **Commits ordenados por fecha y hora ascendente (del más antiguo al más reciente)**
+- Fecha y hora en formato `YYYY-MM-DD HH:MM:SS`
 - Asegurarse que la cantidad de commits sea la misma que la cantidad de líneas en la tabla
 - **Abstenerse de agregar otras secciones o detalles**
 
 **Optimizaciones:**
 
-- **Crítico**: Escape automático de caracteres problemáticos (`*` → `•`) en mensajes
-- Separación con `<br>` si hay múltiples reemplazos en el mismo mensaje
-- Formato de tabla markdown optimizado
+- **Crítico**: Escape automático de caracteres problemáticos (`*` → `•`) en Título y Detalles
+- Separación con `<br>` si hay múltiples reemplazos en la misma línea
 - **Validación inmediata** con markdownlint-cli2
 
 ### Fase 3: Análisis Técnico con Estadísticas
@@ -132,15 +137,21 @@ git show --stat {SHA}
 
 - Nombres de archivos modificados (cada archivo rodeado con caracteres '`')
 - Separación de múltiples archivos con `<br>`
-- **Estadísticas por archivo individual**: Para cada archivo mostrar líneas agregadas y eliminadas específicas usando formato `archivo: X+ \| Y-`
-- **Commits sin archivos**: "Sin cambios", "0" y "0" en columnas respectivas
-- **Commits con archivos**: Listar todos los archivos sin omitir ninguno con sus estadísticas individuales
-- **Escritura en columnas correspondientes**: Separar números con saltos de línea (`<br>`) para múltiples archivos, asegurándose que cada número corresponda al archivo en la misma posición
+- Para cada archivo modificado en el commit, obtener:
+  - Nombre del archivo
+  - Número de líneas agregadas
+  - Número de líneas eliminadas
+- **Actualizar archivo con estadísticas**:
+  - Si un commit no tiene archivos modificados, escribir "Sin cambios", "0" y "0" en las columnas de archivos afectados, líneas agregadas y líneas eliminadas, respectivamente
+  - Si el commit tiene al menos un archivo modificado, listar todos los archivos y sus respectivas líneas agregadas y eliminadas, separando los nombres de los archivos con saltos de línea (`<br>`)
+    - Cada nombre de archivo debe estar rodeado con caracteres '`' para formato de código
+  - Escribir el valor de líneas agregadas y eliminadas en las columnas correspondientes, separando los números con saltos de línea (`<br>`) para múltiples archivos, asegurándose que cada número corresponda al archivo en la misma posición
+  - No omitir ningún archivo, incluso si son muchos
 - Correlación exacta archivo ↔ estadísticas (mismo orden/posición)
 - Actualización masiva con MultiEdit
 - Validación: cantidad procesada = cantidad total de commits
 
-#### 3.1.1 Correcciones de Formato Críticas
+#### 3.2 Correcciones de Formato Críticas
 
 **Tareas obligatorias:**
 
@@ -149,7 +160,7 @@ git show --stat {SHA}
 - Validación inmediata con markdownlint-cli2 usando configuración específica
 - Verificación de todos los enlaces GitHub correctamente formateados y accesibles
 
-#### 3.2 Análisis de Diffs Completo
+#### 3.3 Análisis de Diffs Completo
 
 **Comando por commit:**
 
