@@ -39,7 +39,7 @@ Realizaré las siguientes acciones de forma automática, informándote solo si e
 - Utilizaré mi herramienta `terminal` para ejecutar el siguiente comando `git log`, manejando la paginación si la salida es muy extensa:
 
     ```powershell
-    git log --since="YYYY-MM-01" --until="YYYY-MM-31" --pretty=format:"%H|%an|%ad|%s" --date=iso
+    git log --since="YYYY-MM-01" --until="YYYY-MM-31" --pretty=format:"%H|%an|%ad|%s" --date=iso --reverse
     ```
 
 - Si no se encuentran commits, te informaré y finalizaré el proceso.
@@ -47,20 +47,23 @@ Realizaré las siguientes acciones de forma automática, informándote solo si e
 
 #### 2.2. Escribir la Tabla de Commits
 
-- Crearé el archivo `informes/{año}-{mes como número}/commits_{mes}_{año}.md` con la siguiente cabecera y estructura de tabla:
+- Crearé el archivo `informes/{año}-{mes como número}/commits_{mes}_{año}.md` con la siguiente cabecera y estructura de tabla, con contenido exacto:
 
   ```markdown
   # Lista detallada de commits - {mes} {año}
+
+  Generado usando `{nombre archivo del plan}` el {fecha y hora actual en formato YYYY-MM-DD HH:MM:SS}.
 
   ## Tabla de commits
   | Fecha y Hora        | Identificador | Enlace al Commit  | Título         | Detalles         | Archivo Afectado | Líneas +  | Líneas -   |
   |---------------------|---------------|-------------------|----------------|------------------|------------------|----------:|-----------:|
   ```
 
-- Procesaré cada commit para separar el **título** (primera línea del mensaje) y los **detalles** (resto del mensaje), sin acortarlos.
 - Poblaré la tabla con la información de cada commit, ordenados cronológicamente de forma ascendente.
+  - Usaré el formato `YYYY-MM-DD HH:MM:SS` para la columna `Fecha y Hora`.
   - Usaré el **SHA corto** (7 caracteres) en la columna `Identificador`.
-  - El enlace al commit tendrá el formato `Ver commit`.
+  - El enlace al commit tendrá el formato `Commit {SHA corto}`.
+  - Procesaré cada commit para separar el **Título** (primera línea del mensaje) y los **Detalles** (resto del mensaje), sin acortarlos.
   - Las columnas de archivos y líneas se dejarán vacías por ahora.
 - Me aseguraré de que la cantidad de filas coincida con el número total de commits obtenidos.
 
@@ -73,7 +76,7 @@ Realizaré las siguientes acciones de forma automática, informándote solo si e
 
 #### 2.4. Correcciones de Formato
 
-- Reemplazaré los caracteres `*` por `•` en los mensajes de commit. Si hay múltiples reemplazos en el mismo mensaje, los separaré con `<br>`.
+- Reemplazaré los caracteres `*` por `•` en Título y Detalles de la línea. Si hay múltiples reemplazos en el mismo mensaje, los separaré con `<br>`.
 - Ejecutaré el linter para validar y corregir el archivo:
 
     ```powershell
