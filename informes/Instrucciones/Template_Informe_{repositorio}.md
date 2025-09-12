@@ -1,5 +1,7 @@
 # Informe de Desarrollo - {nombre repositorio}
 
+Generado usando `{nombre archivo del plan}`.
+
 ## Periodo: {mes y año solicitado}
 
 Este informe detalla todos los cambios realizados en el repositorio {repositorio} durante el mes de {mes} de {año}, agrupados por temas.
@@ -10,12 +12,16 @@ Este informe detalla todos los cambios realizados en el repositorio {repositorio
 
 ## Clasificación de Temas
 
-- Actualización de diccionarios de datos
-- Mejoras en documentación técnica
-- Corrección de inconsistencias
-- Reestructuración de documentos
-- Configuración y herramientas
-- Creación de nuevos documentos
+- Mejoras en las funcionalidades
+- Corrección de errores (bugfixes)
+- Mejoras de rendimiento
+- Refactorización de código
+- Limpieza de código y comentarios
+- Mejoras en la documentación
+- Mejoras en pruebas (testing)
+- Mejoras en empaquetado y despliegue
+- Actualizaciones de dependencias
+- Otros cambios relevantes
 
 ## Resumen estadístico por tema
 
