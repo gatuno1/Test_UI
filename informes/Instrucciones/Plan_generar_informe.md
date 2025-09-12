@@ -57,7 +57,7 @@ Realizar las siguientes acciones, informando al usuario solo en caso de error si
   > ```markdown
   > # Lista detallada de commits - {mes} {año}
   >
-  > Generado usando `{nombre archivo del plan}` el {fecha y hora actual en formato YYYY-MM-DD HH:MM:SS}.
+  > Generado usando `{nombre archivo del plan}`.
   >
   > ## Tabla de commits
   > | Fecha y Hora        | Identificador | Enlace al Commit  | Título         | Detalles         | Archivo Afectado | Líneas +  | Líneas -   |
