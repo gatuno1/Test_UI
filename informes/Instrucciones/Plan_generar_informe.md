@@ -36,7 +36,7 @@ Realizar las siguientes acciones, informando al usuario solo en caso de error si
 - Consultar el repositorio en GitHub para obtener todos los commits realizados en el rango de fechas para el informe. Usar comandos como:
 
   ```powershell
-  git log --since="YYYY-MM-01" --until="YYYY-MM-31" --pretty=format:"%H|%an|%ad|%s" --date=iso
+  git log --since="YYYY-MM-01" --until="YYYY-MM-31" --pretty=format:"%H|%an|%ad|%s" --date=iso --reverse
   ```
 
 - Utilizar herramienta: Obtener la lista completa de commits del rango de fechas a informar, teniendo en consideración que la información puede llegar en lotes y no completa de una sola vez. Usar paginación si es necesario.
@@ -57,10 +57,12 @@ Realizar las siguientes acciones, informando al usuario solo en caso de error si
   > ```markdown
   > # Lista detallada de commits - {mes} {año}
   >
+  > Generado usando `{nombre archivo del plan}` el {fecha y hora actual en formato YYYY-MM-DD HH:MM:SS}.
+  >
   > ## Tabla de commits
   > | Fecha y Hora        | Identificador | Enlace al Commit  | Título         | Detalles         | Archivo Afectado | Líneas +  | Líneas -   |
   > |---------------------|---------------|-------------------|----------------|------------------|------------------|----------:|-----------:|
-  > | YYYY-MM-DD HH:MM:SS | SHA corto     | [Ver commit](URL) | Título Mensaje | Detalles Mensaje |`Archivo1`<br>`Archivo2`<br>`Archivo3` |num_agregadas1<br>num_agregadas2<br>num_agregadas3|num_eliminadas1<br>num_eliminadas2<br>num_eliminadas3|
+  > | YYYY-MM-DD HH:MM:SS | SHA corto     | [Commit {SHA corto}](URL) | Título Mensaje | Detalles Mensaje |`Archivo1`<br>`Archivo2`<br>`Archivo3` |num_agregadas1<br>num_agregadas2<br>num_agregadas3|num_eliminadas1<br>num_eliminadas2<br>num_eliminadas3|
   > ```
 
   **Nota:** los campos `archivo`, `num_agregadas` y `num_eliminadas` se completarán en la siguiente etapa.
