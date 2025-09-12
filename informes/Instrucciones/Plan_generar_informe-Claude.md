@@ -214,6 +214,8 @@ Si tienes la capacidad de crear subagentes, utilízalos y delega estas tareas a 
 ```markdown
 # Análisis detallado de commits - {mes} {año}
 
+Generado usando `{nombre archivo del plan}`.
+
 ---
 
 ```
@@ -303,6 +305,8 @@ Si tienes la capacidad de crear subagentes, utilízalos y delega estas tareas a 
 ```markdown
 # Resumen de cambios por temas
 
+Generado usando `{nombre archivo del plan}`.
+
 ```
 
 **Requisitos para el resumen de cambios:**
@@ -332,6 +336,7 @@ Si tienes la capacidad de crear subagentes, utilízalos y delega estas tareas a 
 
 **Variables auto-completadas:**
 
+- `{nombre archivo del plan}`: Nombre del archivo del plan actual.
 - `{repositorio}` → Nombre asignado al repositorio para el informe
 - `{mes}` → Mes seleccionado por el usuario
 - `{año}` → Año seleccionado por el usuario
@@ -354,8 +359,6 @@ Si tienes la capacidad de crear subagentes, utilízalos y delega estas tareas a 
   ```
 
 - Verificación de todos los enlaces GitHub funcionales
-- Validación de caracteres `*` reemplazados por `+`
-- Consistencia de formato con caracteres '`' en nombres de archivos
 - Completitud: cantidad de commits procesados = cantidad listada
 - Sin secciones adicionales no solicitadas en ningún documento
 

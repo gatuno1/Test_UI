@@ -120,6 +120,8 @@ En esta etapa se procesará cada commit, obteniendo una lista de todos los archi
   ```markdown
   # Análisis detallado de commits - {mes} {año}
 
+  Generado usando `{nombre archivo del plan}`.
+
   ---
 
   ```
@@ -246,6 +248,8 @@ Generar un resumen de cambios agrupados por temas, basado en el análisis realiz
   ```markdown
   # Resumen de cambios por temas
 
+  Generado usando `{nombre archivo del plan}`.
+
   ```
 
 - Requisitos para el resumen de cambios:
@@ -272,6 +276,7 @@ Generar un resumen de cambios agrupados por temas, basado en el análisis realiz
 #### 4.3. Generar el documento del informe final
 
 - Estructurar el informe utilizando el template `informes/Instrucciones/Template_Informe_{repositorio}.md`, completando los campos necesarios:
+  - `{nombre archivo del plan}`: Nombre del archivo del plan actual.
   - `{repositorio}`: Nombre del repositorio.
   - `{mes}`: Mes seleccionado.
   - `{año}`: Año seleccionado.
